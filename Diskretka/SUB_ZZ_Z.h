@@ -1,52 +1,36 @@
 #pragma once
+#include "ADD_ZZ_Z.h"
 // Z-7
 
-Z SUB_ZZ_Z(Z num1, Z num2)
+Z *ADD_ZZ_Z(Z*, Z*);
+Z *SUB_ZZ_Z(Z *num1, Z *num2)
 {
-	N n1, n2;
-	Z sum;
-	n1 = *ABS_Z_N(&num1);	//ћодуль от первого числа
-	n2 = *ABS_Z_N(&num2);	//ћодуль от второго числа
-	if (POZ_Z_D(&num1) == 2 || POZ_Z_D(&num1) == 0)	//ѕервое число либо положительное, либо '0'
-		if (POZ_Z_D(&num2) == 2 || POZ_Z_D(&num2) == 0)	//¬торое число либо положительное, либо '0'
-			if (COM_NN_D(&n1, &n2) == 2 || COM_NN_D(&n1, &n2) == 0)	//ѕервое число(по модолю) больше второго, либо равно ему
-			{
-				sum.number = SUB_NN_N(&n1, &n2);
-				sum.sign = num1.sign;
-				return sum;
-			}
-			else    //¬торое число(по модулю) больше первого
-			{
-				sum.number = SUB_NN_N(&n1, &n2);
-				sum.sign = num1.sign;
-				sum = *MUL_ZM_Z(&sum);
-				return sum;
-			}
-		else        //¬торое число отрицательное
-		{
-			sum.number = ADD_NN_N(&n1, &n2);
-			sum.sign = num1.sign;
-			return sum;
-		}
-	else          //ѕервое число отрицательное
-		if (POZ_Z_D(&num2) == 2 || POZ_Z_D(&num2) == 0)	//¬торое число либо положительное, либо '0'
-		{
-			sum.number = ADD_NN_N(&n1, &n2);
-			sum.sign = num1.sign;
-			return sum;
-		}
-		else          //¬торое число отрицательное
-			if (COM_NN_D(&n1, &n2) == 2 || COM_NN_D(&n1, &n2) == 0)	//ѕервое число(по модулю) больше второго, либо равно ему
-			{
-				sum.number = SUB_NN_N(&n1, &n2);
-				sum.sign = num1.sign;
-				return sum;
-			}
-			else   //¬торое число(по модулю) больше первого
-			{
-				sum.number = SUB_NN_N(&n1, &n2);
-				sum.sign = num1.sign;
-				sum = *MUL_ZM_Z(&sum);
-				return sum;
-			}
+	N *n1, *n2, *buffer;
+	Z *res = initZ();
+	if (num1->sign == true && num1->sign == num2->sign) { //≈сли одного оба положительные
+		if (COM_NN_D(num1->number, num2->number) == 1)
+			res->number = SUB_NN_N(num2->number, num1->number);
+		else
+			res->number = SUB_NN_N(num1->number, num2->number);
+
+		if (COM_NN_D(num1->number, num2->number) == 2 || COM_NN_D(num1->number, num2->number) == 0)
+			res->sign = true;
+		else
+			res->sign = false;
+		return res;
+	}
+	if (num1->sign == false && num1->sign == num2->sign) { //≈сли оба отрицательные
+		num2->sign = true;
+		return ADD_ZZ_Z(num1, num2);
+	}
+	if (num1->sign && !num2->sign) { //положительное - отрицательное
+		num2->sign = true;
+		return ADD_ZZ_Z(num1, num2);
+	}
+
+	if (!num1->sign && num2->sign) { // отрицательное - положительное
+		num2->sign = false;
+		return ADD_ZZ_Z(num1, num2);
+	}
+	return nullptr;
 }

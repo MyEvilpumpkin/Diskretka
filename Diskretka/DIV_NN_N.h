@@ -3,7 +3,18 @@
 
 N* DIV_NN_N(N* a, N* b)
 {
-	N* result = initN();
-	result = SUB_NDN_N(SUB_NDN_N(a, b, 0), SUB_NDN_N(a, b, DIV_NN_Dk(a, b, 0)), DIV_NN_Dk(a, b, 0) + 1);
+	N* result = getZero();
+	int k = 0,
+		p = DIV_NN_Dk(a, b, k);
+	result->len = k + 1;
+	result->n = (int*)realloc(result->n, result->len * sizeof(int));
+	/*for (int i = result->len - 1; i >= 0; i--)
+		result->n[i] = 0;*/
+	for (int i = result->len - 1; i >= 0; i--) {
+		result->n[i] = p;
+		N* temp = getZero();
+		temp->n = (int*)realloc(temp->n, (k + 1) * sizeof(int));
+
+	}
 	return result;
 }

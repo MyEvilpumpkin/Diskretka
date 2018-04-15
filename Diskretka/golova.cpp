@@ -1,47 +1,5 @@
 #include "golova.h"
-
-N* initN() {
-	N* n = (N*)malloc(sizeof(N));
-	n->n = (int*)malloc(sizeof(int));
-	n->len = 1;
-	n->n[0] = 0;
-	return n;
-}
-
-N* inputN() {
-	printf("Enter N: ");
-	char *symbol = (char*)malloc(sizeof(char));
-	int *k = nullptr, len = 0;
-	N *number = nullptr;
-	do {
-		*symbol = getchar();
-		if ('0' <= *symbol && *symbol <= '9') {
-			k = (int*)realloc(k, (len + 1) * sizeof(int));
-			k[len] = atoi(symbol);
-			len++;
-		}
-	} while ('0' <= *symbol && *symbol <= '9');
-	number = (N*)malloc(sizeof(N));
-	number->n = (int*)malloc(len * sizeof(int));
-	number->len = len;
-	for (int i = 0; i < len; i++)
-		number->n[i] = k[len - i - 1];
-	free(k);
-	free(symbol);
-	number = deNULL(number);
-	return number;
-}
-
-void printN(N* num) {
-	for (int i = num->len - 1; i >= 0; i--)
-		printf("%d", num->n[i]);
-}
-
-N* freeN(N* n) {
-	free(n->n);
-	free(n);
-	return nullptr;
-}
+#include "conio.h"
 
 N* deNULL(N* n) {
 	int i = 1,
@@ -63,6 +21,56 @@ N* assignmentN(N* n) {
 	return a;
 }
 
+N* initN() {
+	N* n = (N*)malloc(sizeof(N));
+	n->len = -1;
+	return n;
+}
+
+N* getZero() {
+	N* n = initN();
+	n->len = 1;
+	n->n = (int*)malloc(4);
+	n->n[0] = 0;
+	return n;
+}
+
+N* inputN() {
+	char *symbol = (char*)malloc(1);
+	int *k = nullptr, len = 0;
+	N *number = nullptr;
+	do {
+		*symbol = _getch();
+		if ('0' <= *symbol && *symbol <= '9') {
+			printf("%c", *symbol);
+			k = (int*)realloc(k, (len + 1) * sizeof(int));
+			k[len] = atoi(symbol);
+			len++;
+		}
+	} while ('0' <= *symbol && *symbol <= '9');
+	number = (N*)malloc(sizeof(N));
+	number->n = (int*)malloc(len * sizeof(int));
+	number->len = len;
+
+	for (int i = 0; i < len; i++)
+		number->n[i] = k[len - i - 1];
+	free(k);
+	free(symbol);
+	//puts("q1");
+	return number;
+}
+
+void printN(N* num) {
+	for (int i = num->len - 1; i >= 0; i--)
+		printf("%d", num->n[i]);
+}
+
+N* freeN(N* n) {
+	free(n->n);
+	free(n);
+	return nullptr;
+}
+
 Z* initZ() {
 	Z* z = (Z*)malloc(sizeof(Z));
 	z->number = initN();
@@ -73,7 +81,7 @@ Z* inputZ() {
 	Z* z = nullptr;
 	z = (Z*)malloc(sizeof(Z));
 	char *s = (char*)malloc(1);
-	*s = getchar();
+	*s = _getche();
 	if (*s == '-')
 		z->sign = false;
 	else
@@ -131,43 +139,61 @@ Q* freeQ(Q* q) {
 	return nullptr;
 }
 
+P* initP() {
+	return nullptr;
+}
+
 P* inputP() {
-	P* p = nullptr;
-	Q **qs = nullptr;
-	int len;
-	printf("Enter a power of polynom: ");
-	len = getNumber();
-	qs = (Q**)realloc(qs, sizeof(Q*) * (len + 1));
-	for (int i = len; i >= 0; i--) {
-		printf("***\nEnter coefficient %d\n", len - i);
-		qs[i] = inputQ();
+	int *powerBuffer;
+	int amount;
+	int power;
+	int maxPower;
+	P* p = (P*)malloc(sizeof(P));
+
+	printf("Enter a max power of x: ");
+	maxPower = getNumber();
+	p->len = maxPower;
+	p->minPower = maxPower;
+	p->k = (Q**)malloc((maxPower + 1) * sizeof(Q*));
+	printf("Enter an amount of coefs to input: ");
+	amount = getNumber();
+	powerBuffer = (int*)malloc(4 * amount);
+	for (int i = 0; i < amount; i++) {
+		printf("***\nCoef %d\n", i);
+		printf("Enter a power of x: ");
+		power = getNumber();
+		powerBuffer[i] = power;
+		p->k[power] = inputQ();
+		if (p->minPower > power)
+			p->minPower = power;
 	}
-	p = (P*)malloc(sizeof(P));
-	p->k = qs;
-	p->len = len;
+	for (int i = maxPower; i >= 0; i--) {
+		bool f = false;
+		for (int j = 0; j < amount; j++)
+			if (powerBuffer[j] == i) f = true;
+		if (!f) {
+			p->k[i] = initQ();
+			p->k[i]->num->number->len = 1;
+			p->k[i]->num->number->n = (int*)malloc(4);
+			p->k[i]->num->number->n[0] = 0;
+			p->k[i]->num->sign = true;
+			p->k[i]->denom->len = 1;
+			p->k[i]->denom->n = (int*)malloc(4);
+			p->k[i]->denom->n[0] = 1;
+		}
+	}
+	free(powerBuffer);
 	return p;
 }
 
 void printP(P* p) {
-	int last = -1;
-	for (int i = 0; i <= p->len; i++) {
-		if (p->k[i]->num->number->n[0] == 0 && p->k[i]->num->number->len == 1)
-			last = i;
-		else
-			break;
-	}
-	for (int i = p->len; i >= 0 && i != last; i--) {
-		if (i != 0) {
-			if (!(p->k[i]->num->number->n[0] == 0 && p->k[i]->num->number->len == 1)) {
-				printf("( ");
-				printQ(p->k[i]);
-				printf(" ) * x^%d ", i);
-				if (i - 1 != last) printf("+ ");
-			}
+	for (int i = p->len; i >= 0; i--) {
+		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
+			printQ(p->k[i]);
+			printf(" * x^%d ", i);
+			if (i != p->minPower)
+				printf("+ ");
 		}
-		else
-			if (!(p->k[i]->num->number->n[0] == 0 && p->k[i]->num->number->len == 1))
-				printQ(p->k[i]);
 	}
 }
 
@@ -187,7 +213,7 @@ int getNumber() {
 
 	do {
 		do {
-			symbol = getchar();
+			symbol = _getch();
 			if (symbol == 8 && lenght > 0) {
 				printf("%c %c", 8, 8);
 				lenght--;

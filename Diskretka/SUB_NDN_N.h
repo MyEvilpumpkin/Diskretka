@@ -3,7 +3,7 @@
 
 N* SUB_NDN_N(N* a, N* b, int d)
 {
-	N* result = initN();
+	N* result = getZero();
 	if (COM_NN_D(a, b) == 2) {
 		N* first = assignmentN(a);
 		N* second = assignmentN(b);
