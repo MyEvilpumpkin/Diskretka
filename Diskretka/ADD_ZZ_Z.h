@@ -2,10 +2,15 @@
 #include "SUB_ZZ_Z.h"
 // Z-6
 
-Z *ADD_ZZ_Z(Z *num1, Z *num2)
+Z *ADD_ZZ_Z(Z *n1, Z *n2)
 {
-	puts("");
-	Z *sum = initZ();
+	Z* num1 = initZ();
+	num1->number = assignmentN(n1->number);
+	num1->sign = n1->sign;
+	Z* num2 = initZ();
+	num2->number = assignmentN(n2->number);
+	num2->sign = n2->sign;
+	Z* sum = initZ();
 	if (num1->sign == true && num2->sign == num1->sign) { //Оба положительные
 		sum->number = ADD_NN_N(num1->number, num2->number);
 		sum->sign = true;
