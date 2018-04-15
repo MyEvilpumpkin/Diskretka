@@ -12,8 +12,8 @@
 #include "DIV_NN_Dk.h" // N-10 ++
 #include "DIV_NN_N.h" // N-11 ++ *
 #include "MOD_NN_N.h" // N-12 ++ *
-#include "GCF_NN_N.h" // N-13 --
-#include "LCM_NN_N.h" // N-14 --
+#include "GCF_NN_N.h" // N-13 ++
+#include "LCM_NN_N.h" // N-14 ++ *
 #include "ABS_Z_N.h" // Z-1
 #include "POZ_Z_D.h" // Z-2
 #include "MUL_ZM_Z.h" // Z-3
