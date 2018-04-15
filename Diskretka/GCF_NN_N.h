@@ -12,9 +12,9 @@ N GCF_NN_N(struct N First, struct N Second)
 	{
 		Temp = COM_NN_D(&First, &Second);
 		if (Temp > 1) // ≈сли первое больше второго
-			First = MOD_NN_N(First, Second); // Ќаходим остаток от делени€ первого на второе
+			First = *MOD_NN_N(&First, &Second); // Ќаходим остаток от делени€ первого на второе
 		else
-			Second = MOD_NN_N(Second, First); // »наче - остаток от делени€ второго на первое
+			Second = *MOD_NN_N(&Second, &First); // »наче - остаток от делени€ второго на первое
 		FirstCheck = NZER_N_B(&First);
 		SecondCheck = NZER_N_B(&Second);
 	}

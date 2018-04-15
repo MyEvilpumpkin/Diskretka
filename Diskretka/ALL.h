@@ -10,7 +10,7 @@
 #include "MUL_NN_N.h" // N-8 ++
 #include "SUB_NDN_N.h" // N-9 ++
 #include "DIV_NN_Dk.h" // N-10 ++
-#include "DIV_NN_N.h" // N-11 +-
+#include "DIV_NN_N.h" // N-11 ++ *
 #include "MOD_NN_N.h" // N-12 +- 11/3
 #include "GCF_NN_N.h" // N-13 --
 #include "LCM_NN_N.h" // N-14 --
