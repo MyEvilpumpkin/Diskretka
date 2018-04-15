@@ -3,7 +3,7 @@
 
 N* MUL_ND_N(N* a, int b)
 {
-	N* c = initN();
+	N* c = getZero();
 	int temp = 0, l = 0, temp2 = 0;
 	for (int i = 0; i < a->len; i++)
 	{

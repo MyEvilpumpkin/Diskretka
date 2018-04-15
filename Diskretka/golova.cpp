@@ -1,47 +1,5 @@
 #include "golova.h"
-
-N* initN() {
-	N* n = (N*)malloc(sizeof(N));
-	n->n = (int*)malloc(sizeof(int));
-	n->len = 1;
-	n->n[0] = 0;
-	return n;
-}
-
-N* inputN() {
-	printf("Enter N: ");
-	char *symbol = (char*)malloc(sizeof(char));
-	int *k = nullptr, len = 0;
-	N *number = nullptr;
-	do {
-		*symbol = getchar();
-		if ('0' <= *symbol && *symbol <= '9') {
-			k = (int*)realloc(k, (len + 1) * sizeof(int));
-			k[len] = atoi(symbol);
-			len++;
-		}
-	} while ('0' <= *symbol && *symbol <= '9');
-	number = (N*)malloc(sizeof(N));
-	number->n = (int*)malloc(len * sizeof(int));
-	number->len = len;
-	for (int i = 0; i < len; i++)
-		number->n[i] = k[len - i - 1];
-	free(k);
-	free(symbol);
-	number = deNULL(number);
-	return number;
-}
-
-void printN(N* num) {
-	for (int i = num->len - 1; i >= 0; i--)
-		printf("%d", num->n[i]);
-}
-
-N* freeN(N* n) {
-	free(n->n);
-	free(n);
-	return nullptr;
-}
+#include "conio.h"
 
 N* deNULL(N* n) {
 	int i = 1,
@@ -63,6 +21,56 @@ N* assignmentN(N* n) {
 	return a;
 }
 
+N* initN() {
+	N* n = (N*)malloc(sizeof(N));
+	n->len = -1;
+	return n;
+}
+
+N* getZero() {
+	N* n = initN();
+	n->len = 1;
+	n->n = (int*)malloc(4);
+	n->n[0] = 0;
+	return n;
+}
+
+N* inputN() {
+	char *symbol = (char*)malloc(1);
+	int *k = nullptr, len = 0;
+	N *number = nullptr;
+	do {
+		*symbol = _getch();
+		if ('0' <= *symbol && *symbol <= '9') {
+			printf("%c", *symbol);
+			k = (int*)realloc(k, (len + 1) * sizeof(int));
+			k[len] = atoi(symbol);
+			len++;
+		}
+	} while ('0' <= *symbol && *symbol <= '9');
+	number = (N*)malloc(sizeof(N));
+	number->n = (int*)malloc(len * sizeof(int));
+	number->len = len;
+
+	for (int i = 0; i < len; i++)
+		number->n[i] = k[len - i - 1];
+	free(k);
+	free(symbol);
+	//puts("q1");
+	return number;
+}
+
+void printN(N* num) {
+	for (int i = num->len - 1; i >= 0; i--)
+		printf("%d", num->n[i]);
+}
+
+N* freeN(N* n) {
+	free(n->n);
+	free(n);
+	return nullptr;
+}
+
 Z* initZ() {
 	Z* z = (Z*)malloc(sizeof(Z));
 	z->number = initN();
@@ -73,7 +81,7 @@ Z* inputZ() {
 	Z* z = nullptr;
 	z = (Z*)malloc(sizeof(Z));
 	char *s = (char*)malloc(1);
-	*s = getchar();
+	*s = _getche();
 	if (*s == '-')
 		z->sign = false;
 	else
@@ -141,6 +149,7 @@ P* inputP() {
 	int power;
 	int maxPower;
 	P* p = (P*)malloc(sizeof(P));
+
 	printf("Enter a max power of x: ");
 	maxPower = getNumber();
 	p->len = maxPower;
@@ -195,6 +204,7 @@ P* freeP(P* p) {
 	free(p);
 	return nullptr;
 }
+
 int getNumber() {
 	char* number = nullptr;
 	int toReturn;
@@ -203,7 +213,7 @@ int getNumber() {
 
 	do {
 		do {
-			symbol = getchar();
+			symbol = _getch();
 			if (symbol == 8 && lenght > 0) {
 				printf("%c %c", 8, 8);
 				lenght--;
