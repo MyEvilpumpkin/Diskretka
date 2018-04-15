@@ -131,43 +131,60 @@ Q* freeQ(Q* q) {
 	return nullptr;
 }
 
+P* initP() {
+	return nullptr;
+}
+
 P* inputP() {
-	P* p = nullptr;
-	Q **qs = nullptr;
-	int len;
-	printf("Enter a power of polynom: ");
-	len = getNumber();
-	qs = (Q**)realloc(qs, sizeof(Q*) * (len + 1));
-	for (int i = len; i >= 0; i--) {
-		printf("***\nEnter coefficient %d\n", len - i);
-		qs[i] = inputQ();
+	int *powerBuffer;
+	int amount;
+	int power;
+	int maxPower;
+	P* p = (P*)malloc(sizeof(P));
+	printf("Enter a max power of x: ");
+	maxPower = getNumber();
+	p->len = maxPower;
+	p->minPower = maxPower;
+	p->k = (Q**)malloc((maxPower + 1) * sizeof(Q*));
+	printf("Enter an amount of coefs to input: ");
+	amount = getNumber();
+	powerBuffer = (int*)malloc(4 * amount);
+	for (int i = 0; i < amount; i++) {
+		printf("***\nCoef %d\n", i);
+		printf("Enter a power of x: ");
+		power = getNumber();
+		powerBuffer[i] = power;
+		p->k[power] = inputQ();
+		if (p->minPower > power)
+			p->minPower = power;
 	}
-	p = (P*)malloc(sizeof(P));
-	p->k = qs;
-	p->len = len;
+	for (int i = maxPower; i >= 0; i--) {
+		bool f = false;
+		for (int j = 0; j < amount; j++)
+			if (powerBuffer[j] == i) f = true;
+		if (!f) {
+			p->k[i] = initQ();
+			p->k[i]->num->number->len = 1;
+			p->k[i]->num->number->n = (int*)malloc(4);
+			p->k[i]->num->number->n[0] = 0;
+			p->k[i]->num->sign = true;
+			p->k[i]->denom->len = 1;
+			p->k[i]->denom->n = (int*)malloc(4);
+			p->k[i]->denom->n[0] = 1;
+		}
+	}
+	free(powerBuffer);
 	return p;
 }
 
 void printP(P* p) {
-	int last = -1;
-	for (int i = 0; i <= p->len; i++) {
-		if (p->k[i]->num->number->n[0] == 0 && p->k[i]->num->number->len == 1)
-			last = i;
-		else
-			break;
-	}
-	for (int i = p->len; i >= 0 && i != last; i--) {
-		if (i != 0) {
-			if (!(p->k[i]->num->number->n[0] == 0 && p->k[i]->num->number->len == 1)) {
-				printf("( ");
-				printQ(p->k[i]);
-				printf(" ) * x^%d ", i);
-				if (i - 1 != last) printf("+ ");
-			}
+	for (int i = p->len; i >= 0; i--) {
+		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
+			printQ(p->k[i]);
+			printf(" * x^%d ", i);
+			if (i != p->minPower)
+				printf("+ ");
 		}
-		else
-			if (!(p->k[i]->num->number->n[0] == 0 && p->k[i]->num->number->len == 1))
-				printQ(p->k[i]);
 	}
 }
 
@@ -178,7 +195,6 @@ P* freeP(P* p) {
 	free(p);
 	return nullptr;
 }
-
 int getNumber() {
 	char* number = nullptr;
 	int toReturn;
