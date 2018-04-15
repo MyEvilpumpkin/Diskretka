@@ -1,4 +1,5 @@
 #pragma once
+#include "ADD_ZZ_Z.h"
 // Z-7
 
 Z *ADD_ZZ_Z(Z*, Z*);

@@ -1,4 +1,5 @@
 #pragma once
+#include "SUB_ZZ_Z.h"
 // Z-6
 
 Z *ADD_ZZ_Z(Z *num1, Z *num2)
