@@ -3,7 +3,7 @@
 
 N *TRANS_Z_N(Z *a)
 {
-	N* n = (N*)malloc(sizeof(N));
+	N* n = initN();
 	n->n = (int*)malloc(4 * a->number->len);
 	n->len = a->number->len;
 	for (int i = 0; i < n->len; i++)

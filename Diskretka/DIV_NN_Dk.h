@@ -3,38 +3,36 @@
 
 int DIV_NN_Dk(N* a, N* b, int &k)
 {
-	int rez = 0;
+	int Result = 1, // Первая цифра деления
+		Flag; // Переменная для выхода из цикла
+	N* Temp; // Временная переменная для хранения произведения
+	k = 0;
+	N* First, *Second;
 	if (COM_NN_D(a, b) == 2) {
-		N* mk = assignmentN(b);
-		k = a->len;
-		int temp = 0;
-		int i = 1;
-		do
-		{
-			temp = temp * 10 + a->n[a->len - i];
-			if (mk->n[mk->len - 1] == 0)
-				rez = -1;
-			else
-				rez = temp / mk->n[mk->len - 1];
-			i++;
-			k--;
-		} while (rez == 0);
+		First = assignmentN(a);
+		Second = assignmentN(b);
 	}
 	else {
-		N* mk = assignmentN(a);
-		k = b->len;
-		int temp = 0;
-		int i = 1;
-		do
-		{
-			temp = temp * 10 + b->n[b->len - i];
-			if (mk->n[mk->len - 1] == 0)
-				rez = -1;
-			else
-				rez = temp / mk->n[mk->len - 1];
-			i++;
-			k--;
-		} while (rez == 0);
+		First = assignmentN(b);
+		Second = assignmentN(a);
 	}
-	return rez == -1 ? 0 : rez;
+	do
+	{
+		Temp = MUL_Nk_N(Second, k); // Умножаем делитель на 10^k
+		Flag = COM_NN_D(First, Temp); // Сравниваем делимое и произведение
+		if (Flag != 1) // Если произведение меньше, то увеличиваем степень 10
+			k++;
+	} while (Flag != 1); // Пока произведение не станет больше делителя
+	k--; // Так как при последнем сравнении k стало больше на 1 от необходимого
+	Temp = MUL_Nk_N(Second, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+	do
+	{
+		N* tmp = MUL_ND_N(Temp, Result);
+		//Temp = MUL_ND_N(Temp, Result); // Вычисляем произведение на цифру
+		Flag = COM_NN_D(First, tmp); // Сравниваем его с делимым
+		if (Flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
+			Result++;
+	} while (Flag != 1);
+	Result--; // Аналогично значению степени
+	return Result;
 }

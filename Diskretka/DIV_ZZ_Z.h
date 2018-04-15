@@ -1,14 +1,10 @@
 #pragma once
 // Z-9
 
-Z DIV_ZZ_Z(struct Z First, struct N Second)
+Z* DIV_ZZ_Z(Z* n1, N* n2)
 {
-	struct N Module; // Абсолютная величина уменьшаемого
-	struct Z Result; // Частное от деления
-	Module = *ABS_Z_N(&First);
-	Result.sign = First.sign;
-	Result.number = DIV_NN_N(&Module, &Second);
-	if (Result.sign == 1)
-		Result.number = ADD_1N_N(Result.number);
-	return Result;
+	Z* res = initZ();
+	res->number = DIV_NN_N(TRANS_Z_N(n1), n2);
+	res->sign = n1->sign;
+	return res;
 }

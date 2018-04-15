@@ -5,7 +5,6 @@
 Z *ADD_ZZ_Z(Z*, Z*);
 Z *SUB_ZZ_Z(Z *num1, Z *num2)
 {
-	N *n1, *n2, *buffer;
 	Z *res = initZ();
 	if (num1->sign == true && num1->sign == num2->sign) { //Если одного оба положительные
 		if (COM_NN_D(num1->number, num2->number) == 1)
