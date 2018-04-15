@@ -19,7 +19,8 @@ struct Q {
 
 struct P {
 	Q **k;
-	int len;
+	int len = -1;
+	int minPower = -1;
 };
 
 N* initN();
@@ -39,7 +40,7 @@ Q* inputQ();
 void printQ(Q*);
 Q* freeQ(Q*);
 
-P* initP(int);
+P* initP();
 P* inputP();
 void printP(P*);
 P* freeP(P*);
