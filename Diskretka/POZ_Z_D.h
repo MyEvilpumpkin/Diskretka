@@ -3,7 +3,7 @@
 
 int POZ_Z_D(Z *a)
 {
-	if (a->sign == 1) //esli minus
+	if (a->sign == 0) //esli minus
 	{
 		return 1;
 	}
