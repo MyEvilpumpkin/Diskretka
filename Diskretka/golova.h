@@ -23,12 +23,14 @@ struct P {
 	int minPower = -1;
 };
 
+
+N* deNULL(N*);
+N* assignmentN(N* n);
 N* initN();
+N* getZero();
 N* inputN();
 void printN(N*);
 N* freeN(N*);
-N* deNULL(N*);
-N* assignmentN(N* n);
 
 Z* initZ();
 Z* inputZ();
@@ -40,7 +42,6 @@ Q* inputQ();
 void printQ(Q*);
 Q* freeQ(Q*);
 
-P* initP();
 P* inputP();
 void printP(P*);
 P* freeP(P*);
