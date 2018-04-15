@@ -1,14 +1,13 @@
 #pragma once
 // Q-3
 
-Q* TRANS_Z_Q(Z First)
+Q* TRANS_Z_Q(Z* First)
 {
-	Q* Rez; // Результат перевода
-	Rez = (Q*)malloc(sizeof(Q));
-	Rez->num = (Z*)malloc(sizeof(Z));
-	Rez->num = &First;
-	Rez->num->number = (N*)malloc(sizeof(N));
-	Rez->num->number->n = (int*)malloc(sizeof(int));
-	Rez->num->number->n[0] = 1;
+	Q* Rez = initQ(); // Результат перевода
+	Rez->num->number = assignmentN(First->number);
+	Rez->num->sign = First->sign;
+	Rez->denom->len = 1;
+	Rez->denom->n = (int*)malloc(sizeof(int));
+	Rez->denom->n[0] = 1;
 	return Rez;
 }
