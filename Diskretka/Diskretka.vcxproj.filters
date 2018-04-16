@@ -38,9 +38,6 @@
     <ClInclude Include="golova.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ALL.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="NZER_N_B.h">
       <Filter>Файлы заголовков\N modules</Filter>
     </ClInclude>
@@ -175,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="DEG_P_N.h">
       <Filter>Файлы заголовков\P modules</Filter>
+    </ClInclude>
+    <ClInclude Include="modules.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -157,7 +157,6 @@
     <ClInclude Include="ADD_PP_P.h" />
     <ClInclude Include="ADD_QQ_Q.h" />
     <ClInclude Include="ADD_ZZ_Z.h" />
-    <ClInclude Include="ALL.h" />
     <ClInclude Include="COM_NN_D.h" />
     <ClInclude Include="DEG_P_N.h" />
     <ClInclude Include="DER_P_P.h" />
@@ -173,6 +172,7 @@
     <ClInclude Include="INT_Q_B.h" />
     <ClInclude Include="LCM_NN_N.h" />
     <ClInclude Include="LED_P_Q.h" />
+    <ClInclude Include="modules.h" />
     <ClInclude Include="MOD_NN_N.h" />
     <ClInclude Include="MOD_PP_P.h" />
     <ClInclude Include="MOD_ZZ_Z.h" />
