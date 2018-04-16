@@ -3,7 +3,6 @@
 
 P* SUB_PP_P(P* First, P* Second)
 {
-	short i, k; // Для перебора коэффициентов многочлена 
 	P* Result = (P*)malloc(sizeof(P)); // Разность многочленов 
 	P* SecondCopy = Second;
 	int greatPower = First->len > Second->len ? First->len : Second->len;
