@@ -1,5 +1,4 @@
 #include "golova.h"
-#include "conio.h"
 
 N* deNULL(N* n) {
 	if (n->len != 0) {
