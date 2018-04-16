@@ -39,11 +39,11 @@
 #include "LED_P_Q.h"   // P-5
 #include "DEG_P_N.h"   // P-6
 #include "FAC_P_Q.h"   // P-7
-#include "MUL_PP_P.h" // P-8
-/*#include "DIV_PP_P.h" // P-9
-#include "MOD_PP_P.h" // P-10
-#include "GCF_PP_P.h" // P-11
-#include "DER_P_P.h" // P-12
+#include "MUL_PP_P.h"  // P-8
+#include "DIV_PP_P.h"  // P-9
+#include "MOD_PP_P.h"  // P-10
+#include "GCF_PP_P.h"  // P-11
+/*#include "DER_P_P.h" // P-12
 #include "NMR_P_P.h" // P-13*/
 
 void N_modules(int option) {
@@ -502,5 +502,59 @@ void P_modules(int option) {
 		freeP(b);
 	}
 	break;
+	case 9:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(DIV_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 10:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(MOD_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 11:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(GCF_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	/*case 12:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: ");
+		printP(DER_P_P(a));
+		freeP(a);
+	}
+	break;*/
+	/*case 13:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: ");
+		printP(NMR_P_P(a));
+		freeP(a);
+	}
+	break;*/
 	}
 }
