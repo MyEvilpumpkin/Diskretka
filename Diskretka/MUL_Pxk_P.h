@@ -17,7 +17,6 @@ P* MUL_Pxk_P(P* p, int k) {
 		p->k[i]->num->number->len = 1;
 		p->k[i]->num->number->n = (int*)malloc(4);
 		p->k[i]->num->number->n[0] = 0;
-
 		p->k[i]->denom = (N*)malloc(sizeof(N));
 		p->k[i]->denom->len = 1;
 		p->k[i]->denom->n = (int*)malloc(4);

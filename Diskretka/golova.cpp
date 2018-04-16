@@ -143,7 +143,11 @@ Q* freeQ(Q* q) {
 }
 
 P* initP() {
-	return nullptr;
+	P* p = (P *)malloc(sizeof(P));
+	p->k = (Q**)malloc(sizeof(Q*));
+	p->k[0] = initQ();
+	p->len = -1;
+	return p;
 }
 
 P* inputP() {
@@ -152,11 +156,9 @@ P* inputP() {
 	int power;
 	int maxPower;
 	P* p = (P*)malloc(sizeof(P));
-
 	printf("Enter a max power of x: ");
 	maxPower = getNumber();
 	p->len = maxPower;
-	p->minPower = maxPower;
 	p->k = (Q**)malloc((maxPower + 1) * sizeof(Q*));
 	printf("Enter an amount of coefs to input: ");
 	amount = getNumber();
@@ -167,8 +169,6 @@ P* inputP() {
 		power = getNumber();
 		powerBuffer[i] = power;
 		p->k[power] = inputQ();
-		if (p->minPower > power)
-			p->minPower = power;
 	}
 	for (int i = maxPower; i >= 0; i--) {
 		bool f = false;
@@ -186,15 +186,23 @@ P* inputP() {
 		}
 	}
 	free(powerBuffer);
+	puts("");
 	return p;
 }
 
 void printP(P* p) {
+	int last = 0;
+	for (int i = 0; i <= p->len; i++)
+		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0))
+			break;
+		else
+			last++;
 	for (int i = p->len; i >= 0; i--) {
 		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
 			printQ(p->k[i]);
-			printf(" * x^%d ", i);
-			if (i != p->minPower)
+			if (i != 0)
+				printf(" * x^%d ", i);
+			if (i != last)
 				printf("+ ");
 		}
 	}
@@ -233,7 +241,6 @@ int getNumber() {
 
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 	*(number + lenght) = '\0';
-	puts("");
 	toReturn = atoi(number);
 	free(number);
 	return toReturn;

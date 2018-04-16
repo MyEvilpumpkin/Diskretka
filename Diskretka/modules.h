@@ -32,18 +32,18 @@
 #include "SUB_QQ_Q.h"  // Q-6
 #include "MUL_QQ_Q.h"  // Q-7
 #include "DIV_QQ_Q.h"  // Q-8
-/*#include "ADD_PP_P.h" // P-1
-#include "SUB_PP_P.h" // P-2
-#include "MUL_PQ_P.h" // P-3
+#include "ADD_PP_P.h"  // P-1
+#include "SUB_PP_P.h"  // P-2
+#include "MUL_PQ_P.h"  // P-3
 #include "MUL_Pxk_P.h" // P-4
-#include "LED_P_Q.h" // P-5
-#include "DEG_P_N.h" // P-6
-#include "FAC_P_Q.h" // P-7
-#include "MUL_PP_P.h" // P-8
-#include "DIV_PP_P.h" // P-9
-#include "MOD_PP_P.h" // P-10
-#include "GCF_PP_P.h" // P-11
-#include "DER_P_P.h" // P-12
+#include "LED_P_Q.h"   // P-5
+#include "DEG_P_N.h"   // P-6
+#include "FAC_P_Q.h"   // P-7
+#include "MUL_PP_P.h"  // P-8
+#include "DIV_PP_P.h"  // P-9
+#include "MOD_PP_P.h"  // P-10
+#include "GCF_PP_P.h"  // P-11
+/*#include "DER_P_P.h" // P-12
 #include "NMR_P_P.h" // P-13*/
 
 void N_modules(int option) {
@@ -390,7 +390,7 @@ void Q_modules(int option) {
 	{
 		puts("Enter first number:");
 		Q* a = inputQ();
-		puts("Enter second number: ");
+		puts("Enter second number:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printQ(MUL_QQ_Q(a, b));
@@ -402,7 +402,7 @@ void Q_modules(int option) {
 	{
 		puts("Enter first number:");
 		Q* a = inputQ();
-		puts("Enter second number: ");
+		puts("Enter second number:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printQ(DIV_QQ_Q(a, b));
@@ -410,5 +410,151 @@ void Q_modules(int option) {
 		freeQ(b);
 	}
 	break;
+	}
+}
+
+void P_modules(int option) {
+	switch (option)
+	{
+	case 1:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(ADD_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 2:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(SUB_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 3:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		Q* b = inputQ();
+		printf("Result: ");
+		printP(MUL_PQ_P(a, b));
+		freeP(a);
+		freeQ(b);
+	}
+	break;
+	case 4:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		printf("Enter second number: ");
+		int n;
+		scanf("%d", &n);
+		printf("Result: ");
+		printP(MUL_Pxk_P(a, n));
+		freeP(a);
+	}
+	break;
+	case 5:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: ");
+		printQ(LED_P_Q(a));
+		freeP(a);
+	}
+	break;
+	case 6:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: %d", DEG_P_N(a));
+		freeP(a);
+	}
+	break;
+	case 7:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: ");
+		printQ(FAC_P_Q(a));
+		freeP(a);
+	}
+	break;
+	case 8:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(MUL_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 9:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(DIV_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 10:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(MOD_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	case 11:
+	{
+		puts("Enter first number:");
+		P* a = inputP();
+		puts("Enter second number:");
+		P* b = inputP();
+		printf("Result: ");
+		printP(GCF_PP_P(a, b));
+		freeP(a);
+		freeP(b);
+	}
+	break;
+	/*case 12:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: ");
+		printP(DER_P_P(a));
+		freeP(a);
+	}
+	break;*/
+	/*case 13:
+	{
+		puts("Enter number:");
+		P* a = inputP();
+		printf("Result: ");
+		printP(NMR_P_P(a));
+		freeP(a);
+	}
+	break;*/
 	}
 }
