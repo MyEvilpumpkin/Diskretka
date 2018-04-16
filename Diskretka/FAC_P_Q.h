@@ -3,6 +3,7 @@
 
 Q* FAC_P_Q(P* Polyn)
 {
+
 	N* NOD = ABS_Z_N(Polyn->k[Polyn->len]->num); // НОД числителей, изначально присваиваем значение, равное числителю старшего коэффициента многочлена
 	N* Module; // Временная переменная - модуль числителя коэффициента
 	N* NOK = Polyn->k[Polyn->len]->denom; // НОК знаменателей, изначально присваиваем значение, равное знаменателю старшего коэффициента многочлена
@@ -23,8 +24,6 @@ Q* FAC_P_Q(P* Polyn)
 	Result->num->number = assignmentN(NOD); // Присваиваем Result->num значение NOD
 	Result->num->sign = true;
 	Result->denom = assignmentN(NOK); // Присваиваем Result->denom значение НОК
-	// Ниже преобразование многочлена
-	for (i = Polyn->len; i >= 0; i--) // Перебираем все коэффициенты многочлена
-		Polyn->k[i] = DIV_QQ_Q(Polyn->k[i], Result); // Делим каждый коэффициент на полученную дробь
+
 	return Result;
 }

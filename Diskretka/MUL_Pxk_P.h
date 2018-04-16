@@ -1,26 +1,19 @@
 #pragma once
 // P-4
 
-P* MUL_Pxk_P(P* p, int k) {
-	//Расширение массива коэффициентов
-	p->k = (Q**)realloc(p->k, (p->len + k) * sizeof(Q*));
-	//Смещение на k позиций
-	for (int i = p->len; i >= 0; i--) {
-		p->k[i + k] = p->k[i];
+P* MUL_Pxk_P(P* Polyn, int k) {
+	P* Result = initP(); // Результат умножения
+	int i; // Для перебора коэффициентов
+	Result->k = (Q**)malloc((Polyn->len + k) * sizeof(Q*)); // Выделение памяти
+	Result->len = Polyn->len + k;
+	for (i = Result->len; i >= k; i--)
+		Result->k[i] = assignmentQ(Polyn->k[i - k]);
+	for (i = k - 1; i >= 0; i--)
+	{
+		Result->k[i] = initQ();
+		Result->k[i]->num->number = getZero();
+		Result->k[i]->denom = getZero();
+		Result->k[i]->denom->n[0] = 1;
 	}
-	p->len += k;
-	//Заполнение новых позиций нулями
-	for (int i = k - 1; i >= 0; i--) {
-		p->k[i] = (Q*)malloc(sizeof(Q));
-		p->k[i]->num = (Z*)malloc(sizeof(Z));
-		p->k[i]->num->number = (N*)malloc(sizeof(N));
-		p->k[i]->num->number->len = 1;
-		p->k[i]->num->number->n = (int*)malloc(4);
-		p->k[i]->num->number->n[0] = 0;
-		p->k[i]->denom = (N*)malloc(sizeof(N));
-		p->k[i]->denom->len = 1;
-		p->k[i]->denom->n = (int*)malloc(4);
-		p->k[i]->denom->n[0] = 1;
-	}
-	return p;
+	return Result;
 }

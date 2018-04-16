@@ -37,14 +37,17 @@ Z* inputZ();
 void printZ(Z*);
 Z* freeZ(Z*);
 
+Q* assignmentQ(Q*);
 Q* initQ();
 Q* inputQ();
 void printQ(Q*);
 Q* freeQ(Q*);
 
+P* assignmentP(P*);
 P* initP();
 P* inputP();
 void printP(P*);
 P* freeP(P*);
+P* zeroP();
 
 int getNumber();

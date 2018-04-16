@@ -113,6 +113,14 @@ Z* freeZ(Z* z) {
 	return nullptr;
 }
 
+Q* assignmentQ(Q* q) {
+	Q* a = initQ();
+	a->num->sign = q->num->sign;
+	a->num->number = assignmentN(q->num->number);
+	a->denom = assignmentN(q->denom);
+	return a;
+}
+
 Q* initQ() {
 	Q* q = (Q*)malloc(sizeof(Q));
 	q->num = initZ();
@@ -142,8 +150,21 @@ Q* freeQ(Q* q) {
 	return nullptr;
 }
 
+P* assignmentP(P* p) {
+	P* a = (P*)malloc(sizeof(P));
+	a->len = p->len;
+	a->k = (Q**)malloc((a->len + 1) * sizeof(Q*));
+	for (int i = 0; i <= a->len; i++) {
+		a->k[i] = initQ();
+		a->k[i]->num->sign = p->k[i]->num->sign;
+		a->k[i]->num->number = assignmentN(p->k[i]->num->number);
+		a->k[i]->denom = assignmentN(p->k[i]->denom);
+	}
+	return a;
+}
+
 P* initP() {
-	P* p = (P *)malloc(sizeof(P));
+	P* p = (P*)malloc(sizeof(P));
 	p->k = (Q**)malloc(sizeof(Q*));
 	p->k[0] = initQ();
 	p->len = -1;
@@ -214,6 +235,17 @@ P* freeP(P* p) {
 	free(p->k);
 	free(p);
 	return nullptr;
+}
+
+P* zeroP() {
+	P* Result = initP();
+	Result->len = 0;
+	Result->k = (Q**)malloc(sizeof(Q*));
+	Result->k[0] = initQ();
+	Result->k[0]->num->number = getZero();
+	Result->k[0]->denom = getZero();
+	Result->k[0]->denom->n[0] = 1;
+	return Result;
 }
 
 int getNumber() {
