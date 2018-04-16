@@ -30,13 +30,13 @@ N* initN() {
 N* getZero() {
 	N* n = initN();
 	n->len = 1;
-	n->n = (int*)malloc(4);
+	n->n = (int*)malloc(sizeof(int));
 	n->n[0] = 0;
 	return n;
 }
 
 N* inputN() {
-	char *symbol = (char*)malloc(1);
+	char *symbol = (char*)malloc(sizeof(char));
 	int *k = nullptr, len = 0;
 	N *number = nullptr;
 	do {
@@ -51,12 +51,10 @@ N* inputN() {
 	number = (N*)malloc(sizeof(N));
 	number->n = (int*)malloc(len * sizeof(int));
 	number->len = len;
-
 	for (int i = 0; i < len; i++)
 		number->n[i] = k[len - i - 1];
 	free(k);
 	free(symbol);
-	//puts("q1");
 	return number;
 }
 
@@ -157,7 +155,7 @@ P* inputP() {
 	p->k = (Q**)malloc((maxPower + 1) * sizeof(Q*));
 	printf("Enter an amount of coefs to input: ");
 	amount = getNumber();
-	powerBuffer = (int*)malloc(4 * amount);
+	powerBuffer = (int*)malloc(amount * sizeof(int));
 	for (int i = 0; i < amount; i++) {
 		printf("***\nCoef %d\n", i);
 		printf("Enter a power of x: ");
@@ -174,11 +172,11 @@ P* inputP() {
 		if (!f) {
 			p->k[i] = initQ();
 			p->k[i]->num->number->len = 1;
-			p->k[i]->num->number->n = (int*)malloc(4);
+			p->k[i]->num->number->n = (int*)malloc(sizeof(int));
 			p->k[i]->num->number->n[0] = 0;
 			p->k[i]->num->sign = true;
 			p->k[i]->denom->len = 1;
-			p->k[i]->denom->n = (int*)malloc(4);
+			p->k[i]->denom->n = (int*)malloc(sizeof(int));
 			p->k[i]->denom->n[0] = 1;
 		}
 	}
