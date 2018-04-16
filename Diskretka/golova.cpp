@@ -156,7 +156,6 @@ P* inputP() {
 	int power;
 	int maxPower;
 	P* p = (P*)malloc(sizeof(P));
-
 	printf("Enter a max power of x: ");
 	maxPower = getNumber();
 	p->len = maxPower;
@@ -187,6 +186,7 @@ P* inputP() {
 		}
 	}
 	free(powerBuffer);
+	puts("");
 	return p;
 }
 
@@ -241,7 +241,6 @@ int getNumber() {
 
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 	*(number + lenght) = '\0';
-	puts("");
 	toReturn = atoi(number);
 	free(number);
 	return toReturn;
