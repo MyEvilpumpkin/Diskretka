@@ -37,6 +37,12 @@ N* getZero() {
 }
 
 N* inputN() {
+	N* number = input();
+	number = deNULL(number);
+	return number;
+}
+
+N* input() {
 	char *symbol = (char*)malloc(sizeof(char));
 	int *k = nullptr, len = 0;
 	N *number = nullptr;
@@ -55,7 +61,6 @@ N* inputN() {
 		number->n[i] = k[len - i - 1];
 	free(k);
 	free(symbol);
-	number = deNULL(number);
 	return number;
 }
 
@@ -85,13 +90,14 @@ Z* inputZ() {
 		z->sign = false;
 	else
 		z->sign = true;
-	z->number = inputN();
+	z->number = input();
 	if (*s != '-' && (*s != '0' || z->number->len == 0)) {
 		z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
 		z->number->len++;
 		z->number->n[z->number->len - 1] = atoi(s);
 	}
 	free(s);
+	z->number = deNULL(z->number);
 	return z;
 }
 
