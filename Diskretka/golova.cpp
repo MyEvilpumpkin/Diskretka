@@ -2,12 +2,14 @@
 #include "conio.h"
 
 N* deNULL(N* n) {
-	int i = 1,
-		l = n->len;
-	for (int j = 0; j < l; j++)
-		i = n->n[j] == 0 ? i : j + 1;
-	n->n = (int*)realloc(n->n, i * sizeof(int));
-	n->len = i;
+	if (n->len != 0) {
+		int i = 1,
+			l = n->len;
+		for (int j = 0; j < l; j++)
+			i = n->n[j] == 0 ? i : j + 1;
+		n->n = (int*)realloc(n->n, i * sizeof(int));
+		n->len = i;
+	}
 	return n;
 }
 
@@ -40,9 +42,8 @@ N* inputN() {
 	int *k = nullptr, len = 0;
 	N *number = nullptr;
 	do {
-		*symbol = _getch();
+		*symbol = getchar();
 		if ('0' <= *symbol && *symbol <= '9') {
-			printf("%c", *symbol);
 			k = (int*)realloc(k, (len + 1) * sizeof(int));
 			k[len] = atoi(symbol);
 			len++;
@@ -55,6 +56,7 @@ N* inputN() {
 		number->n[i] = k[len - i - 1];
 	free(k);
 	free(symbol);
+	number = deNULL(number);
 	return number;
 }
 
@@ -78,15 +80,15 @@ Z* initZ() {
 Z* inputZ() {
 	Z* z = nullptr;
 	z = (Z*)malloc(sizeof(Z));
-	char *s = (char*)malloc(1);
-	*s = _getche();
+	char *s = (char*)malloc(sizeof(char));
+	*s = getchar();
 	if (*s == '-')
 		z->sign = false;
 	else
 		z->sign = true;
 	z->number = inputN();
-	if (*s != '-') {
-		z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * 4);
+	if (*s != '-' && (*s != '0' || z->number->len == 0)) {
+		z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
 		z->number->len++;
 		z->number->n[z->number->len - 1] = atoi(s);
 	}
@@ -117,10 +119,8 @@ Q* inputQ() {
 	Q* q = (Q*)malloc(sizeof(Q));
 	printf("Enter numerator: ");
 	q->num = inputZ();
-	puts("");
 	printf("Enter denominator: ");
 	q->denom = inputN();
-	puts("");
 	return q;
 }
 
@@ -211,19 +211,18 @@ int getNumber() {
 
 	do {
 		do {
-			symbol = _getch();
+			symbol = getchar();
 			if (symbol == 8 && lenght > 0) {
 				printf("%c %c", 8, 8);
 				lenght--;
 				number = (char*)realloc(number, lenght * sizeof(char));
 			}
 			else if (symbol >= '0' && symbol <= '9') {
-				printf("%c", symbol);
 				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 				*(number + lenght) = symbol;
 				lenght++;
 			}
-		} while (symbol != '\r');
+		} while (symbol != '\n');
 		if (lenght == 0) printf("\n");
 	} while (lenght == 0);
 

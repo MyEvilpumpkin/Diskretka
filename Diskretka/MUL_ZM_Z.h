@@ -5,6 +5,7 @@ Z* MUL_ZM_Z(Z* a)
 {
 	Z* resPtr = initZ();
 	resPtr->number = assignmentN(a->number);
-	resPtr->sign = !a->sign;
+	if (resPtr->number->len != 1 || resPtr->number->n[0] != 0)
+		resPtr->sign = !a->sign;
 	return resPtr;
 }
