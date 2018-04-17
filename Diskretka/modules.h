@@ -43,8 +43,8 @@
 #include "DIV_PP_P.h"  // P-9
 #include "MOD_PP_P.h"  // P-10
 #include "GCF_PP_P.h"  // P-11
-/*#include "DER_P_P.h" // P-12
-#include "NMR_P_P.h" // P-13*/
+#include "DER_P_P.h"   // P-12
+//#include "NMR_P_P.h" // P-13
 
 void N_modules(int option) {
 	switch (option) {
@@ -538,7 +538,7 @@ void P_modules(int option) {
 		freeP(b);
 	}
 	break;
-	/*case 12:
+	case 12:
 	{
 		puts("Enter number:");
 		P* a = inputP();
@@ -546,7 +546,7 @@ void P_modules(int option) {
 		printP(DER_P_P(a));
 		freeP(a);
 	}
-	break;*/
+	break;
 	/*case 13:
 	{
 		puts("Enter number:");

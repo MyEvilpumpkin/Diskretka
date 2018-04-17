@@ -36,6 +36,22 @@ N* getZero() {
 	return n;
 }
 
+N* intToN(int x) {
+	N* n = (N*)malloc(sizeof(N));
+	int len = 0, buffer = x;
+	while (buffer > 0) {
+		buffer = buffer / 10;
+		len++;
+	}
+	n->len = len;
+	n->n = (int*)malloc(len * sizeof(int));
+	for (int i = len - 1; i >= 0; i--) {
+		n->n[len - 1 - i] = x % 10;
+		x /= 10;
+	}
+	return n;
+}
+
 N* inputN() {
 	N* number = input();
 	number = deNULL(number);
@@ -220,11 +236,13 @@ void printP(P* p) {
 			last++;
 	for (int i = p->len; i >= 0; i--) {
 		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
+			if (!(i == p->len))
+				printf("+ ( ");
 			printQ(p->k[i]);
-			if (i != 0)
+			if (!(i == p->len))
+				printf(" )");
+			if (i)
 				printf(" * x^%d ", i);
-			if (i != last)
-				printf("+ ");
 		}
 	}
 }
