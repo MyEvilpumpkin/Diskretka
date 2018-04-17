@@ -12,7 +12,7 @@ N* DIV_NN_N(N* a, N* b)
 		First = assignmentN(b);
 		Second = assignmentN(a);
 	}
-	N* Result = getZero(); // Частное от деления
+	N* Result = zeroN(); // Частное от деления
 	N* Part = assignmentN(First); // Временный остаток от деления
 	N* TempRes; // Временный делитель
 	int Numb, // Первая цифра от деления
@@ -22,7 +22,7 @@ N* DIV_NN_N(N* a, N* b)
 	do
 	{
 		Numb = DIV_NN_Dk(Part, Second, k); // Вычисляем первую цифру и степень десятки при делении
-		TempRes = getZero(); // 16 - 20 строки - это создание ппроизведения первой цифры деления на 10^k
+		TempRes = zeroN(); // 16 - 20 строки - это создание ппроизведения первой цифры деления на 10^k
 		TempRes = ADD_1N_N(TempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
 		TempRes = MUL_ND_N(TempRes, Numb); // Умножаем 1 на первую цифру деления
 		TempRes = MUL_Nk_N(TempRes, k); // Умножаем на 10^k

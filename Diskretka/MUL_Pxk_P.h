@@ -9,11 +9,6 @@ P* MUL_Pxk_P(P* Polyn, int k) {
 	for (i = Result->len; i >= k; i--)
 		Result->k[i] = assignmentQ(Polyn->k[i - k]);
 	for (i = k - 1; i >= 0; i--)
-	{
-		Result->k[i] = initQ();
-		Result->k[i]->num->number = getZero();
-		Result->k[i]->denom = getZero();
-		Result->k[i]->denom->n[0] = 1;
-	}
+		Result->k[i] = zeroQ();
 	return Result;
 }

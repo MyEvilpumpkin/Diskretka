@@ -3,7 +3,7 @@
 
 N* SUB_NN_N(N* a, N* b)
 {
-	N* c = getZero();
+	N* c = zeroN();
 	int l = 0;
 	if (COM_NN_D(a, b) == 2) {
 		for (int i = 0; i < a->len; i++)

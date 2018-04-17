@@ -3,7 +3,7 @@
 
 N* MUL_Nk_N(N* a, int b)
 {
-	N* c = getZero();
+	N* c = zeroN();
 	int len = a->len + b;
 	c->n = (int*)malloc(len * sizeof(int));
 	for (int i = 0; i < len; i++)
