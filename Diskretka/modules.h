@@ -477,7 +477,8 @@ void P_modules(int option) {
 	{
 		puts("Enter number:");
 		P* a = inputP();
-		printf("Result: %d", DEG_P_N(a));
+		printf("Result: ");
+		printN(intToN(DEG_P_N(a)));
 		freeP(a);
 	}
 	break;
