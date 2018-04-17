@@ -44,7 +44,7 @@
 #include "MOD_PP_P.h"  // P-10
 #include "GCF_PP_P.h"  // P-11
 #include "DER_P_P.h"   // P-12
-//#include "NMR_P_P.h" // P-13
+#include "NMR_P_P.h"   // P-13
 
 void N_modules(int option) {
 	switch (option) {
@@ -548,7 +548,7 @@ void P_modules(int option) {
 		freeP(a);
 	}
 	break;
-	/*case 13:
+	case 13:
 	{
 		puts("Enter number:");
 		P* a = inputP();
@@ -556,6 +556,6 @@ void P_modules(int option) {
 		printP(NMR_P_P(a));
 		freeP(a);
 	}
-	break;*/
+	break;
 	}
 }

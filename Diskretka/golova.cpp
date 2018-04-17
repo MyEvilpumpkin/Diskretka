@@ -28,7 +28,7 @@ N* initN() {
 	return n;
 }
 
-N* getZero() {
+N* zeroN() {
 	N* n = initN();
 	n->len = 1;
 	n->n = (int*)malloc(sizeof(int));
@@ -94,6 +94,7 @@ N* freeN(N* n) {
 Z* initZ() {
 	Z* z = (Z*)malloc(sizeof(Z));
 	z->number = initN();
+	z->sign = true;
 	return z;
 }
 
@@ -137,6 +138,14 @@ Q* assignmentQ(Q* q) {
 	return a;
 }
 
+Q* zeroQ() {
+	Q* q = initQ();
+	q->num->number = zeroN();
+	q->denom = zeroN();
+	q->denom->n[0] = 1;
+	return q;
+}
+
 Q* initQ() {
 	Q* q = (Q*)malloc(sizeof(Q));
 	q->num = initZ();
@@ -154,9 +163,13 @@ Q* inputQ() {
 }
 
 void printQ(Q* q) {
-	printZ(q->num);
-	printf(" / ");
-	printN(q->denom);
+	if (!q->num->sign)
+		printf("- ");
+	printN(q->num->number);
+	if (q->denom->len != 1 || q->denom->n[0] != 1) {
+		printf("/");
+		printN(q->denom);
+	}
 }
 
 Q* freeQ(Q* q) {
@@ -191,36 +204,31 @@ P* inputP() {
 	int *powerBuffer;
 	int amount;
 	int power;
-	int maxPower;
-	P* p = (P*)malloc(sizeof(P));
-	printf("Enter a max power of x: ");
-	maxPower = getNumber();
-	p->len = maxPower;
-	p->k = (Q**)malloc((maxPower + 1) * sizeof(Q*));
+	int maxPower = -1;
+	P* p = initP();
 	printf("Enter an amount of coefs to input: ");
 	amount = getNumber();
 	powerBuffer = (int*)malloc(amount * sizeof(int));
 	for (int i = 0; i < amount; i++) {
-		printf("***\nCoef %d\n", i);
+		printf("***\nCoef %d\n", i + 1);
+		Q* temp = inputQ();
 		printf("Enter a power of x: ");
 		power = getNumber();
+		if (power > maxPower) {
+			maxPower = power;
+			p->k = (Q**)realloc(p->k, (maxPower + 1) * sizeof(Q*));
+			p->len = maxPower;
+		}
+		p->k[power] = assignmentQ(temp);
+		freeQ(temp);
 		powerBuffer[i] = power;
-		p->k[power] = inputQ();
 	}
 	for (int i = maxPower; i >= 0; i--) {
 		bool f = false;
 		for (int j = 0; j < amount; j++)
 			if (powerBuffer[j] == i) f = true;
-		if (!f) {
-			p->k[i] = initQ();
-			p->k[i]->num->number->len = 1;
-			p->k[i]->num->number->n = (int*)malloc(sizeof(int));
-			p->k[i]->num->number->n[0] = 0;
-			p->k[i]->num->sign = true;
-			p->k[i]->denom->len = 1;
-			p->k[i]->denom->n = (int*)malloc(sizeof(int));
-			p->k[i]->denom->n[0] = 1;
-		}
+		if (!f)
+			p->k[i] = zeroQ();
 	}
 	free(powerBuffer);
 	puts("");
@@ -228,21 +236,24 @@ P* inputP() {
 }
 
 void printP(P* p) {
-	int last = 0;
-	for (int i = 0; i <= p->len; i++)
-		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0))
-			break;
-		else
-			last++;
 	for (int i = p->len; i >= 0; i--) {
 		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
-			if (!(i == p->len))
-				printf("+ ( ");
-			printQ(p->k[i]);
-			if (!(i == p->len))
-				printf(" )");
-			if (i)
-				printf(" * x^%d ", i);
+			if (i != p->len)
+				if (p->k[i]->num->sign)
+					printf("+ ");
+			if (p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 1 && i != 0 && p->k[i]->denom->len == 1 && p->k[i]->denom->n[0] == 1) {
+				if (!p->k[i]->num->sign)
+					printf("- ");
+			}
+			else {
+				printQ(p->k[i]);
+				if (i != 0)
+					printf(" * ");
+			}
+			if (i > 1)
+				printf("x^%d ", i);
+			else if (i == 1)
+				printf("x ");
 		}
 	}
 }
@@ -258,11 +269,7 @@ P* freeP(P* p) {
 P* zeroP() {
 	P* Result = initP();
 	Result->len = 0;
-	Result->k = (Q**)malloc(sizeof(Q*));
-	Result->k[0] = initQ();
-	Result->k[0]->num->number = getZero();
-	Result->k[0]->denom = getZero();
-	Result->k[0]->denom->n[0] = 1;
+	Result->k[0] = zeroQ();
 	return Result;
 }
 

@@ -26,7 +26,7 @@ struct P {
 N* deNULL(N*);
 N* assignmentN(N* n);
 N* initN();
-N* getZero();
+N* zeroN();
 N* intToN(int);
 N* inputN();
 N* input();
@@ -38,6 +38,7 @@ Z* inputZ();
 void printZ(Z*);
 Z* freeZ(Z*);
 
+Q* zeroQ();
 Q* assignmentQ(Q*);
 Q* initQ();
 Q* inputQ();
