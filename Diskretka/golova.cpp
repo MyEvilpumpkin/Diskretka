@@ -24,6 +24,7 @@ N* assignmentN(N* n) {
 
 N* initN() {
 	N* n = (N*)malloc(sizeof(N));
+	n->n = (int*)malloc(sizeof(int));
 	n->len = -1;
 	return n;
 }
@@ -53,7 +54,13 @@ N* intToN(int x) {
 }
 
 N* inputN() {
-	N* number = input();
+	N* number = initN();
+	do {
+		number = input();
+		if (number->len == -1)
+			printf("Incorrect data entered. Please enter a number: ");
+	}
+	while (number->len < 1);
 	number = deNULL(number);
 	return number;
 }
@@ -61,7 +68,8 @@ N* inputN() {
 N* input() {
 	char *symbol = (char*)malloc(sizeof(char));
 	int *k = nullptr, len = 0;
-	N *number = nullptr;
+	N *number = initN();
+	bool error = false;
 	do {
 		*symbol = getchar();
 		if ('0' <= *symbol && *symbol <= '9') {
@@ -69,12 +77,17 @@ N* input() {
 			k[len] = atoi(symbol);
 			len++;
 		}
-	} while ('0' <= *symbol && *symbol <= '9');
-	number = (N*)malloc(sizeof(N));
-	number->n = (int*)malloc(len * sizeof(int));
-	number->len = len;
-	for (int i = 0; i < len; i++)
-		number->n[i] = k[len - i - 1];
+		else if (*symbol != '\n')
+			error = true;
+		else if (!error && len == 0)
+			number->len = 0;
+	} while (*symbol != '\n');
+	if (!error && len > 0) {
+		number->n = (int*)malloc(len * sizeof(int));
+		number->len = len;
+		for (int i = 0; i < len; i++)
+			number->n[i] = k[len - i - 1];
+	}
 	free(k);
 	free(symbol);
 	return number;
@@ -99,20 +112,29 @@ Z* initZ() {
 }
 
 Z* inputZ() {
-	Z* z = nullptr;
-	z = (Z*)malloc(sizeof(Z));
+	Z* z = initZ();
 	char *s = (char*)malloc(sizeof(char));
-	*s = getchar();
-	if (*s == '-')
-		z->sign = false;
-	else
-		z->sign = true;
-	z->number = input();
-	if (*s != '-' && (*s != '0' || z->number->len == 0)) {
-		z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
-		z->number->len++;
-		z->number->n[z->number->len - 1] = atoi(s);
-	}
+	bool error;
+	do {
+		error = false;
+		*s = getchar();
+		if (*s == '-')
+			z->sign = false;
+		else if ('0' <= *s && *s <= '9')
+			z->sign = true;
+		else
+			error = true;
+		z->number = input();
+		if (z->number->len == -1 || (z->number->len == 0 && *s == '-'))
+			error = true;
+		if (error)
+			printf("Incorrect data entered. Please enter a number: ");
+		else if (*s != '-' && (*s != '0' || z->number->len == 0)) {
+			z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
+			z->number->len++;
+			z->number->n[z->number->len - 1] = atoi(s);
+		}
+	} while (error);
 	free(s);
 	z->number = deNULL(z->number);
 	return z;
@@ -278,24 +300,23 @@ int getNumber() {
 	int toReturn;
 	char symbol;
 	int lenght = 0;
-
+	bool error;
 	do {
+		lenght = 0;
+		error = false;
 		do {
 			symbol = getchar();
-			if (symbol == 8 && lenght > 0) {
-				printf("%c %c", 8, 8);
-				lenght--;
-				number = (char*)realloc(number, lenght * sizeof(char));
-			}
-			else if (symbol >= '0' && symbol <= '9') {
+			if (symbol >= '0' && symbol <= '9') {
 				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 				*(number + lenght) = symbol;
 				lenght++;
 			}
+			else if (symbol != '\n')
+				error = true;
 		} while (symbol != '\n');
-		if (lenght == 0) printf("\n");
-	} while (lenght == 0);
-
+		if (error) 
+			printf("Incorrect data entered. Please enter a number: ");
+	} while (error || lenght == 0);
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 	*(number + lenght) = '\0';
 	toReturn = atoi(number);

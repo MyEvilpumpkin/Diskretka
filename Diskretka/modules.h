@@ -50,9 +50,9 @@ void N_modules(int option) {
 	switch (option) {
 	case 1:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: %d", COM_NN_D(a, b));
 		freeN(a);
@@ -61,7 +61,7 @@ void N_modules(int option) {
 	break;
 	case 2:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		N* a = inputN();
 		printf("Result: %d", NZER_N_B(a));
 		freeN(a);
@@ -69,7 +69,7 @@ void N_modules(int option) {
 	break;
 	case 3:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		N* a = inputN();
 		printf("Result: ");
 		printN(ADD_1N_N(a));
@@ -78,9 +78,9 @@ void N_modules(int option) {
 	break;
 	case 4:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(ADD_NN_N(a, b));
@@ -90,9 +90,9 @@ void N_modules(int option) {
 	break;
 	case 5:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(SUB_NN_N(a, b));
@@ -102,11 +102,10 @@ void N_modules(int option) {
 	break;
 	case 6:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
-		int n;
-		scanf("%d", &n);
+		printf("Enter a second number: ");
+		int n = getNumber();
 		printf("Result: ");
 		printN(MUL_ND_N(a, n));
 		freeN(a);
@@ -114,11 +113,10 @@ void N_modules(int option) {
 	break;
 	case 7:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
-		int n;
-		scanf("%d", &n);
+		printf("Enter a second number: ");
+		int n = getNumber();
 		printf("Result: ");
 		printN(MUL_Nk_N(a, n));
 		freeN(a);
@@ -126,9 +124,9 @@ void N_modules(int option) {
 	break;
 	case 8:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(MUL_NN_N(a, b));
@@ -138,13 +136,12 @@ void N_modules(int option) {
 	break;
 	case 9:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
-		printf("Enter third number: ");
-		int n;
-		scanf("%d", &n);
+		printf("Enter a third number: ");
+		int n = getNumber();
 		printf("Result: ");
 		printN(SUB_NDN_N(a, b, n));
 		freeN(a);
@@ -153,9 +150,9 @@ void N_modules(int option) {
 	break;
 	case 10:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		int n = 0;
 		printf("Result: %d", DIV_NN_Dk(a, b, n));
@@ -165,9 +162,9 @@ void N_modules(int option) {
 	break;
 	case 11:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(DIV_NN_N(a, b));
@@ -177,9 +174,9 @@ void N_modules(int option) {
 	break;
 	case 12:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(MOD_NN_N(a, b));
@@ -189,9 +186,9 @@ void N_modules(int option) {
 	break;
 	case 13:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(GCF_NN_N(a, b));
@@ -201,9 +198,9 @@ void N_modules(int option) {
 	break;
 	case 14:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		N* a = inputN();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printN(LCM_NN_N(a, b));
@@ -219,7 +216,7 @@ void Z_modules(int option) {
 	{
 	case 1:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		Z* a = inputZ();
 		printf("Result: ");
 		printN(ABS_Z_N(a));
@@ -228,7 +225,7 @@ void Z_modules(int option) {
 	break;
 	case 2:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		Z* a = inputZ();
 		printf("Result: %d", POZ_Z_D(a));
 		freeZ(a);
@@ -236,7 +233,7 @@ void Z_modules(int option) {
 	break;
 	case 3:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		Z* a = inputZ();
 		printf("Result: ");
 		printZ(MUL_ZM_Z(a));
@@ -245,7 +242,7 @@ void Z_modules(int option) {
 	break;
 	case 4:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		N* a = inputN();
 		printf("Result: ");
 		printZ(TRANS_N_Z(a));
@@ -254,7 +251,7 @@ void Z_modules(int option) {
 	break;
 	case 5:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		Z* a = inputZ();
 		printf("Result: ");
 		printN(TRANS_Z_N(a));
@@ -263,9 +260,9 @@ void Z_modules(int option) {
 	break;
 	case 6:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		Z* a = inputZ();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		Z* b = inputZ();
 		printf("Result: ");
 		printZ(ADD_ZZ_Z(a, b));
@@ -275,9 +272,9 @@ void Z_modules(int option) {
 	break;
 	case 7:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		Z* a = inputZ();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		Z* b = inputZ();
 		printf("Result: ");
 		printZ(SUB_ZZ_Z(a, b));
@@ -287,9 +284,9 @@ void Z_modules(int option) {
 	break;
 	case 8:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		Z* a = inputZ();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		Z* b = inputZ();
 		printf("Result: ");
 		printZ(MUL_ZZ_Z(a, b));
@@ -299,9 +296,9 @@ void Z_modules(int option) {
 	break;
 	case 9:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		Z* a = inputZ();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printZ(DIV_ZZ_Z(a, b));
@@ -311,9 +308,9 @@ void Z_modules(int option) {
 	break;
 	case 10:
 	{
-		printf("Enter first number: ");
+		printf("Enter a first number: ");
 		Z* a = inputZ();
-		printf("Enter second number: ");
+		printf("Enter a second number: ");
 		N* b = inputN();
 		printf("Result: ");
 		printZ(MOD_ZZ_Z(a, b));
@@ -329,7 +326,7 @@ void Q_modules(int option) {
 	{
 	case 1:
 	{
-		puts("Enter number:");
+		puts("Enter a number:");
 		Q* a = inputQ();
 		printf("Result: ");
 		printQ(RED_Q_Q(a));
@@ -338,7 +335,7 @@ void Q_modules(int option) {
 	break;
 	case 2:
 	{
-		puts("Enter number:");
+		puts("Enter a number:");
 		Q* a = inputQ();
 		printf("Result: %d", INT_Q_B(a));
 		freeQ(a);
@@ -346,7 +343,7 @@ void Q_modules(int option) {
 	break;
 	case 3:
 	{
-		printf("Enter number: ");
+		printf("Enter a number: ");
 		Z* a = inputZ();
 		printf("Result: ");
 		printQ(TRANS_Z_Q(a));
@@ -355,7 +352,7 @@ void Q_modules(int option) {
 	break;
 	case 4:
 	{
-		puts("Enter number:");
+		puts("Enter a number:");
 		Q* a = inputQ();
 		printf("Result: ");
 		printZ(TRANS_Q_Z(a));
@@ -364,9 +361,9 @@ void Q_modules(int option) {
 	break;
 	case 5:
 	{
-		puts("Enter first number:");
+		puts("Enter a first number:");
 		Q* a = inputQ();
-		puts("Enter second number:");
+		puts("Enter a second number:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printQ(ADD_QQ_Q(a, b));
@@ -376,9 +373,9 @@ void Q_modules(int option) {
 	break;
 	case 6:
 	{
-		puts("Enter first number:");
+		puts("Enter a first number:");
 		Q* a = inputQ();
-		puts("Enter second number:");
+		puts("Enter a second number:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printQ(SUB_QQ_Q(a, b));
@@ -388,9 +385,9 @@ void Q_modules(int option) {
 	break;
 	case 7:
 	{
-		puts("Enter first number:");
+		puts("Enter a first number:");
 		Q* a = inputQ();
-		puts("Enter second number:");
+		puts("Enter a second number:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printQ(MUL_QQ_Q(a, b));
@@ -400,9 +397,9 @@ void Q_modules(int option) {
 	break;
 	case 8:
 	{
-		puts("Enter first number:");
+		puts("Enter a first number:");
 		Q* a = inputQ();
-		puts("Enter second number:");
+		puts("Enter a second number:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printQ(DIV_QQ_Q(a, b));
@@ -418,9 +415,9 @@ void P_modules(int option) {
 	{
 	case 1:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		P* b = inputP();
 		printf("Result: ");
 		printP(ADD_PP_P(a, b));
@@ -430,9 +427,9 @@ void P_modules(int option) {
 	break;
 	case 2:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		P* b = inputP();
 		printf("Result: ");
 		printP(SUB_PP_P(a, b));
@@ -442,9 +439,9 @@ void P_modules(int option) {
 	break;
 	case 3:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		Q* b = inputQ();
 		printf("Result: ");
 		printP(MUL_PQ_P(a, b));
@@ -454,11 +451,10 @@ void P_modules(int option) {
 	break;
 	case 4:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		printf("Enter second number: ");
-		int n;
-		scanf("%d", &n);
+		printf("Enter a second polynomial: ");
+		int n = getNumber();
 		printf("Result: ");
 		printP(MUL_Pxk_P(a, n));
 		freeP(a);
@@ -466,7 +462,7 @@ void P_modules(int option) {
 	break;
 	case 5:
 	{
-		puts("Enter number:");
+		puts("Enter a polynomial:");
 		P* a = inputP();
 		printf("Result: ");
 		printQ(LED_P_Q(a));
@@ -475,7 +471,7 @@ void P_modules(int option) {
 	break;
 	case 6:
 	{
-		puts("Enter number:");
+		puts("Enter a polynomial:");
 		P* a = inputP();
 		printf("Result: ");
 		printN(intToN(DEG_P_N(a)));
@@ -484,7 +480,7 @@ void P_modules(int option) {
 	break;
 	case 7:
 	{
-		puts("Enter number:");
+		puts("Enter a polynomial:");
 		P* a = inputP();
 		printf("Result: ");
 		printQ(FAC_P_Q(a));
@@ -493,9 +489,9 @@ void P_modules(int option) {
 	break;
 	case 8:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		P* b = inputP();
 		printf("Result: ");
 		printP(MUL_PP_P(a, b));
@@ -505,9 +501,9 @@ void P_modules(int option) {
 	break;
 	case 9:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		P* b = inputP();
 		printf("Result: ");
 		printP(DIV_PP_P(a, b));
@@ -517,9 +513,9 @@ void P_modules(int option) {
 	break;
 	case 10:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		P* b = inputP();
 		printf("Result: ");
 		printP(MOD_PP_P(a, b));
@@ -529,9 +525,9 @@ void P_modules(int option) {
 	break;
 	case 11:
 	{
-		puts("Enter first number:");
+		puts("Enter a first polynomial:");
 		P* a = inputP();
-		puts("Enter second number:");
+		puts("Enter a second polynomial:");
 		P* b = inputP();
 		printf("Result: ");
 		printP(GCF_PP_P(a, b));
@@ -541,7 +537,7 @@ void P_modules(int option) {
 	break;
 	case 12:
 	{
-		puts("Enter number:");
+		puts("Enter a polynomial:");
 		P* a = inputP();
 		printf("Result: ");
 		printP(DER_P_P(a));
@@ -550,7 +546,7 @@ void P_modules(int option) {
 	break;
 	case 13:
 	{
-		puts("Enter number:");
+		puts("Enter a polynomial:");
 		P* a = inputP();
 		printf("Result: ");
 		printP(NMR_P_P(a));
