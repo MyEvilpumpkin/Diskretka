@@ -209,6 +209,9 @@ void N_modules(int option) {
 	}
 	break;
 	}
+	puts("");
+	system("pause");
+	system("cls");
 }
 
 void Z_modules(int option) {
@@ -319,6 +322,9 @@ void Z_modules(int option) {
 	}
 	break;
 	}
+	puts("");
+	system("pause");
+	system("cls");
 }
 
 void Q_modules(int option) {
@@ -408,6 +414,9 @@ void Q_modules(int option) {
 	}
 	break;
 	}
+	puts("");
+	system("pause");
+	system("cls");
 }
 
 void P_modules(int option) {
@@ -554,4 +563,7 @@ void P_modules(int option) {
 	}
 	break;
 	}
+	puts("");
+	system("pause");
+	system("cls");
 }
