@@ -3,12 +3,11 @@
 
 P* DER_P_P(P* p) {
 	//Выделение память под многочлен
-	P* res = (P*)malloc(sizeof(P));
+	P* res = initP();
 	res->k = (Q**)malloc(p->len * sizeof(P));
 	res->len = p->len - 1;
 	//Расчет коэффициентов
-	for (int i = p->len - 1; i >= 0; i--) {
+	for (int i = p->len - 1; i >= 0; i--)
 		res->k[i] = MUL_QQ_Q(p->k[i + 1], TRANS_Z_Q(TRANS_N_Z(intToN(i + 1))));
-	}
 	return res;
 }

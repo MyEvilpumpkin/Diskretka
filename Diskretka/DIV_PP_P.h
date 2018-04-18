@@ -9,6 +9,7 @@ P* DIV_PP_P(P* First, P* Second)
 	short i; // Для перебора коэффициентов
 	Q* Coef; // Коэффициент при исследуемой степени результата
 	Result->len = First->len - Second->len;
+	Result->k = (Q**)malloc((Result->len + 1) * sizeof(Q));
 	if (Result->len < 0)
 		Result = zeroP();
 	else

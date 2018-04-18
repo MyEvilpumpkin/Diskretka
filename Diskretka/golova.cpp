@@ -284,7 +284,7 @@ P* zeroP() {
 }
 
 P* assignmentP(P* p) {
-	P* a = (P*)malloc(sizeof(P));
+	P* a = initP();
 	a->len = p->len;
 	a->k = (Q**)malloc((a->len + 1) * sizeof(Q*));
 	for (int i = 0; i <= a->len; i++) {
