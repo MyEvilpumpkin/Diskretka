@@ -26,5 +26,6 @@ N* MUL_ND_N(N* a, int b)
 		l++;
 	}
 	c->len = l;
+	c = deNULL(c);
 	return c;
 }
