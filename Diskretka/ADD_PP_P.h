@@ -1,6 +1,5 @@
 #pragma once
 // P-1
-#include "DEG_P_N.h"
 
 P* ADD_PP_P(P* a, P* b)
 {
@@ -17,13 +16,19 @@ P* ADD_PP_P(P* a, P* b)
 	P* Result = initP(); // Сумма многочленов
 	Result->k = (Q**)realloc(Result->k, (First->len+1)* sizeof(Q*)); // Освобождаем память под коэффициенты результата
 	Result->len = First->len; // Степень суммы равна степени большего из многочленов
-		for (int i = First->len; i >= 0; i--)
-		{
-			if (i > Second->len) // Если исследуемая степень первого многочлена больше степени второго
-				Result->k[i] = assignmentQ(First->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
-			else
-				Result->k[i] = ADD_QQ_Q(First->k[i], Second->k[i]); // Иначе производим сложение коэффициентов
-		}
-		Result->len = DEG_P_N(Result);
+	for (int i = First->len; i >= 0; i--)
+	{
+		if (i > Second->len) // Если исследуемая степень первого многочлена больше степени второго
+			Result->k[i] = assignmentQ(First->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
+		else
+			Result->k[i] = ADD_QQ_Q(First->k[i], Second->k[i]); // Иначе производим сложение коэффициентов
+	}
+	bool flag = true;
+	int i;
+	for (i = First->len; i >= 0 && flag; i--)
+		if (Result->k[i]->num->number->len != 1 || Result->k[i]->num->number->n[0] != 0)
+			flag = false;
+	Result->k = (Q**)realloc(Result->k, (i + 2) * sizeof(Q*));
+	Result->len = i + 1;
 	return Result;
 }

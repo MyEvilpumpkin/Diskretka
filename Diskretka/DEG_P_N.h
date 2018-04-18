@@ -1,12 +1,13 @@
 #pragma once
 // P-6
 
-int DEG_P_N(P* p) {
+N* DEG_P_N(P* p) {
 	int power = 0;
-	for (int i = p->len; i >= 0; i--)
+	bool flag = true;
+	for (int i = p->len; i >= 0 && flag; i--)
 		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
 			power = i;
-			break;
+			flag = false;
 		}
-	return power;
+	return intToN(power);
 }
