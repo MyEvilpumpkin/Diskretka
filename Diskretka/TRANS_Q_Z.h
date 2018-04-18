@@ -3,10 +3,5 @@
 
 Z* TRANS_Q_Z(Q* First)
 {
-	Z* Rez = initZ(); // Ğåçóëüòàò ïåğåâîäà
-	Rez->sign = First->num->sign;
-	if (First->num->number->len == 1 && First->num->number->n[0] == 0)
-		Rez->sign = true;
-	Rez->number = assignmentN(First->num->number);
-	return Rez;
+	return First->num;
 }

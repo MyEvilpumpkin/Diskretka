@@ -30,6 +30,10 @@ N* DIV_NN_N(N* a, N* b)
 		TempRes = MUL_NN_N(TempRes, Second);
 		Part = SUB_NN_N(Part, TempRes); // Вычисление временного остатка
 		Flag = COM_NN_D(Part, Second); // Сравниваем "делимое" и делитель
+		freeN(TempRes);
 	} while (Flag != 1);
+	freeN(Part);
+	freeN(First);
+	freeN(Second);
 	return Result;
 }

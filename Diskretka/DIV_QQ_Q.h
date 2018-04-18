@@ -13,5 +13,7 @@ Q* DIV_QQ_Q(Q* First, Q* Second)
 		Result->num->number = MUL_NN_N(Temp1, Second->denom);
 		Result->denom = MUL_NN_N(First->denom, Temp2);
 	}
+	freeN(Temp1);
+	freeN(Temp2);
 	return RED_Q_Q(Result);
 }
