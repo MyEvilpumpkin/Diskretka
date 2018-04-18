@@ -315,7 +315,7 @@ int getNumber() {
 				error = true;
 		} while (symbol != '\n');
 		if (error) 
-			printf("Incorrect data entered. Please enter a number: ");
+			printf("Incorrect data entered. Please enter a positive number: ");
 	} while (error || lenght == 0);
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 	*(number + lenght) = '\0';
