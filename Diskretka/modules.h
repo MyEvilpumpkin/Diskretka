@@ -460,9 +460,9 @@ void P_modules(int option) {
 	break;
 	case 4:
 	{
-		puts("Enter a first polynomial:");
+		puts("Enter a polynomial:");
 		P* a = inputP();
-		printf("Enter a second polynomial: ");
+		printf("Enter a number: ");
 		int n = getNumber();
 		printf("Result: ");
 		printP(MUL_Pxk_P(a, n));
