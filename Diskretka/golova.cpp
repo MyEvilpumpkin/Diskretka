@@ -229,7 +229,11 @@ P* inputP() {
 	int maxPower = -1;
 	P* p = initP();
 	printf("Enter an amount of coefs to input: ");
-	amount = getNumber();
+	do {
+		amount = getNumber();
+		if (amount == 0)
+			printf("Incorrect data entered. Please enter an amount of coefs > 0: ");
+	} while (amount == 0);
 	powerBuffer = (int*)malloc(amount * sizeof(int));
 	for (int i = 0; i < amount; i++) {
 		printf("***\nCoef %d\n", i + 1);
@@ -277,6 +281,8 @@ void printP(P* p) {
 			else if (i == 1)
 				printf("x ");
 		}
+		else if (p->len == 0)
+			printf("0");
 	}
 }
 

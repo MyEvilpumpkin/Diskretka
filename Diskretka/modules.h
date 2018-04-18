@@ -483,7 +483,7 @@ void P_modules(int option) {
 		puts("Enter a polynomial:");
 		P* a = inputP();
 		printf("Result: ");
-		printN(intToN(DEG_P_N(a)));
+		printN(DEG_P_N(a));
 		freeP(a);
 	}
 	break;
