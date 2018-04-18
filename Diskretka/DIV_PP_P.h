@@ -14,7 +14,10 @@ P* DIV_PP_P(P* First, P* Second)
 	else
 	for (i = First->len; i >= Second->len; i--)
 	{
-		Coef = DIV_QQ_Q(Part->k[i], Second->k[Second->len]); // Вычисления коэффициента перед степенью в результате
+		if (i <= Part->len)
+			Coef = DIV_QQ_Q(Part->k[i], Second->k[Second->len]); // Вычисления коэффициента перед степенью в результате
+		else
+			Coef = zeroQ();
 		Result->k[i - Second->len] = Coef; // Заносим найденный коэффициент в поле ответа
 		Temp = MUL_PQ_P(Second, Coef); // Умножение делителя на "подходящий" коэффициент
 		Temp = MUL_Pxk_P(Temp, (i - Second->len)); // Возведение в необходимую степень
