@@ -1,5 +1,6 @@
 #pragma once
 #include "golova.h"
+#include "locale.h"
 #include "COM_NN_D.h"  // N-1
 #include "NZER_N_B.h"  // N-2
 #include "ADD_1N_N.h"  // N-3
