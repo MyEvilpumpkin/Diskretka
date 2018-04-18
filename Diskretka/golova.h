@@ -22,14 +22,15 @@ struct P {
 	int len = -1;
 };
 
-
+int getNumber();
 N* deNULL(N*);
-N* assignmentN(N* n);
-N* initN();
-N* zeroN();
 N* intToN(int);
-N* inputN();
 N* input();
+
+N* initN();
+N* inputN();
+N* zeroN();
+N* assignmentN(N* n);
 void printN(N*);
 N* freeN(N*);
 
@@ -38,18 +39,16 @@ Z* inputZ();
 void printZ(Z*);
 Z* freeZ(Z*);
 
-Q* zeroQ();
-Q* assignmentQ(Q*);
 Q* initQ();
 Q* inputQ();
+Q* zeroQ();
+Q* assignmentQ(Q*);
 void printQ(Q*);
 Q* freeQ(Q*);
 
-P* assignmentP(P*);
 P* initP();
 P* inputP();
+P* zeroP();
+P* assignmentP(P*);
 void printP(P*);
 P* freeP(P*);
-P* zeroP();
-
-int getNumber();

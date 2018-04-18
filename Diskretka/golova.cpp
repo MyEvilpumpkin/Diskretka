@@ -1,5 +1,34 @@
 #include "golova.h"
 
+int getNumber() {
+	char* number = nullptr;
+	int toReturn;
+	char symbol;
+	int lenght = 0;
+	bool error;
+	do {
+		lenght = 0;
+		error = false;
+		do {
+			symbol = getchar();
+			if (symbol >= '0' && symbol <= '9') {
+				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
+				*(number + lenght) = symbol;
+				lenght++;
+			}
+			else if (symbol != '\n')
+				error = true;
+		} while (symbol != '\n');
+		if (error)
+			printf("Incorrect data entered. Please enter a positive number: ");
+	} while (error || lenght == 0);
+	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
+	*(number + lenght) = '\0';
+	toReturn = atoi(number);
+	free(number);
+	return toReturn;
+}
+
 N* deNULL(N* n) {
 	if (n->len != 0) {
 		int i = 1,
@@ -9,31 +38,6 @@ N* deNULL(N* n) {
 		n->n = (int*)realloc(n->n, i * sizeof(int));
 		n->len = i;
 	}
-	return n;
-}
-
-N* assignmentN(N* n) {
-	N* a = (N*)malloc(sizeof(N));
-	int l = n->len;
-	a->n = (int*)malloc(l * sizeof(int));
-	for (int i = 0; i < l; i++)
-		a->n[i] = n->n[i];
-	a->len = l;
-	return a;
-}
-
-N* initN() {
-	N* n = (N*)malloc(sizeof(N));
-	n->n = (int*)malloc(sizeof(int));
-	n->len = -1;
-	return n;
-}
-
-N* zeroN() {
-	N* n = initN();
-	n->len = 1;
-	n->n = (int*)malloc(sizeof(int));
-	n->n[0] = 0;
 	return n;
 }
 
@@ -51,18 +55,6 @@ N* intToN(int x) {
 		x /= 10;
 	}
 	return n;
-}
-
-N* inputN() {
-	N* number = initN();
-	do {
-		number = input();
-		if (number->len == -1)
-			printf("Incorrect data entered. Please enter a number: ");
-	}
-	while (number->len < 1);
-	number = deNULL(number);
-	return number;
 }
 
 N* input() {
@@ -91,6 +83,42 @@ N* input() {
 	free(k);
 	free(symbol);
 	return number;
+}
+
+N* initN() {
+	N* n = (N*)malloc(sizeof(N));
+	n->n = (int*)malloc(sizeof(int));
+	n->len = -1;
+	return n;
+}
+
+N* inputN() {
+	N* number = initN();
+	do {
+		number = input();
+		if (number->len == -1)
+			printf("Incorrect data entered. Please enter a number: ");
+	} while (number->len < 1);
+	number = deNULL(number);
+	return number;
+}
+
+N* zeroN() {
+	N* n = initN();
+	n->len = 1;
+	n->n = (int*)malloc(sizeof(int));
+	n->n[0] = 0;
+	return n;
+}
+
+N* assignmentN(N* n) {
+	N* a = (N*)malloc(sizeof(N));
+	int l = n->len;
+	a->n = (int*)malloc(l * sizeof(int));
+	for (int i = 0; i < l; i++)
+		a->n[i] = n->n[i];
+	a->len = l;
+	return a;
 }
 
 void printN(N* num) {
@@ -152,22 +180,6 @@ Z* freeZ(Z* z) {
 	return nullptr;
 }
 
-Q* assignmentQ(Q* q) {
-	Q* a = initQ();
-	a->num->sign = q->num->sign;
-	a->num->number = assignmentN(q->num->number);
-	a->denom = assignmentN(q->denom);
-	return a;
-}
-
-Q* zeroQ() {
-	Q* q = initQ();
-	q->num->number = zeroN();
-	q->denom = zeroN();
-	q->denom->n[0] = 1;
-	return q;
-}
-
 Q* initQ() {
 	Q* q = (Q*)malloc(sizeof(Q));
 	q->num = initZ();
@@ -182,6 +194,22 @@ Q* inputQ() {
 	printf("Enter denominator: ");
 	q->denom = inputN();
 	return q;
+}
+
+Q* zeroQ() {
+	Q* q = initQ();
+	q->num->number = zeroN();
+	q->denom = zeroN();
+	q->denom->n[0] = 1;
+	return q;
+}
+
+Q* assignmentQ(Q* q) {
+	Q* a = initQ();
+	a->num->sign = q->num->sign;
+	a->num->number = assignmentN(q->num->number);
+	a->denom = assignmentN(q->denom);
+	return a;
 }
 
 void printQ(Q* q) {
@@ -199,19 +227,6 @@ Q* freeQ(Q* q) {
 	freeZ(q->num);
 	free(q);
 	return nullptr;
-}
-
-P* assignmentP(P* p) {
-	P* a = (P*)malloc(sizeof(P));
-	a->len = p->len;
-	a->k = (Q**)malloc((a->len + 1) * sizeof(Q*));
-	for (int i = 0; i <= a->len; i++) {
-		a->k[i] = initQ();
-		a->k[i]->num->sign = p->k[i]->num->sign;
-		a->k[i]->num->number = assignmentN(p->k[i]->num->number);
-		a->k[i]->denom = assignmentN(p->k[i]->denom);
-	}
-	return a;
 }
 
 P* initP() {
@@ -261,6 +276,26 @@ P* inputP() {
 	return p;
 }
 
+P* zeroP() {
+	P* Result = initP();
+	Result->len = 0;
+	Result->k[0] = zeroQ();
+	return Result;
+}
+
+P* assignmentP(P* p) {
+	P* a = (P*)malloc(sizeof(P));
+	a->len = p->len;
+	a->k = (Q**)malloc((a->len + 1) * sizeof(Q*));
+	for (int i = 0; i <= a->len; i++) {
+		a->k[i] = initQ();
+		a->k[i]->num->sign = p->k[i]->num->sign;
+		a->k[i]->num->number = assignmentN(p->k[i]->num->number);
+		a->k[i]->denom = assignmentN(p->k[i]->denom);
+	}
+	return a;
+}
+
 void printP(P* p) {
 	for (int i = p->len; i >= 0; i--) {
 		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) {
@@ -292,40 +327,4 @@ P* freeP(P* p) {
 	free(p->k);
 	free(p);
 	return nullptr;
-}
-
-P* zeroP() {
-	P* Result = initP();
-	Result->len = 0;
-	Result->k[0] = zeroQ();
-	return Result;
-}
-
-int getNumber() {
-	char* number = nullptr;
-	int toReturn;
-	char symbol;
-	int lenght = 0;
-	bool error;
-	do {
-		lenght = 0;
-		error = false;
-		do {
-			symbol = getchar();
-			if (symbol >= '0' && symbol <= '9') {
-				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-				*(number + lenght) = symbol;
-				lenght++;
-			}
-			else if (symbol != '\n')
-				error = true;
-		} while (symbol != '\n');
-		if (error) 
-			printf("Incorrect data entered. Please enter a positive number: ");
-	} while (error || lenght == 0);
-	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-	*(number + lenght) = '\0';
-	toReturn = atoi(number);
-	free(number);
-	return toReturn;
 }
