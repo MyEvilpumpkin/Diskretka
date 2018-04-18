@@ -32,7 +32,11 @@ int DIV_NN_Dk(N* a, N* b, int &k)
 		Flag = COM_NN_D(First, tmp); // Сравниваем его с делимым
 		if (Flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
 			Result++;
+		freeN(tmp);
 	} while (Flag != 1);
 	Result--; // Аналогично значению степени
+	freeN(Temp);
+	freeN(First);
+	freeN(Second);
 	return Result;
 }

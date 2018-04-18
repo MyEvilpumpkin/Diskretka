@@ -14,7 +14,10 @@ P* GCF_PP_P(P* a, P* b)
 			second = MOD_PP_P(second, first);
 	}
 	if (first->len > second->len)
-		return first;
+		ost = assignmentP(first);
 	else
-		return second;
+		ost = assignmentP(second);
+	freeP(first);
+	freeP(second);
+	return ost;
 }

@@ -12,8 +12,8 @@ N* GCF_NN_N(N* a, N* b)
 		else
 			Second = MOD_NN_N(Second, First); // Иначе - остаток от деления второго на первое
 	}
-	if (COM_NN_D(First, Second) == 2)
-		return First;
-	else
-		return Second;
+	if (COM_NN_D(First, Second) != 2)
+		First = assignmentN(Second);
+	freeN(Second);
+	return First;
 }

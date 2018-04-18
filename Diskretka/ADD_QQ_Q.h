@@ -15,5 +15,7 @@ Q* ADD_QQ_Q(Q* f1, Q* f2) {
 	//Числитель будет f1->num * q1 + f2->num * q2
 	ans->num = ADD_ZZ_Z(q1, q2);
 	//Сокращаем дробь
+	freeZ(q1);
+	freeZ(q2);
 	return RED_Q_Q(ans);
 }

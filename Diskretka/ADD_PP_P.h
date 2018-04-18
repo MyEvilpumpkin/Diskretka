@@ -34,5 +34,7 @@ P* ADD_PP_P(P* a, P* b)
 		Result->k = (Q**)realloc(Result->k, (i + 2) * sizeof(Q*));
 		Result->len = i + 1;
 	}
+	freeP(First);
+	freeP(Second);
 	return Result;
 }

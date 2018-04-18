@@ -16,6 +16,7 @@ P* MUL_PP_P(P* First, P* Second)
 			Temp = MUL_PQ_P(Second, First->k[i]); // Умножаем второй многочлен поочередно на все коэффициенты первого
 			Temp = MUL_Pxk_P(Temp, i); // Умножаем произведение на текущую исследуемую степень первого многочлена
 			Result = ADD_PP_P(Result, Temp); // Прибавление к результату произведения
+			freeP(Temp);
 		}
 	}
 	else 

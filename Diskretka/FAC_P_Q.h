@@ -19,5 +19,7 @@ Q* FAC_P_Q(P* Polyn)
 	Result->num->number = assignmentN(NOD); // Присваиваем Result->num значение NOD
 	Result->num->sign = true;
 	Result->denom = assignmentN(NOK); // Присваиваем Result->denom значение НОК
+	freeN(NOD);
+	freeN(NOK);
 	return Result;
 }
