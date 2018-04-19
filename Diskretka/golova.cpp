@@ -20,7 +20,7 @@ int getNumber() {
 				error = true;
 		} while (symbol != '\n');
 		if (error)
-			printf("Incorrect data entered. Please enter a positive number: ");
+			printf("¬ведены некорректные данные. ¬ведите неотрицательное число: ");
 	} while (error || lenght == 0);
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 	*(number + lenght) = '\0';
@@ -97,7 +97,7 @@ N* inputN() {
 	do {
 		number = input();
 		if (number->len == -1)
-			printf("Incorrect data entered. Please enter a number: ");
+			printf("¬ведены некорректные данные. ¬ведите натуральное число: ");
 	} while (number->len < 1);
 	number = deNULL(number);
 	return number;
@@ -156,7 +156,7 @@ Z* inputZ() {
 		if (z->number->len == -1 || (z->number->len == 0 && *s == '-'))
 			error = true;
 		if (error)
-			printf("Incorrect data entered. Please enter a number: ");
+			printf("¬ведены некорректные данные. ¬ведите целое число: ");
 		else if (*s != '-' && (*s != '0' || z->number->len == 0)) {
 			z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
 			z->number->len++;
@@ -189,9 +189,9 @@ Q* initQ() {
 
 Q* inputQ() {
 	Q* q = (Q*)malloc(sizeof(Q));
-	printf("Enter numerator: ");
+	printf("¬ведите числитель: ");
 	q->num = inputZ();
-	printf("Enter denominator: ");
+	printf("¬ведите знаменатель: ");
 	q->denom = inputN();
 	return q;
 }
@@ -243,17 +243,17 @@ P* inputP() {
 	int power;
 	int maxPower = -1;
 	P* p = initP();
-	printf("Enter an amount of coefs to input: ");
+	printf("¬ведите количество коэффициентов: ");
 	do {
 		amount = getNumber();
 		if (amount == 0)
-			printf("Incorrect data entered. Please enter an amount of coefs > 0: ");
+			printf("¬ведены некорректные данные. ¬ведите число > 0: ");
 	} while (amount == 0);
 	powerBuffer = (int*)malloc(amount * sizeof(int));
 	for (int i = 0; i < amount; i++) {
-		printf("***\nCoef %d\n", i + 1);
+		printf("***\n оэффициент %d\n", i + 1);
 		Q* temp = inputQ();
-		printf("Enter a power of x: ");
+		printf("¬ведите степень x: ");
 		power = getNumber();
 		if (power > maxPower) {
 			maxPower = power;

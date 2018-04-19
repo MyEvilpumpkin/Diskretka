@@ -1,6 +1,5 @@
 #pragma once
 #include "golova.h"
-#include "locale.h"
 #include "COM_NN_D.h"  // N-1
 #include "NZER_N_B.h"  // N-2
 #include "ADD_1N_N.h"  // N-3
@@ -51,39 +50,39 @@ void N_modules(int option) {
 	switch (option) {
 	case 1:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: %d", COM_NN_D(a, b));
+		printf("–езультат: %d", COM_NN_D(a, b));
 		freeN(a);
 		freeN(b);
 	}
 	break;
 	case 2:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите натуральное число: ");
 		N* a = inputN();
-		printf("Result: %d", NZER_N_B(a));
+		printf("–езультат: %d", NZER_N_B(a));
 		freeN(a);
 	}
 	break;
 	case 3:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите натуральное число: ");
 		N* a = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(ADD_1N_N(a));
 		freeN(a);
 	}
 	break;
 	case 4:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(ADD_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -91,11 +90,11 @@ void N_modules(int option) {
 	break;
 	case 5:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(SUB_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -103,33 +102,33 @@ void N_modules(int option) {
 	break;
 	case 6:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите число: ");
 		int n = getNumber();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(MUL_ND_N(a, n));
 		freeN(a);
 	}
 	break;
 	case 7:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите число: ");
 		int n = getNumber();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(MUL_Nk_N(a, n));
 		freeN(a);
 	}
 	break;
 	case 8:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(MUL_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -137,13 +136,13 @@ void N_modules(int option) {
 	break;
 	case 9:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Enter a third number: ");
+		printf("¬ведите число: ");
 		int n = getNumber();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(SUB_NDN_N(a, b, n));
 		freeN(a);
 		freeN(b);
@@ -151,23 +150,23 @@ void N_modules(int option) {
 	break;
 	case 10:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		int n = 0;
-		printf("Result: %d", DIV_NN_Dk(a, b, n));
+		printf("–езультат: %d", DIV_NN_Dk(a, b, n));
 		freeN(a);
 		freeN(b);
 	}
 	break;
 	case 11:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(DIV_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -175,11 +174,11 @@ void N_modules(int option) {
 	break;
 	case 12:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(MOD_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -187,11 +186,11 @@ void N_modules(int option) {
 	break;
 	case 13:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(GCF_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -199,11 +198,11 @@ void N_modules(int option) {
 	break;
 	case 14:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое натуральное число: ");
 		N* a = inputN();
-		printf("Enter a second number: ");
+		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(LCM_NN_N(a, b));
 		freeN(a);
 		freeN(b);
@@ -220,55 +219,55 @@ void Z_modules(int option) {
 	{
 	case 1:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(ABS_Z_N(a));
 		freeZ(a);
 	}
 	break;
 	case 2:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Result: %d", POZ_Z_D(a));
+		printf("–езультат: %d", POZ_Z_D(a));
 		freeZ(a);
 	}
 	break;
 	case 3:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(MUL_ZM_Z(a));
 		freeZ(a);
 	}
 	break;
 	case 4:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите натуральное число: ");
 		N* a = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(TRANS_N_Z(a));
 		freeN(a);
 	}
 	break;
 	case 5:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(TRANS_Z_N(a));
 		freeZ(a);
 	}
 	break;
 	case 6:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое целое число: ");
 		Z* a = inputZ();
-		printf("Enter a second number: ");
+		printf("¬ведите второе целое число: ");
 		Z* b = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(ADD_ZZ_Z(a, b));
 		freeZ(a);
 		freeZ(b);
@@ -276,11 +275,11 @@ void Z_modules(int option) {
 	break;
 	case 7:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое целое число: ");
 		Z* a = inputZ();
-		printf("Enter a second number: ");
+		printf("¬ведите второе целое число: ");
 		Z* b = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(SUB_ZZ_Z(a, b));
 		freeZ(a);
 		freeZ(b);
@@ -288,11 +287,11 @@ void Z_modules(int option) {
 	break;
 	case 8:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите первое целое число: ");
 		Z* a = inputZ();
-		printf("Enter a second number: ");
+		printf("¬ведите второе целое число: ");
 		Z* b = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(MUL_ZZ_Z(a, b));
 		freeZ(a);
 		freeZ(b);
@@ -300,11 +299,11 @@ void Z_modules(int option) {
 	break;
 	case 9:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Enter a second number: ");
+		printf("¬ведите натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(DIV_ZZ_Z(a, b));
 		freeZ(a);
 		freeN(b);
@@ -312,11 +311,11 @@ void Z_modules(int option) {
 	break;
 	case 10:
 	{
-		printf("Enter a first number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Enter a second number: ");
+		printf("¬ведите натуральное число: ");
 		N* b = inputN();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(MOD_ZZ_Z(a, b));
 		freeZ(a);
 		freeN(b);
@@ -333,46 +332,46 @@ void Q_modules(int option) {
 	{
 	case 1:
 	{
-		puts("Enter a number:");
+		puts("¬ведите рациональное число:");
 		Q* a = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(RED_Q_Q(a));
 		freeQ(a);
 	}
 	break;
 	case 2:
 	{
-		puts("Enter a number:");
+		puts("¬ведите рациональное число:");
 		Q* a = inputQ();
-		printf("Result: %d", INT_Q_B(a));
+		printf("–езультат: %d", INT_Q_B(a));
 		freeQ(a);
 	}
 	break;
 	case 3:
 	{
-		printf("Enter a number: ");
+		printf("¬ведите целое число: ");
 		Z* a = inputZ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(TRANS_Z_Q(a));
 		freeZ(a);
 	}
 	break;
 	case 4:
 	{
-		puts("Enter a number:");
+		puts("¬ведите рациональное число:");
 		Q* a = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printZ(TRANS_Q_Z(a));
 		freeQ(a);
 	}
 	break;
 	case 5:
 	{
-		puts("Enter a first number:");
+		puts("¬ведите первое рациональное число:");
 		Q* a = inputQ();
-		puts("Enter a second number:");
+		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(ADD_QQ_Q(a, b));
 		freeQ(a);
 		freeQ(b);
@@ -380,11 +379,11 @@ void Q_modules(int option) {
 	break;
 	case 6:
 	{
-		puts("Enter a first number:");
+		puts("¬ведите первое рациональное число:");
 		Q* a = inputQ();
-		puts("Enter a second number:");
+		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(SUB_QQ_Q(a, b));
 		freeQ(a);
 		freeQ(b);
@@ -392,11 +391,11 @@ void Q_modules(int option) {
 	break;
 	case 7:
 	{
-		puts("Enter a first number:");
+		puts("¬ведите первое рациональное число:");
 		Q* a = inputQ();
-		puts("Enter a second number:");
+		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(MUL_QQ_Q(a, b));
 		freeQ(a);
 		freeQ(b);
@@ -404,11 +403,11 @@ void Q_modules(int option) {
 	break;
 	case 8:
 	{
-		puts("Enter a first number:");
+		puts("¬ведите первое рациональное число:");
 		Q* a = inputQ();
-		puts("Enter a second number:");
+		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(DIV_QQ_Q(a, b));
 		freeQ(a);
 		freeQ(b);
@@ -425,11 +424,11 @@ void P_modules(int option) {
 	{
 	case 1:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите первый многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите второй многочлен:");
 		P* b = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(ADD_PP_P(a, b));
 		freeP(a);
 		freeP(b);
@@ -437,11 +436,11 @@ void P_modules(int option) {
 	break;
 	case 2:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите первый многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите второй многочлен:");
 		P* b = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(SUB_PP_P(a, b));
 		freeP(a);
 		freeP(b);
@@ -449,11 +448,11 @@ void P_modules(int option) {
 	break;
 	case 3:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите рациональное число:");
 		Q* b = inputQ();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(MUL_PQ_P(a, b));
 		freeP(a);
 		freeQ(b);
@@ -461,49 +460,49 @@ void P_modules(int option) {
 	break;
 	case 4:
 	{
-		puts("Enter a polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		printf("Enter a number: ");
+		printf("¬ведите число: ");
 		int n = getNumber();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(MUL_Pxk_P(a, n));
 		freeP(a);
 	}
 	break;
 	case 5:
 	{
-		puts("Enter a polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(LED_P_Q(a));
 		freeP(a);
 	}
 	break;
 	case 6:
 	{
-		puts("Enter a polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printN(DEG_P_N(a));
 		freeP(a);
 	}
 	break;
 	case 7:
 	{
-		puts("Enter a polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printQ(FAC_P_Q(a));
 		freeP(a);
 	}
 	break;
 	case 8:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите первый многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите второй многочлен:");
 		P* b = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(MUL_PP_P(a, b));
 		freeP(a);
 		freeP(b);
@@ -511,11 +510,11 @@ void P_modules(int option) {
 	break;
 	case 9:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите первый многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите второй многочлен:");
 		P* b = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(DIV_PP_P(a, b));
 		freeP(a);
 		freeP(b);
@@ -523,11 +522,11 @@ void P_modules(int option) {
 	break;
 	case 10:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите первый многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите второй многочлен:");
 		P* b = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(MOD_PP_P(a, b));
 		freeP(a);
 		freeP(b);
@@ -535,11 +534,11 @@ void P_modules(int option) {
 	break;
 	case 11:
 	{
-		puts("Enter a first polynomial:");
+		puts("¬ведите первый многочлен:");
 		P* a = inputP();
-		puts("Enter a second polynomial:");
+		puts("¬ведите второй многочлен:");
 		P* b = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(GCF_PP_P(a, b));
 		freeP(a);
 		freeP(b);
@@ -547,18 +546,18 @@ void P_modules(int option) {
 	break;
 	case 12:
 	{
-		puts("Enter a polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(DER_P_P(a));
 		freeP(a);
 	}
 	break;
 	case 13:
 	{
-		puts("Enter a polynomial:");
+		puts("¬ведите многочлен:");
 		P* a = inputP();
-		printf("Result: ");
+		printf("–езультат: ");
 		printP(NMR_P_P(a));
 		freeP(a);
 	}

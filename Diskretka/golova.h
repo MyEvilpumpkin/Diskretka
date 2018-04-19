@@ -1,5 +1,6 @@
 #pragma once
 #include "malloc.h"
+#include "locale.h"
 #include <iostream>
 
 struct N {
