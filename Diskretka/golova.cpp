@@ -155,8 +155,10 @@ Z* inputZ() {
 		z->number = input();
 		if (z->number->len == -1 || (z->number->len == 0 && *s == '-'))
 			error = true;
-		if (error)
+		if (error) {
 			printf("¬ведены некорректные данные. ¬ведите целое число: ");
+			freeN(z->number);
+		}
 		else if (*s != '-' && (*s != '0' || z->number->len == 0)) {
 			z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
 			z->number->len++;
@@ -188,11 +190,20 @@ Q* initQ() {
 }
 
 Q* inputQ() {
-	Q* q = (Q*)malloc(sizeof(Q));
+	Q* q = initQ();
 	printf("¬ведите числитель: ");
 	q->num = inputZ();
 	printf("¬ведите знаменатель: ");
-	q->denom = inputN();
+	bool error;
+	do {
+		error = false;
+		q->denom = inputN();
+		if (q->denom->len == 1 && q->denom->n[0] == 0) {
+			error = true;
+			freeN(q->denom);
+			printf("¬ведены некорректные данные. ¬ведите знаменатель > 0: ");
+		}
+	} while (error);
 	return q;
 }
 
