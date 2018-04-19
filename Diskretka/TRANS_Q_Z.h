@@ -3,5 +3,5 @@
 
 Z* TRANS_Q_Z(Q* First)
 {
-	return First->num;
+	return RED_Q_Q(First)->num;
 }
