@@ -1,11 +1,12 @@
 #pragma once
-// Z-3
+// Z-3 Андрианова Вера
 
 Z* MUL_ZM_Z(Z* a)
 {
-	Z* resPtr = initZ();
-	resPtr->number = assignmentN(a->number);
-	if (resPtr->number->len != 1 || resPtr->number->n[0] != 0)
-		resPtr->sign = !a->sign;
+	Z* resPtr = (Z*)malloc(sizeof(Z));
+	resPtr->sign = true;
+	resPtr->number = assignmentN(a->number); // присваиваем результату исходное число
+	if (resPtr->number->len != 1 || resPtr->number->n[0] != 0) // если число не ноль
+		resPtr->sign = !a->sign; // меняем знак результата на противоположный
 	return resPtr;
 }

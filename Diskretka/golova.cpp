@@ -49,7 +49,7 @@ N* intToN(int x) {
 		len++;
 	}
 	n->len = len;
-	n->n = (int*)malloc(len * sizeof(int));
+	n->n = (int*)realloc(n->n, len * sizeof(int));
 	for (int i = len - 1; i >= 0; i--) {
 		n->n[len - 1 - i] = x % 10;
 		x /= 10;
@@ -75,7 +75,7 @@ N* input() {
 			number->len = 0;
 	} while (*symbol != '\n');
 	if (!error && len > 0) {
-		number->n = (int*)malloc(len * sizeof(int));
+		number->n = (int*)realloc(number->n, len * sizeof(int));
 		number->len = len;
 		for (int i = 0; i < len; i++)
 			number->n[i] = k[len - i - 1];
@@ -93,7 +93,7 @@ N* initN() {
 }
 
 N* inputN() {
-	N* number = initN();
+	N* number;
 	do {
 		number = input();
 		if (number->len == -1)
@@ -113,7 +113,7 @@ N* zeroN() {
 N* assignmentN(N* n) {
 	N* a = initN();
 	int l = n->len;
-	a->n = (int*)malloc(l * sizeof(int));
+	a->n = (int*)realloc(a->n, l * sizeof(int));
 	for (int i = 0; i < l; i++)
 		a->n[i] = n->n[i];
 	a->len = l;
@@ -139,7 +139,7 @@ Z* initZ() {
 }
 
 Z* inputZ() {
-	Z* z = initZ();
+	Z* z = (Z*)malloc(sizeof(Z));
 	char *s = (char*)malloc(sizeof(char));
 	bool error;
 	do {
@@ -189,7 +189,7 @@ Q* initQ() {
 }
 
 Q* inputQ() {
-	Q* q = initQ();
+	Q* q = (Q*)malloc(sizeof(Q));
 	printf("¬ведите числитель: ");
 	q->num = inputZ();
 	printf("¬ведите знаменатель: ");
@@ -207,7 +207,9 @@ Q* inputQ() {
 }
 
 Q* zeroQ() {
-	Q* q = initQ();
+	Q* q = (Q*)malloc(sizeof(Q));
+	q->num = (Z*)malloc(sizeof(Z));
+	q->num->sign = true;
 	q->num->number = zeroN();
 	q->denom = zeroN();
 	q->denom->n[0] = 1;
@@ -215,7 +217,8 @@ Q* zeroQ() {
 }
 
 Q* assignmentQ(Q* q) {
-	Q* a = initQ();
+	Q* a = (Q*)malloc(sizeof(Q));
+	a->num = (Z*)malloc(sizeof(Z));
 	a->num->sign = q->num->sign;
 	a->num->number = assignmentN(q->num->number);
 	a->denom = assignmentN(q->denom);
@@ -252,7 +255,8 @@ P* inputP() {
 	int amount;
 	int power;
 	int maxPower = -1;
-	P* p = initP();
+	P* p = (P*)malloc(sizeof(P));
+	p->k = (Q**)malloc(sizeof(Q*));
 	printf("¬ведите количество коэффициентов: ");
 	do {
 		amount = getNumber();
@@ -287,18 +291,21 @@ P* inputP() {
 }
 
 P* zeroP() {
-	P* Result = initP();
+	P* Result = (P*)malloc(sizeof(P));
+	Result->k = (Q**)malloc(sizeof(Q*));
 	Result->len = 0;
 	Result->k[0] = zeroQ();
 	return Result;
 }
 
 P* assignmentP(P* p) {
-	P* a = initP();
+	P* a = (P*)malloc(sizeof(P));
+	a->k = (Q**)malloc(sizeof(Q*));
 	a->len = p->len;
-	a->k = (Q**)malloc((a->len + 1) * sizeof(Q*));
+	a->k = (Q**)realloc(a->k, (a->len + 1) * sizeof(Q*));
 	for (int i = 0; i <= a->len; i++) {
-		a->k[i] = initQ();
+		a->k[i] = (Q*)malloc(sizeof(Q));
+		a->k[i]->num = (Z*)malloc(sizeof(Z));
 		a->k[i]->num->sign = p->k[i]->num->sign;
 		a->k[i]->num->number = assignmentN(p->k[i]->num->number);
 		a->k[i]->denom = assignmentN(p->k[i]->denom);

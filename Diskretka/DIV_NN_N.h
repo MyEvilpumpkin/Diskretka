@@ -1,5 +1,5 @@
 #pragma once
-// N-11
+// N-11 Павлов Андрей
 
 N* DIV_NN_N(N* a, N* b)
 {

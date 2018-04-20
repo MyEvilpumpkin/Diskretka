@@ -1,5 +1,5 @@
 #pragma once
-// P-8
+// P-8 Смирнов Иван
 
 P* MUL_PP_P(P* First, P* Second)
 {
