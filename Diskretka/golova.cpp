@@ -93,8 +93,9 @@ N* initN() {
 }
 
 N* inputN() {
-	N* number;
+	N* number = initN();
 	do {
+		freeN(number);
 		number = input();
 		if (number->len == -1)
 			printf("¬ведены некорректные данные. ¬ведите натуральное число: ");

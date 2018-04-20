@@ -14,8 +14,7 @@ P* ADD_PP_P(P* a, P* b)
 		Second = assignmentP(a);
 	}
 	P* Result = (P*)malloc(sizeof(P));
-	Result->k = (Q**)malloc(sizeof(Q*)); // Сумма многочленов
-	Result->k = (Q**)realloc(Result->k, (First->len + 1) * sizeof(Q*)); // Освобождаем память под коэффициенты результата
+	Result->k = (Q**)malloc((First->len + 1) * sizeof(Q*)); // Сумма многочленов
 	Result->len = First->len; // Степень суммы равна степени большего из многочленов
 	for (int i = First->len; i >= 0; i--) // цикл от старшей степени большего числа до последней 
 	{

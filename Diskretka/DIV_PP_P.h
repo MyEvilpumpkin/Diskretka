@@ -25,8 +25,11 @@ P* DIV_PP_P(P* First, P* Second)
 		Result->k[i - Second->len] = assignmentQ(Coef); // Заносим найденный коэффициент в поле ответа
 		Temp = MUL_PQ_P(Second, Coef); // Умножение делителя на "подходящий" коэффициент
 		tmp = MUL_Pxk_P(Temp, (i - Second->len)); // Возведение в необходимую степень
-		Part = SUB_PP_P(Part, tmp); // Вычитаем из остатка часть частного, умноженную на делитель
+		freeP(Temp);
+		Temp = SUB_PP_P(Part, tmp); // Вычитаем из остатка часть частного, умноженную на делитель
 		freeP(tmp);
+		freeP(Part);
+		Part = assignmentP(Temp);
 		freeP(Temp);
 		freeQ(Coef);
 	}
