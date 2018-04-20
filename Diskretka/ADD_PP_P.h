@@ -28,8 +28,10 @@ P* ADD_PP_P(P* a, P* b)
 	for (i = First->len; i >= 0 && flag; i--)
 		if (Result->k[i]->num->number->len != 1 || Result->k[i]->num->number->n[0] != 0)
 			flag = false;
-	if (i == -1 && flag)
+	if (i == -1 && flag) {
+		freeP(Result);
 		Result = zeroP();
+	}
 	else {
 		Result->k = (Q**)realloc(Result->k, (i + 2) * sizeof(Q*));
 		Result->len = i + 1;

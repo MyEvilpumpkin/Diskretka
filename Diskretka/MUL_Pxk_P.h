@@ -4,7 +4,7 @@
 P* MUL_Pxk_P(P* Polyn, int k) {
 	P* Result = initP(); // Результат умножения
 	int i; // Для перебора коэффициентов
-	Result->k = (Q**)malloc((Polyn->len + k + 1) * sizeof(Q*)); // Выделение памяти
+	Result->k = (Q**)realloc(Result->k, (Polyn->len + k + 1) * sizeof(Q*)); // Выделение памяти
 	Result->len = Polyn->len + k;
 	for (i = Result->len; i >= k; i--)
 		Result->k[i] = assignmentQ(Polyn->k[i - k]);

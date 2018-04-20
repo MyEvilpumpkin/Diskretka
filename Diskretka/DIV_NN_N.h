@@ -14,7 +14,7 @@ N* DIV_NN_N(N* a, N* b)
 	}
 	N* Result = zeroN(); // Частное от деления
 	N* Part = assignmentN(First); // Временный остаток от деления
-	N* TempRes; // Временный делитель
+	N* TempRes, *Temp; // Временный делитель
 	int Numb, // Первая цифра от деления
 		Flag, // Переменная для выхода из цикла
 		k = 0; // Степень десятки
@@ -23,12 +23,22 @@ N* DIV_NN_N(N* a, N* b)
 	{
 		Numb = DIV_NN_Dk(Part, Second, k); // Вычисляем первую цифру и степень десятки при делении
 		TempRes = zeroN(); // 16 - 20 строки - это создание ппроизведения первой цифры деления на 10^k
-		TempRes = ADD_1N_N(TempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
-		TempRes = MUL_ND_N(TempRes, Numb); // Умножаем 1 на первую цифру деления
-		TempRes = MUL_Nk_N(TempRes, k); // Умножаем на 10^k
-		Result = ADD_NN_N(Result, TempRes); // Добавление временного результата к общему
-		TempRes = MUL_NN_N(TempRes, Second);
-		Part = SUB_NN_N(Part, TempRes); // Вычисление временного остатка
+		Temp = ADD_1N_N(TempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
+		freeN(TempRes);
+		TempRes = MUL_ND_N(Temp, Numb); // Умножаем 1 на первую цифру деления
+		freeN(Temp);
+		Temp = MUL_Nk_N(TempRes, k); // Умножаем на 10^k
+		freeN(TempRes);
+		TempRes = ADD_NN_N(Result, Temp); // Добавление временного результата к общему
+		freeN(Result);
+		Result = assignmentN(TempRes);
+		freeN(TempRes);
+		TempRes = MUL_NN_N(Temp, Second);
+		freeN(Temp);
+		Temp = SUB_NN_N(Part, TempRes); // Вычисление временного остатка
+		freeN(Part);
+		Part = assignmentN(Temp);
+		freeN(Temp);
 		Flag = COM_NN_D(Part, Second); // Сравниваем "делимое" и делитель
 		freeN(TempRes);
 	} while (Flag != 1);

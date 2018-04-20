@@ -3,9 +3,23 @@
 
 Z* MOD_ZZ_Z(Z* First, N* Second)
 {
-	Z *Rest = SUB_ZZ_Z(First, MUL_ZZ_Z(DIV_ZZ_Z(First, Second), TRANS_N_Z(Second))); // Остаток от деления
-	if (First->sign)
-		return Rest;
-	else
-		return ADD_ZZ_Z(Rest, TRANS_N_Z(Second));
+	Z* tmp = TRANS_N_Z(Second);
+	Z *Rest = DIV_ZZ_Z(First, Second);
+	Z *Temp = MUL_ZZ_Z(Rest, tmp);
+	freeZ(tmp);
+	freeZ(Rest);
+	tmp = SUB_ZZ_Z(First, Temp); // Остаток от деления
+	freeZ(Temp);
+	
+	if (First->sign) {
+		Rest = initZ();
+		Rest->number = assignmentN(tmp->number);
+	}
+	else {
+		Temp = TRANS_N_Z(Second);
+		Rest = ADD_ZZ_Z(tmp, Temp);
+		freeZ(Temp);
+	}
+	freeZ(tmp);
+	return Rest;
 }

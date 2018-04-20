@@ -4,11 +4,20 @@
 P* NMR_P_P(P* a)
 {
 	P* Result = DER_P_P(a);
-	Result = GCF_PP_P(a, Result);
-	Result = DIV_PP_P(a, Result); // Частное от деления многочленов  
+	P* Temp = GCF_PP_P(a, Result);
+	freeP(Result);
+	Result = DIV_PP_P(a, Temp); // Частное от деления многочленов  
+	freeP(Temp);
 	Q* q = zeroQ();
 	q->num->number->n[0] = 1;
-	Result = MUL_PQ_P(Result, DIV_QQ_Q(q, FAC_P_Q(Result)));
+	Q* tmp = FAC_P_Q(Result);
+	Q* tmpr = DIV_QQ_Q(q, tmp);
+	Temp = assignmentP(Result);
+	freeP(Result);
+	Result = MUL_PQ_P(Temp, tmpr);
+	freeQ(tmp);
+	freeQ(tmpr);
+	freeP(Temp);
 	freeQ(q);
 	return Result;
 }

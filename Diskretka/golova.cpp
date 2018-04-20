@@ -42,7 +42,7 @@ N* deNULL(N* n) {
 }
 
 N* intToN(int x) {
-	N* n = (N*)malloc(sizeof(N));
+	N* n = initN();
 	int len = 0, buffer = x;
 	while (buffer > 0) {
 		buffer = buffer / 10;
@@ -106,13 +106,12 @@ N* inputN() {
 N* zeroN() {
 	N* n = initN();
 	n->len = 1;
-	n->n = (int*)malloc(sizeof(int));
 	n->n[0] = 0;
 	return n;
 }
 
 N* assignmentN(N* n) {
-	N* a = (N*)malloc(sizeof(N));
+	N* a = initN();
 	int l = n->len;
 	a->n = (int*)malloc(l * sizeof(int));
 	for (int i = 0; i < l; i++)

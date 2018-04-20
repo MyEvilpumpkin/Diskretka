@@ -6,8 +6,15 @@ P* DER_P_P(P* p) {
 	P* res = initP();
 	res->k = (Q**)malloc(p->len * sizeof(P));
 	res->len = p->len - 1;
+	Z* temp;
+	Q* tmp;
 	//Расчет коэффициентов
-	for (int i = p->len - 1; i >= 0; i--)
-		res->k[i] = MUL_QQ_Q(p->k[i + 1], TRANS_Z_Q(TRANS_N_Z(intToN(i + 1))));
+	for (int i = p->len - 1; i >= 0; i--) {
+		temp = TRANS_N_Z(intToN(i + 1));
+		tmp = TRANS_Z_Q(temp);
+		res->k[i] = MUL_QQ_Q(p->k[i + 1], tmp);
+		freeZ(temp);
+		freeQ(tmp);
+	}
 	return res;
 }
