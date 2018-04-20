@@ -1,9 +1,10 @@
 #pragma once
-// P-9
+// P-9 Смирнов Иван
 
 P* DIV_PP_P(P* First, P* Second)
 {
-	P* Result = initP(); // Частное от деления многочленов
+	P* Result = (P*)malloc(sizeof(P)); // Частное от деления многочленов
+	Result->k = (Q**)malloc(sizeof(Q*));
 	P* Temp,* tmp; // Временная переменная
 	P* Part = assignmentP(First); // Остаток от деления
 	short i; // Для перебора коэффициентов

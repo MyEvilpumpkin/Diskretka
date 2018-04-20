@@ -23,17 +23,17 @@ struct P {
 	int len = -1;
 };
 
-int getNumber();
-N* deNULL(N*);
-N* intToN(int);
-N* input();
+int getNumber(); // ввод неотрицательных чисел int
+N* deNULL(N*); // удаление лишних нулей в начале числа
+N* intToN(int); // перевод из int в N
+N* input(); // ввод чисел N
 
-N* initN();
-N* inputN();
-N* zeroN();
-N* assignmentN(N* n);
-void printN(N*);
-N* freeN(N*);
+N* initN(); // инициализация
+N* inputN(); // ввод
+N* zeroN(); // инициализация с обнулением
+N* assignmentN(N* n); // присваивание
+void printN(N*); // вывод
+N* freeN(N*); // освобождание памяти
 
 Z* initZ();
 Z* inputZ();

@@ -1,21 +1,18 @@
 #pragma once
-// Q-5
+// Q-5 ƒ€ченко ¬италий
 
 Q* ADD_QQ_Q(Q* f1, Q* f2) {
-	Q* ans = initQ();
+	Q* ans = (Q*)malloc(sizeof(Q));
 	//произведение находим, в знаменатель пишем
 	ans->denom = MUL_NN_N(f1->denom, f2->denom);
-	//“ут типо q1 =  / знаменатель дроби f1
-	Z* q1 = initZ();
-	q1->number = MUL_NN_N(f1->num->number, f2->denom); 
-	q1->sign = f1->num->sign;
-	Z* q2 = initZ();
-	q2->number = MUL_NN_N(f2->num->number, f1->denom);
-	q2->sign = f2->num->sign;
-	//„ислитель будет f1->num * q1 + f2->num * q2
+	Z* q1 = (Z*)malloc(sizeof(Z));
+	q1->number = MUL_NN_N(f1->num->number, f2->denom); // присваиваем значению знаменател€ f1 произведение числител€ f1 и знаменател€ f2 
+	q1->sign = f1->num->sign; // копируем знак числител€ f1
+	Z* q2 = (Z*)malloc(sizeof(Z));
+	q2->number = MUL_NN_N(f2->num->number, f1->denom); // присваиваем значению знаменател€ f2 произведение числител€ f2 и знаменател€ f1
+	q2->sign = f2->num->sign; // копируем знак числител€ f2
 	ans->num = ADD_ZZ_Z(q1, q2);
-	//—окращаем дробь
 	freeZ(q1);
 	freeZ(q2);
-	return RED_Q_Q(ans);
+	return RED_Q_Q(ans); // cокращаем дробь
 }

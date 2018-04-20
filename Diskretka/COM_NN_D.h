@@ -1,21 +1,21 @@
 #pragma once
-// N-1
+// N-1 Масленникова Дарья
 
 int COM_NN_D(N* a, N* b)
 {
-	if (a->len > b->len)
+	if (a->len > b->len) // если первое число больше второго
 		return 2;
-	if (a->len < b->len)
+	if (a->len < b->len) // если второе число больше первого
 		return 1;
 	else
 	{
-		for (int i = a->len - 1; i >= 0; i--)
+		for (int i = a->len - 1; i >= 0; i--) // цикл до последней числа
 		{
-			if (a->n[i] > b->n[i])
+			if (a->n[i] > b->n[i]) // если цифра первого числа больше цифры второго
 				return 2;
-			if (a->n[i] < b->n[i])
+			if (a->n[i] < b->n[i]) // наоборот
 				return 1;
 		}
-		return 0;
+		return 0; // если длины двух чисел и все их цифры оказались равны (числа равны)
 	}
 }

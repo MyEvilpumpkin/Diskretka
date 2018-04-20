@@ -1,9 +1,9 @@
 #pragma once
-// P-5
+// P-5 Львов Денис
 
 Q* LED_P_Q(P* p) {
-	for (int i = p->len; i >= 0; i--)
-		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0))
-			return RED_Q_Q(p->k[i]);
-	return RED_Q_Q(p->k[0]);
+	for (int i = p->len; i >= 0; i--) // цикл от старшей степени многочлена до младшей
+		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) // если текущий коэффициент = 0
+			return RED_Q_Q(p->k[i]); // возвращаем сокращенное значение этого коэффициента
+	return RED_Q_Q(p->k[0]); // в крайнем случае возвращаем сокращенное значение младшего коэффициента
 }

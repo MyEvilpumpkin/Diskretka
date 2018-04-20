@@ -1,19 +1,19 @@
 #pragma once
-// N-7
+// N-7 Скуфин Демид
 
 N* MUL_Nk_N(N* a, int b)
 {
 	N* c = zeroN();
-	int len = a->len + b;
-	c->n = (int*)malloc(len * sizeof(int));
-	for (int i = 0; i < len; i++)
+	int len = a->len + b; // инициализируем размер суммой длины исходного числа и заданной степени k
+	c->n = (int*)realloc(c->n, len * sizeof(int)); // выделяем память для нашего числа
+	for (int i = 0; i < len; i++) // цикл до конца числа
 	{
-		if (i < b)
-			c->n[i] = 0;
+		if (i < b) // если счётчик меньше степни k
+			c->n[i] = 0; // "домножаем" наше число на 10
 		else
-			c->n[i] = a->n[i - b];
+			c->n[i] = a->n[i - b]; // подставляем на новую позицию (на k больше) цифру исходного числа
 	}
-	c->len = len;
+	c->len = len; // присваиваем длине результата сумму len
 	c = deNULL(c);
 	return c;
 }

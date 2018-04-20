@@ -1,5 +1,5 @@
 #pragma once
-// N-14
+// N-14 Оранская Мария
 
 N* LCM_NN_N(N* First, N* Second)
 {

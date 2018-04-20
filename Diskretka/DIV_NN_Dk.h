@@ -1,5 +1,5 @@
 #pragma once
-// N-10
+// N-10 Павлов Андрей
 
 int DIV_NN_Dk(N* a, N* b, int &k)
 {
@@ -8,11 +8,11 @@ int DIV_NN_Dk(N* a, N* b, int &k)
 	N* Temp; // Временная переменная для хранения произведения
 	k = 0;
 	N* First, *Second;
-	if (COM_NN_D(a, b) == 2) {
-		First = assignmentN(a);
-		Second = assignmentN(b);
+	if (COM_NN_D(a, b) == 2) { // если делимое - первое число
+		First = assignmentN(a); // делимое 
+		Second = assignmentN(b); // делитель
 	}
-	else {
+	else { // наоборот
 		First = assignmentN(b);
 		Second = assignmentN(a);
 	}
