@@ -72,7 +72,9 @@ void N_modules(int option) {
 		printf("¬ведите натуральное число: ");
 		N* a = inputN();
 		printf("–езультат: ");
-		printN(ADD_1N_N(a));
+		N* r = ADD_1N_N(a);
+		printN(r);
+		freeN(r);
 		freeN(a);
 	}
 	break;
@@ -83,7 +85,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(ADD_NN_N(a, b));
+		N* r = ADD_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -95,7 +99,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(SUB_NN_N(a, b));
+		N* r = SUB_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -107,7 +113,9 @@ void N_modules(int option) {
 		printf("¬ведите число: ");
 		int n = getNumber();
 		printf("–езультат: ");
-		printN(MUL_ND_N(a, n));
+		N* r = MUL_ND_N(a, n);
+		printN(r);
+		freeN(r);
 		freeN(a);
 	}
 	break;
@@ -118,7 +126,9 @@ void N_modules(int option) {
 		printf("¬ведите число: ");
 		int n = getNumber();
 		printf("–езультат: ");
-		printN(MUL_Nk_N(a, n));
+		N* r = MUL_Nk_N(a, n);
+		printN(r);
+		freeN(r);
 		freeN(a);
 	}
 	break;
@@ -129,7 +139,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(MUL_NN_N(a, b));
+		N* r = MUL_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -143,7 +155,9 @@ void N_modules(int option) {
 		printf("¬ведите число: ");
 		int n = getNumber();
 		printf("–езультат: ");
-		printN(SUB_NDN_N(a, b, n));
+		N* r = SUB_NDN_N(a, b, n);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -167,7 +181,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(DIV_NN_N(a, b));
+		N* r = DIV_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -179,7 +195,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(MOD_NN_N(a, b));
+		N* r = MOD_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -191,7 +209,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(GCF_NN_N(a, b));
+		N* r = GCF_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -203,7 +223,9 @@ void N_modules(int option) {
 		printf("¬ведите второе натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printN(LCM_NN_N(a, b));
+		N* r = LCM_NN_N(a, b);
+		printN(r);
+		freeN(r);
 		freeN(a);
 		freeN(b);
 	}
@@ -222,7 +244,9 @@ void Z_modules(int option) {
 		printf("¬ведите целое число: ");
 		Z* a = inputZ();
 		printf("–езультат: ");
-		printN(ABS_Z_N(a));
+		N* r = ABS_Z_N(a);
+		printN(r);
+		freeN(r);
 		freeZ(a);
 	}
 	break;
@@ -239,7 +263,9 @@ void Z_modules(int option) {
 		printf("¬ведите целое число: ");
 		Z* a = inputZ();
 		printf("–езультат: ");
-		printZ(MUL_ZM_Z(a));
+		Z* r = MUL_ZM_Z(a);
+		printZ(r);
+		freeZ(r);
 		freeZ(a);
 	}
 	break;
@@ -248,7 +274,9 @@ void Z_modules(int option) {
 		printf("¬ведите натуральное число: ");
 		N* a = inputN();
 		printf("–езультат: ");
-		printZ(TRANS_N_Z(a));
+		Z* r = TRANS_N_Z(a);
+		printZ(r);
+		freeZ(r);
 		freeN(a);
 	}
 	break;
@@ -257,7 +285,9 @@ void Z_modules(int option) {
 		printf("¬ведите целое число: ");
 		Z* a = inputZ();
 		printf("–езультат: ");
-		printN(TRANS_Z_N(a));
+		N* r = TRANS_Z_N(a);
+		printN(r);
+		freeN(r);
 		freeZ(a);
 	}
 	break;
@@ -268,7 +298,9 @@ void Z_modules(int option) {
 		printf("¬ведите второе целое число: ");
 		Z* b = inputZ();
 		printf("–езультат: ");
-		printZ(ADD_ZZ_Z(a, b));
+		Z* r = ADD_ZZ_Z(a, b);
+		printZ(r);
+		freeZ(r);
 		freeZ(a);
 		freeZ(b);
 	}
@@ -280,7 +312,9 @@ void Z_modules(int option) {
 		printf("¬ведите второе целое число: ");
 		Z* b = inputZ();
 		printf("–езультат: ");
-		printZ(SUB_ZZ_Z(a, b));
+		Z* r = SUB_ZZ_Z(a, b);
+		printZ(r);
+		freeZ(r);
 		freeZ(a);
 		freeZ(b);
 	}
@@ -292,7 +326,9 @@ void Z_modules(int option) {
 		printf("¬ведите второе целое число: ");
 		Z* b = inputZ();
 		printf("–езультат: ");
-		printZ(MUL_ZZ_Z(a, b));
+		Z* r = MUL_ZZ_Z(a, b);
+		printZ(r);
+		freeZ(r);
 		freeZ(a);
 		freeZ(b);
 	}
@@ -304,7 +340,9 @@ void Z_modules(int option) {
 		printf("¬ведите натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printZ(DIV_ZZ_Z(a, b));
+		Z* r = DIV_ZZ_Z(a, b);
+		printZ(r);
+		freeZ(r);
 		freeZ(a);
 		freeN(b);
 	}
@@ -316,7 +354,9 @@ void Z_modules(int option) {
 		printf("¬ведите натуральное число: ");
 		N* b = inputN();
 		printf("–езультат: ");
-		printZ(MOD_ZZ_Z(a, b));
+		Z* r = MOD_ZZ_Z(a, b);
+		printZ(r);
+		freeZ(r);
 		freeZ(a);
 		freeN(b);
 	}
@@ -352,7 +392,9 @@ void Q_modules(int option) {
 		printf("¬ведите целое число: ");
 		Z* a = inputZ();
 		printf("–езультат: ");
-		printQ(TRANS_Z_Q(a));
+		Q* r = TRANS_Z_Q(a);
+		printQ(r);
+		freeQ(r);
 		freeZ(a);
 	}
 	break;
@@ -361,7 +403,9 @@ void Q_modules(int option) {
 		puts("¬ведите рациональное число:");
 		Q* a = inputQ();
 		printf("–езультат: ");
-		printZ(TRANS_Q_Z(a));
+		Z* r = TRANS_Q_Z(a);
+		printZ(r);
+		freeZ(r);
 		freeQ(a);
 	}
 	break;
@@ -372,7 +416,9 @@ void Q_modules(int option) {
 		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
 		printf("–езультат: ");
-		printQ(ADD_QQ_Q(a, b));
+		Q* r = ADD_QQ_Q(a, b);
+		printQ(r);
+		freeQ(r);
 		freeQ(a);
 		freeQ(b);
 	}
@@ -384,7 +430,9 @@ void Q_modules(int option) {
 		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
 		printf("–езультат: ");
-		printQ(SUB_QQ_Q(a, b));
+		Q* r = SUB_QQ_Q(a, b);
+		printQ(r);
+		freeQ(r);
 		freeQ(a);
 		freeQ(b);
 	}
@@ -396,7 +444,9 @@ void Q_modules(int option) {
 		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
 		printf("–езультат: ");
-		printQ(MUL_QQ_Q(a, b));
+		Q* r = MUL_QQ_Q(a, b);
+		printQ(r);
+		freeQ(r);
 		freeQ(a);
 		freeQ(b);
 	}
@@ -408,7 +458,9 @@ void Q_modules(int option) {
 		puts("¬ведите второе рациональное число:");
 		Q* b = inputQ();
 		printf("–езультат: ");
-		printQ(DIV_QQ_Q(a, b));
+		Q* r = DIV_QQ_Q(a, b);
+		printQ(r);
+		freeQ(r);
 		freeQ(a);
 		freeQ(b);
 	}
@@ -429,7 +481,9 @@ void P_modules(int option) {
 		puts("¬ведите второй многочлен:");
 		P* b = inputP();
 		printf("–езультат: ");
-		printP(ADD_PP_P(a, b));
+		P* r = ADD_PP_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeP(b);
 	}
@@ -441,7 +495,9 @@ void P_modules(int option) {
 		puts("¬ведите второй многочлен:");
 		P* b = inputP();
 		printf("–езультат: ");
-		printP(SUB_PP_P(a, b));
+		P* r = SUB_PP_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeP(b);
 	}
@@ -453,7 +509,9 @@ void P_modules(int option) {
 		puts("¬ведите рациональное число:");
 		Q* b = inputQ();
 		printf("–езультат: ");
-		printP(MUL_PQ_P(a, b));
+		P* r = MUL_PQ_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeQ(b);
 	}
@@ -465,7 +523,9 @@ void P_modules(int option) {
 		printf("¬ведите число: ");
 		int n = getNumber();
 		printf("–езультат: ");
-		printP(MUL_Pxk_P(a, n));
+		P* r = MUL_Pxk_P(a, n);
+		printP(r);
+		freeP(r);
 		freeP(a);
 	}
 	break;
@@ -474,7 +534,9 @@ void P_modules(int option) {
 		puts("¬ведите многочлен:");
 		P* a = inputP();
 		printf("–езультат: ");
-		printQ(LED_P_Q(a));
+		Q* r = LED_P_Q(a);
+		printQ(r);
+		freeQ(r);
 		freeP(a);
 	}
 	break;
@@ -483,7 +545,9 @@ void P_modules(int option) {
 		puts("¬ведите многочлен:");
 		P* a = inputP();
 		printf("–езультат: ");
-		printN(DEG_P_N(a));
+		N* r = DEG_P_N(a);
+		printN(r);
+		freeN(r);
 		freeP(a);
 	}
 	break;
@@ -492,7 +556,9 @@ void P_modules(int option) {
 		puts("¬ведите многочлен:");
 		P* a = inputP();
 		printf("–езультат: ");
-		printQ(FAC_P_Q(a));
+		Q* r = FAC_P_Q(a);
+		printQ(r);
+		freeQ(r);
 		freeP(a);
 	}
 	break;
@@ -503,7 +569,9 @@ void P_modules(int option) {
 		puts("¬ведите второй многочлен:");
 		P* b = inputP();
 		printf("–езультат: ");
-		printP(MUL_PP_P(a, b));
+		P* r = MUL_PP_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeP(b);
 	}
@@ -515,7 +583,9 @@ void P_modules(int option) {
 		puts("¬ведите второй многочлен:");
 		P* b = inputP();
 		printf("–езультат: ");
-		printP(DIV_PP_P(a, b));
+		P* r = DIV_PP_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeP(b);
 	}
@@ -527,7 +597,9 @@ void P_modules(int option) {
 		puts("¬ведите второй многочлен:");
 		P* b = inputP();
 		printf("–езультат: ");
-		printP(MOD_PP_P(a, b));
+		P* r = MOD_PP_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeP(b);
 	}
@@ -539,7 +611,9 @@ void P_modules(int option) {
 		puts("¬ведите второй многочлен:");
 		P* b = inputP();
 		printf("–езультат: ");
-		printP(GCF_PP_P(a, b));
+		P* r = GCF_PP_P(a, b);
+		printP(r);
+		freeP(r);
 		freeP(a);
 		freeP(b);
 	}
@@ -549,7 +623,9 @@ void P_modules(int option) {
 		puts("¬ведите многочлен:");
 		P* a = inputP();
 		printf("–езультат: ");
-		printP(DER_P_P(a));
+		P* r = DER_P_P(a);
+		printP(r);
+		freeP(r);
 		freeP(a);
 	}
 	break;
@@ -558,7 +634,9 @@ void P_modules(int option) {
 		puts("¬ведите многочлен:");
 		P* a = inputP();
 		printf("–езультат: ");
-		printP(NMR_P_P(a));
+		P* r = NMR_P_P(a);
+		printP(r);
+		freeP(r);
 		freeP(a);
 	}
 	break;
