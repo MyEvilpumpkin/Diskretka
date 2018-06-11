@@ -23,7 +23,7 @@
     <ProjectGuid>{C2404780-C7B0-4AD0-A1EC-9B7D87C3A9D6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Diskretka</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,56 +151,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Diskretka.cpp" />
-    <ClCompile Include="golova.cpp" />
+    <ClCompile Include="modules.cpp" />
+    <ClCompile Include="N_modules.cpp" />
+    <ClCompile Include="P_modules.cpp" />
+    <ClCompile Include="Q_modules.cpp" />
+    <ClCompile Include="Z_modules.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ABS_Z_N.h" />
-    <ClInclude Include="ADD_1N_N.h" />
-    <ClInclude Include="ADD_NN_N.h" />
-    <ClInclude Include="ADD_PP_P.h" />
-    <ClInclude Include="ADD_QQ_Q.h" />
-    <ClInclude Include="ADD_ZZ_Z.h" />
-    <ClInclude Include="COM_NN_D.h" />
-    <ClInclude Include="DEG_P_N.h" />
-    <ClInclude Include="DER_P_P.h" />
-    <ClInclude Include="DIV_NN_Dk.h" />
-    <ClInclude Include="DIV_NN_N.h" />
-    <ClInclude Include="DIV_PP_P.h" />
-    <ClInclude Include="DIV_QQ_Q.h" />
-    <ClInclude Include="DIV_ZZ_Z.h" />
-    <ClInclude Include="FAC_P_Q.h" />
-    <ClInclude Include="GCF_NN_N.h" />
-    <ClInclude Include="GCF_PP_P.h" />
-    <ClInclude Include="golova.h" />
-    <ClInclude Include="INT_Q_B.h" />
-    <ClInclude Include="LCM_NN_N.h" />
-    <ClInclude Include="LED_P_Q.h" />
     <ClInclude Include="modules.h" />
-    <ClInclude Include="MOD_NN_N.h" />
-    <ClInclude Include="MOD_PP_P.h" />
-    <ClInclude Include="MOD_ZZ_Z.h" />
-    <ClInclude Include="MUL_ND_N.h" />
-    <ClInclude Include="MUL_Nk_N.h" />
-    <ClInclude Include="MUL_NN_N.h" />
-    <ClInclude Include="MUL_PP_P.h" />
-    <ClInclude Include="MUL_PQ_P.h" />
-    <ClInclude Include="MUL_Pxk_P.h" />
-    <ClInclude Include="MUL_QQ_Q.h" />
-    <ClInclude Include="MUL_ZM_Z.h" />
-    <ClInclude Include="MUL_ZZ_Z.h" />
-    <ClInclude Include="NMR_P_P.h" />
-    <ClInclude Include="NZER_N_B.h" />
-    <ClInclude Include="POZ_Z_D.h" />
-    <ClInclude Include="RED_Q_Q.h" />
-    <ClInclude Include="SUB_NDN_N.h" />
-    <ClInclude Include="SUB_NN_N.h" />
-    <ClInclude Include="SUB_PP_P.h" />
-    <ClInclude Include="SUB_QQ_Q.h" />
-    <ClInclude Include="SUB_ZZ_Z.h" />
-    <ClInclude Include="TRANS_N_Z.h" />
-    <ClInclude Include="TRANS_Q_Z.h" />
-    <ClInclude Include="TRANS_Z_N.h" />
-    <ClInclude Include="TRANS_Z_Q.h" />
+    <ClInclude Include="N_modules.h" />
+    <ClInclude Include="P_modules.h" />
+    <ClInclude Include="Q_modules.h" />
+    <ClInclude Include="Z_modules.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
