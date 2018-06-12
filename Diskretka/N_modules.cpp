@@ -1,17 +1,22 @@
 #include "N_modules.h"
 
-int getNumber() {
+// Ввод неотрицательных чисел int
+int getNumber()
+{
 	char* number = NULL;
 	int toReturn;
 	char symbol;
 	int lenght = 0;
 	bool error;
-	do {
+	do
+	{
 		lenght = 0;
 		error = false;
-		do {
+		do
+		{
 			symbol = getchar();
-			if (symbol >= '0' && symbol <= '9') {
+			if (symbol >= '0' && symbol <= '9')
+			{
 				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
 				*(number + lenght) = symbol;
 				lenght++;
@@ -28,9 +33,11 @@ int getNumber() {
 	free(number);
 	return toReturn;
 }
-
-N* deNULL(N* n) {
-	if (n->len != 0) {
+// Удаление лишних нулей в начале числа
+N* deNULL(N* n)
+{
+	if (n->len != 0)
+	{
 		int i = 1,
 			l = n->len;
 		for (int j = 0; j < l; j++)
@@ -40,31 +47,37 @@ N* deNULL(N* n) {
 	}
 	return n;
 }
-
-N* intToN(int x) {
+// Перевод из int в N
+N* intToN(int d)
+{
 	N* n = initN();
-	int len = 0, buffer = x;
-	while (buffer > 0) {
+	int len = 0, buffer = d;
+	while (buffer > 0)
+	{
 		buffer = buffer / 10;
 		len++;
 	}
 	n->len = len;
 	n->n = (int*)realloc(n->n, len * sizeof(int));
-	for (int i = len - 1; i >= 0; i--) {
-		n->n[len - 1 - i] = x % 10;
-		x /= 10;
+	for (int i = len - 1; i >= 0; i--)
+	{
+		n->n[len - 1 - i] = d % 10;
+		d /= 10;
 	}
 	return n;
 }
-
-N* input() {
+// Ввод чисел N
+N* input()
+{
 	char *symbol = (char*)malloc(sizeof(char));
 	int *k = NULL, len = 0;
-	N *number = initN();
+	N *n = initN();
 	bool error = false;
-	do {
+	do
+	{
 		*symbol = getchar();
-		if ('0' <= *symbol && *symbol <= '9') {
+		if ('0' <= *symbol && *symbol <= '9')
+		{
 			k = (int*)realloc(k, (len + 1) * sizeof(int));
 			k[len] = atoi(symbol);
 			len++;
@@ -72,137 +85,137 @@ N* input() {
 		else if (*symbol != '\n')
 			error = true;
 		else if (!error && len == 0)
-			number->len = 0;
+			n->len = 0;
 	} while (*symbol != '\n');
-	if (!error && len > 0) {
-		number->n = (int*)realloc(number->n, len * sizeof(int));
-		number->len = len;
+	if (!error && len > 0)
+	{
+		n->n = (int*)realloc(n->n, len * sizeof(int));
+		n->len = len;
 		for (int i = 0; i < len; i++)
-			number->n[i] = k[len - i - 1];
+			n->n[i] = k[len - i - 1];
 	}
 	free(k);
 	free(symbol);
-	return number;
+	return n;
 }
-
-N* initN() {
+// Инициализация
+N* initN()
+{
 	N* n = (N*)malloc(sizeof(N));
 	n->n = (int*)malloc(sizeof(int));
 	n->len = -1;
 	return n;
 }
-
-N* inputN() {
-	N* number = initN();
-	do {
-		freeN(number);
-		number = input();
-		if (number->len == -1)
-			printf("Введены некорректные данные. Введите натуральное число: ");
-	} while (number->len < 1);
-	number = deNULL(number);
-	return number;
-}
-
-N* zeroN() {
+// Ввод
+N* inputN()
+{
 	N* n = initN();
-	n->len = 1;
-	n->n[0] = 0;
+	do
+	{
+		freeN(n);
+		n = input();
+		if (n->len == -1)
+			printf("Введены некорректные данные. Введите натуральное число: ");
+	} while (n->len < 1);
+	n = deNULL(n);
 	return n;
 }
-
-N* assignmentN(N* n) {
-	N* a = initN();
-	int l = n->len;
-	a->n = (int*)realloc(a->n, l * sizeof(int));
-	for (int i = 0; i < l; i++)
-		a->n[i] = n->n[i];
-	a->len = l;
-	return a;
+// Инициализация с обнулением
+N* zeroN()
+{
+	N* n = initN();
+	n->n[0] = 0;
+	n->len = 1;
+	return n;
 }
-
-void printN(N* num) {
-	for (int i = num->len - 1; i >= 0; i--)
-		printf("%d", num->n[i]);
+// Присваивание
+N* assignmentN(N* n)
+{
+	N* result = initN();
+	result->n = (int*)realloc(result->n, n->len * sizeof(int));
+	for (int i = 0; i < n->len; i++)
+		result->n[i] = n->n[i];
+	result->len = n->len;
+	return result;
 }
-
-N* freeN(N* n) {
+// Вывод
+void printN(N* n)
+{
+	for (int i = n->len - 1; i >= 0; i--)
+		printf("%d", n->n[i]);
+}
+// Освобождение памяти
+N* freeN(N* n)
+{
 	free(n->n);
 	free(n);
 	return n;
 }
 
-// N-1 Масленникова Дарья
-
-int COM_NN_D(N* a, N* b)
+// N-1
+int COM_NN_D(N* n1, N* n2)
 {
-	if (a->len > b->len) // если первое число больше второго
+	if (n1->len > n2->len) // Если первое число больше второго
 		return 2;
-	if (a->len < b->len) // если второе число больше первого
+	if (n1->len < n2->len) // Если второе число больше первого
 		return 1;
 	else
 	{
-		for (int i = a->len - 1; i >= 0; i--) // цикл до последней числа
-		{
-			if (a->n[i] > b->n[i]) // если цифра первого числа больше цифры второго
+		for (int i = n1->len - 1; i >= 0; i--) // Цикл до последней числа
+			if (n1->n[i] > n2->n[i]) // Если цифра первого числа больше цифры второго
 				return 2;
-			if (a->n[i] < b->n[i]) // наоборот
+			else if (n1->n[i] < n2->n[i]) // Наоборот
 				return 1;
-		}
-		return 0; // если длины двух чисел и все их цифры оказались равны (числа равны)
+		return 0; // Если длины двух чисел и все их цифры оказались равны (числа равны)
 	}
 }
-
-// N-2 Малюкова Мария
-
-bool NZER_N_B(N* a) {
-	return (a->len != 1 || a->n[0] != 0); // число не состоит из одного знака или не имеет на конце 0,
-} // если оба этих условия выполняются, то число - ноль
-
-// N-3 Сапрунов Степан
-
+// N-2
+bool NZER_N_B(N* n)
+{
+	return (n->len != 1 || n->n[0] != 0); // Число равно 0, если в числе есть только один разряд и он равен 0
+}
+// N-3
 N* ADD_1N_N(N* n)
 {
-	N* a = assignmentN(n);
-	if (a->n[0] != 9) // Если последний разряд числа не равен 9, то прибавляем к нему единицу
-		(a->n[0])++;
+	N* result = assignmentN(n);
+	if (result->n[0] != 9) // Если последний разряд числа не равен 9, то прибавляем к нему единицу
+		result->n[0]++;
 	else // Если последний разряд равен 9, то заменяем его и все последующие девятки на нули и прибавляем единицу к первой не девятке 
 	{
-		unsigned int count = 0;
-		while (a->n[count] == 9)
-			(a->n[count++]) = 0;
-		if (count == a->len) // Если в числе все цифры девятки, то необходимо создать новый разряд
+		int count = 0;
+		while (result->n[count] == 9)
+			result->n[count++] = 0;
+		if (count == result->len) // Если в числе все цифры девятки, то необходимо создать новый разряд
 		{
-			a->len++; // Увеличиваем длину числа на 1
-			a->n = (int*)realloc(a->n, (a->len) * sizeof(int));  // Создаём новый разряд
-			a->n[count] = 1;  // Значение нового разряда равно единице
+			result->len++; // Увеличиваем длину числа на 1
+			result->n = (int*)realloc(result->n, result->len * sizeof(int));  // Создаём новый разряд
+			result->n[count] = 1; // Значение нового разряда равно единице
 		}
 		else
-			(a->n[count])++;  // Если в числе не все девятки, то первую не девятку увеличиваем на единицу
+			result->n[count]++; // Если в числе не все девятки, то первую не девятку увеличиваем на единицу
 	}
-	return a;
+	return result;
 }
-
-// N-4 Мартынова Ксения
-
-N* ADD_NN_N(N* a, N* b)
+// N-4
+N* ADD_NN_N(N* n1, N* n2)
 {
 	N* result;
-	if (COM_NN_D(a, b) == 2) // Если a>b
+	if (COM_NN_D(n1, n2) == 2) // Если n1>n2
 	{
-		result = assignmentN(a); // Будем прибавлять к а
-		int size = b->len; // Если у b меньше разрядов чем у а, то нет нужды изменять разряды, начиная с b->len+2
+		result = assignmentN(n1); // Будем прибавлять к n1
+		int size = n2->len; // Если у n2 меньше разрядов чем у n1, то нет нужды изменять разряды, начиная с n2->len+2
 		for (int i = 0; i < size; i++)
 		{
-			result->n[i] += b->n[i]; // Складываем соответствующие разряды
+			result->n[i] += n2->n[i]; // Складываем соответствующие разряды
 			if (result->n[i]>9)	// Если результат больше 9, то берём остаток от деления на 10 и добавляем единицу в следующий разряд
 			{
 				result->n[i] %= 10;
 				int g = i;
-				do {
+				do
+				{
 					if (g == result->len - 1) // Если следующего разряда нет, то он создаётся
 					{
-						result->n = (int*)realloc(result->n, (++result->len) * sizeof(int));
+						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
 						result->n[g + 1] = 1; // Следующему "пустому" разряду присваивается единица
 					}
 					else
@@ -213,21 +226,22 @@ N* ADD_NN_N(N* a, N* b)
 			}
 		}
 	}
-	else // Если a<b
+	else // Если n1<n2
 	{
-		result = assignmentN(b); // Будем прибавлять к b
-		int size = a->len; // Если у а меньше разрядов чем у b, то нет нужды изменять разряды, начиная с a->len+2
+		result = assignmentN(n2); // Будем прибавлять к n2
+		int size = n1->len; // Если у n1 меньше разрядов чем у n2, то нет нужды изменять разряды, начиная с n1->len+2
 		for (int i = 0; i < size; i++)
 		{
-			result->n[i] += a->n[i]; // Складываем соответствующие разряды
+			result->n[i] += n1->n[i]; // Складываем соответствующие разряды
 			if (result->n[i]>9)	// Если результат больше 9, то берём остаток от деления на 10 и добавляем единицу в следующий разряд
 			{
 				result->n[i] %= 10;
 				int g = i;
-				do {
+				do
+				{
 					if (g == result->len - 1) // Если следующего разряда нет, то он создаётся
 					{
-						result->n = (int*)realloc(result->n, (++result->len) * sizeof(int));
+						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
 						result->n[g + 1] = 1; // Следующему "пустому" разряду присваивается единица
 					}
 					else
@@ -240,45 +254,50 @@ N* ADD_NN_N(N* a, N* b)
 	}
 	return result;
 }
-
-// N-5 Марушевский Тихон
-
-N* SUB_NN_N(N* a, N* b) {
-	N* c = zeroN();
+// N-5
+N* SUB_NN_N(N* n1, N* n2)
+{
+	N* result = zeroN();
 	bool temp = false;
-	if (COM_NN_D(a, b) == 2) { // проверка на правильность введенных данных
-		c->n = (int*)realloc(c->n, a->len * sizeof(int)); // выделение памяти под очередную цифру результата
-		c->len = a->len;
-		for (int i = 0; i < a->len; i++) { // цикл до конца числа
-			if (i < b->len) { // если счётчик меньше длины меньшего числа (числа "накладываются" друг на друга)
-				if (a->n[i] >= b->n[i] + temp) { // если цифра большего числа больше или равна цифре меньшего числа
-					c->n[i] = a->n[i] - b->n[i] - temp; // проводим обыкновенное вычитание
+	if (COM_NN_D(n1, n2) == 2) // Проверка на правильность введенных данных
+	{
+		result->n = (int*)realloc(result->n, n1->len * sizeof(int)); // Выделение памяти под очередную цифру результата
+		result->len = n1->len;
+		for (int i = 0; i < n1->len; i++) // Цикл до конца числа
+		{
+			if (i < n2->len) // Если счётчик меньше длины меньшего числа (числа "накладываются" друг на друга)
+			{
+				if (n1->n[i] >= n2->n[i] + temp) // Если цифра большего числа больше или равна цифре меньшего числа
+				{
+					result->n[i] = n1->n[i] - n2->n[i] - temp; // Проводим обыкновенное вычитание
 					temp = false;
 				}
-				else { // если цифра большего числа меньше цифры меньшего числа
-					c->n[i] = a->n[i] + 10 - b->n[i] - temp;
+				else // Если цифра большего числа меньше цифры меньшего числа
+				{
+					result->n[i] = n1->n[i] + 10 - n2->n[i] - temp;
 					temp = true;
 				}
 			}
-			else {
-				if (temp) {
-					if (a->n[i] == 0)
-						c->n[i] = 9;
-					else {
-						c->n[i] = a->n[i] - temp;
+			else
+			{
+				if (temp)
+					if (n1->n[i] == 0)
+						result->n[i] = 9;
+					else
+					{
+						result->n[i] = n1->n[i] - temp;
 						temp = false;
 					}
-				}
 				else
-					c->n[i] = a->n[i]; // иначе мы ничего с цифрами не делаем, а просто "переписываем" их в результат
+					result->n[i] = n1->n[i]; // Иначе мы ничего с цифрами не делаем, а просто "переписываем" их в результат
 			}
 		}
-		deNULL(c); // (отбрасываем образовавшиеся незначащие нули)
+		deNULL(result); // Отбрасываем образовавшиеся незначащие нули
 	}
-	return c;
+	return result;
 }
 
-// N-6 Скуфин Демид
+// N-6
 
 N* MUL_ND_N(N* a, int b)
 {
@@ -309,7 +328,7 @@ N* MUL_ND_N(N* a, int b)
 	return c;
 }
 
-// N-7 Скуфин Демид
+// N-7
 
 N* MUL_Nk_N(N* a, int b)
 {
@@ -328,7 +347,7 @@ N* MUL_Nk_N(N* a, int b)
 	return c;
 }
 
-// N-8 Калимулин Вячеслав
+// N-8
 
 N* MUL_NN_N(N* a, N* b)
 {
@@ -347,9 +366,9 @@ N* MUL_NN_N(N* a, N* b)
 	return result;
 }
 
-// N-9 Марушевский Тихон
+// N-9
 
-N* SUB_NDN_N(N* a, N* b, int d)
+N* SUB_NDN_N(N* a, int d, N* b)
 {
 	N* first, *second;
 	N* result;
@@ -370,9 +389,9 @@ N* SUB_NDN_N(N* a, N* b, int d)
 	return result;
 }
 
-// N-10 Павлов Андрей
+// N-10
 
-int DIV_NN_Dk(N* a, N* b, int &k)
+int DIV_NN_Dk(N* a, N* b, int& k)
 {
 	int Result = 1, // Первая цифра деления
 		Flag; // Переменная для выхода из цикла
@@ -412,7 +431,7 @@ int DIV_NN_Dk(N* a, N* b, int &k)
 	return Result;
 }
 
-// N-11 Павлов Андрей
+// N-11
 
 N* DIV_NN_N(N* a, N* b)
 {
@@ -461,7 +480,7 @@ N* DIV_NN_N(N* a, N* b)
 		return Result;
 }
 
-// N-12 Макаренко Данил
+// N-12
 
 N* MOD_NN_N(N* num, N* mod) {
 	// num - (num div mod) * mod
@@ -481,7 +500,7 @@ N* MOD_NN_N(N* num, N* mod) {
 	return result;
 }
 
-// N-13 Оранская Мария
+// N-13
 
 N* GCF_NN_N(N* a, N* b)
 {
@@ -512,7 +531,7 @@ N* GCF_NN_N(N* a, N* b)
 	return First;
 }
 
-// N-14 Оранская Мария
+// N-14
 
 N* LCM_NN_N(N* First, N* Second)
 {

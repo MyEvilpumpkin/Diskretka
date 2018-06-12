@@ -1,5 +1,6 @@
 #include "modules.h"
 
+// Функция вызова N-модулей
 void N_module(int option)
 {
 	switch (option)
@@ -67,9 +68,9 @@ void N_module(int option)
 		printf("Введите натуральное число: ");
 		N* a = inputN();
 		printf("Введите число: ");
-		int n = getNumber();
+		int d = getNumber();
 		printf("Результат: ");
-		N* r = MUL_ND_N(a, n);
+		N* r = MUL_ND_N(a, d);
 		printN(r);
 		freeN(r);
 		freeN(a);
@@ -106,12 +107,12 @@ void N_module(int option)
 	{
 		printf("Введите первое натуральное число: ");
 		N* a = inputN();
+		printf("Введите число: ");
+		int d = getNumber();
 		printf("Введите второе натуральное число: ");
 		N* b = inputN();
-		printf("Введите число: ");
-		int n = getNumber();
 		printf("Результат: ");
-		N* r = SUB_NDN_N(a, b, n);
+		N* r = SUB_NDN_N(a, d, b);
 		printN(r);
 		freeN(r);
 		freeN(a);
@@ -124,8 +125,8 @@ void N_module(int option)
 		N* a = inputN();
 		printf("Введите второе натуральное число: ");
 		N* b = inputN();
-		int n = 0;
-		printf("Результат: %d", DIV_NN_Dk(a, b, n));
+		int k = 0;
+		printf("Результат: %d", DIV_NN_Dk(a, b, k));
 		freeN(a);
 		freeN(b);
 	}
@@ -191,7 +192,7 @@ void N_module(int option)
 	system("pause");
 	system("cls");
 }
-
+// Функция вызова Z-модулей
 void Z_module(int option)
 {
 	switch (option)
@@ -323,7 +324,7 @@ void Z_module(int option)
 	system("pause");
 	system("cls");
 }
-
+// Функция вызова Q-модулей
 void Q_module(int option)
 {
 	switch (option)
@@ -428,7 +429,7 @@ void Q_module(int option)
 	system("pause");
 	system("cls");
 }
-
+// Функция вызова P-модулей
 void P_module(int option)
 {
 	switch (option)

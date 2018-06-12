@@ -68,14 +68,14 @@ Z* freeZ(Z* z) {
 
 // Z-1 Андрианова Вера
 
-N* ABS_Z_N(Z *a)
+N* ABS_Z_N(Z* a)
 {
 	return assignmentN(a->number); // возвращаем число натуральную часть числа (целое = натуральное + знак)
 }
 
 // Z-2 Макаренко Данил
 
-int POZ_Z_D(Z *a)
+int POZ_Z_D(Z* a)
 {
 	if (!a->sign) // если число отрицательное
 		return 1;
@@ -99,7 +99,7 @@ Z* MUL_ZM_Z(Z* a)
 
 // Z-4 Мищенко Алина
 
-Z *TRANS_N_Z(N *a)
+Z *TRANS_N_Z(N* a)
 {
 	Z *z = (Z*)malloc(sizeof(Z));
 	z->number = assignmentN(a); // присваиваем целому результату натуральное число 
@@ -109,14 +109,14 @@ Z *TRANS_N_Z(N *a)
 
 // Z-5 Манжиков Леонид
 
-N *TRANS_Z_N(Z *a)
+N *TRANS_Z_N(Z* a)
 {
 	return assignmentN(a->number); // возвращаем число натуральную часть числа
 }
 
 // Z-6 Стоянова Алина
 
-Z *ADD_ZZ_Z(Z *num1, Z *num2)
+Z *ADD_ZZ_Z(Z* num1, Z* num2)
 {
 	Z* sum = (Z*)malloc(sizeof(Z));
 	if (num1->sign == num2->sign) { // если знаки двух чисел одинаковы
@@ -142,7 +142,7 @@ Z *ADD_ZZ_Z(Z *num1, Z *num2)
 
 // Z-7 Стоянова Алина
 
-Z *SUB_ZZ_Z(Z *num1, Z *num2)
+Z *SUB_ZZ_Z(Z* num1, Z* num2)
 {
 	Z *n2 = (Z*)malloc(sizeof(Z));
 	n2->number = assignmentN(num2->number); // присваиваем вычитаемому значение меньшего числа 
@@ -154,7 +154,7 @@ Z *SUB_ZZ_Z(Z *num1, Z *num2)
 
 // Z-8 Манжиков Леонид
 
-Z *MUL_ZZ_Z(Z *num1, Z *num2)
+Z *MUL_ZZ_Z(Z* num1, Z* num2)
 {
 	Z *mul = (Z*)malloc(sizeof(Z));
 	mul->number = MUL_NN_N(num1->number, num2->number); // присваиваем результату по модулю значение произведения первого числа на второе по модулю
