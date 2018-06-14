@@ -8,183 +8,183 @@ void N_module(int option)
 	case 1:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
-		printf("–езультат: %d", COM_NN_D(a, b));
-		freeN(a);
-		freeN(b);
+		N* n2 = inputN();
+		printf("–езультат: %d", COM_NN_D(n1, n2));
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 2:
 	{
 		printf("¬ведите натуральное число: ");
-		N* a = inputN();
-		printf("–езультат: %d", NZER_N_B(a));
-		freeN(a);
+		N* n = inputN();
+		printf("–езультат: %d", NZER_N_B(n));
+		freeN(n);
 	}
 	break;
 	case 3:
 	{
 		printf("¬ведите натуральное число: ");
-		N* a = inputN();
+		N* n = inputN();
 		printf("–езультат: ");
-		N* r = ADD_1N_N(a);
-		printN(r);
-		freeN(r);
-		freeN(a);
+		N* result = ADD_1N_N(n);
+		printN(result);
+		freeN(result);
+		freeN(n);
 	}
 	break;
 	case 4:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = ADD_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = ADD_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 5:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = SUB_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = SUB_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 6:
 	{
 		printf("¬ведите натуральное число: ");
-		N* a = inputN();
+		N* n = inputN();
 		printf("¬ведите число: ");
 		int d = getNumber();
 		printf("–езультат: ");
-		N* r = MUL_ND_N(a, d);
-		printN(r);
-		freeN(r);
-		freeN(a);
+		N* result = MUL_ND_N(n, d);
+		printN(result);
+		freeN(result);
+		freeN(n);
 	}
 	break;
 	case 7:
 	{
 		printf("¬ведите натуральное число: ");
-		N* a = inputN();
+		N* n = inputN();
 		printf("¬ведите число: ");
-		int n = getNumber();
+		int k = getNumber();
 		printf("–езультат: ");
-		N* r = MUL_Nk_N(a, n);
-		printN(r);
-		freeN(r);
-		freeN(a);
+		N* result = MUL_Nk_N(n, k);
+		printN(result);
+		freeN(result);
+		freeN(n);
 	}
 	break;
 	case 8:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = MUL_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = MUL_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 9:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите число: ");
 		int d = getNumber();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = SUB_NDN_N(a, d, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = SUB_NDN_N(n1, d, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 10:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		int k = 0;
-		printf("–езультат: %d", DIV_NN_Dk(a, b, k));
-		freeN(a);
-		freeN(b);
+		printf("–езультат: %d", DIV_NN_Dk(n1, n2, k));
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 11:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = DIV_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = DIV_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 12:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = MOD_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = MOD_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 13:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = GCF_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = GCF_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	case 14:
 	{
 		printf("¬ведите первое натуральное число: ");
-		N* a = inputN();
+		N* n1 = inputN();
 		printf("¬ведите второе натуральное число: ");
-		N* b = inputN();
+		N* n2 = inputN();
 		printf("–езультат: ");
-		N* r = LCM_NN_N(a, b);
-		printN(r);
-		freeN(r);
-		freeN(a);
-		freeN(b);
+		N* result = LCM_NN_N(n1, n2);
+		printN(result);
+		freeN(result);
+		freeN(n1);
+		freeN(n2);
 	}
 	break;
 	}

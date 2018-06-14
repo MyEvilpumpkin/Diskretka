@@ -296,66 +296,42 @@ N* SUB_NN_N(N* n1, N* n2)
 	}
 	return result;
 }
-
 // N-6
-
-N* MUL_ND_N(N* a, int b)
-{
-	N* c = zeroN();
-	int temp = 0, l = 0, temp2 = 0; //инициализация двух временных переменных и степени нашего результата
-	for (int i = 0; i < a->len; i++) //до тех пор, пока не кончится число
-	{
-		c->n = (int*)realloc(c->n, (l + 1) * sizeof(int)); //выделение памяти под текущую цифру
-		c->n[i] = 0; //обнуление первой временной переменной
-		temp = a->n[i] * b + temp2; //присваиваем временной переменной сумму (произведения цифры исходного числа на цифру) и второй временной переменной
-		temp2 = 0;//обнуление второй временной переменной
-		if (temp > 9) //если произведение цифры исходного числа на цифру больше 9
-		{
-			c->n[i] = temp % 10; //присваиваем текущей цифре результата младший разряд первой временной переменной
-			temp2 = temp / 10; //присваиваем второй временной переменной все остальные разряды
-		}
-		else
-			c->n[i] = temp; //присваиваем текущей цифре первую временную переменную
-		l++; //увеличиваем счётчик степени результата
-	}
-	if (temp2 != 0) { //если наше число необходимо увеличить
-		c->n = (int*)realloc(c->n, (l + 1) * sizeof(int)); //выделяем память под новую цифру
-		c->n[l] = temp2; //присваиваем этой цифре вторую временную переменную
-		l++; //увеличиваем счётчик степени результата на 1
-	}
-	c->len = l; //присваиваем длине результата счётчик степени
-	c = deNULL(c);
-	return c;
-}
-
-// N-7
-
-N* MUL_Nk_N(N* a, int b)
-{
-	N* c = zeroN();
-	int len = a->len + b; // инициализируем размер суммой длины исходного числа и заданной степени k
-	c->n = (int*)realloc(c->n, len * sizeof(int)); // выделяем память для нашего числа
-	for (int i = 0; i < len; i++) // цикл до конца числа
-	{
-		if (i < b) // если счётчик меньше степни k
-			c->n[i] = 0; // "домножаем" наше число на 10
-		else
-			c->n[i] = a->n[i - b]; // подставляем на новую позицию (на k больше) цифру исходного числа
-	}
-	c->len = len; // присваиваем длине результата сумму len
-	c = deNULL(c);
-	return c;
-}
-
-// N-8
-
-N* MUL_NN_N(N* a, N* b)
+N* MUL_ND_N(N* n, int d)
 {
 	N* result = zeroN();
-	N* temp, *tmp;
-	for (int i = 0; i < b->len; i++) { // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
-		tmp = MUL_ND_N(a, b->n[i]);
-		temp = MUL_Nk_N(tmp, i); // умноженная на второй сомножитель и на 10^i
+	for (int i = 0; i < d; i++)
+	{
+		N* temp = ADD_NN_N(result, n); // d раз прибавлем к результату n
+		freeN(result);
+		result = assignmentN(temp);
+		freeN(temp);
+	}
+	return result;
+}
+// N-7
+N* MUL_Nk_N(N* n, int k)
+{
+	N* result = zeroN();
+	int len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
+	result->n = (int*)realloc(result->n, len * sizeof(int)); // Выделяем память для нашего числа
+	for (int i = 0; i < len; i++) // Цикл до конца числа
+		if (i < k) // Tсли счётчик меньше степни k
+			result->n[i] = 0; // "Домножаем" наше число на 10
+		else
+			result->n[i] = n->n[i - k]; // Подставляем на новую позицию (на k больше) цифру исходного числа
+	result->len = len; // Присваиваем длине результата сумму len
+	result = deNULL(result);
+	return result;
+}
+// N-8
+N* MUL_NN_N(N* n1, N* n2)
+{
+	N *result = zeroN(), *temp, *tmp;
+	for (int i = 0; i < n2->len; i++) // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
+	{
+		tmp = MUL_ND_N(n1, n2->n[i]);
+		temp = MUL_Nk_N(tmp, i); // Умноженная на второй сомножитель и на 10^i
 		freeN(tmp);
 		tmp = ADD_NN_N(result, temp);
 		freeN(result);
@@ -365,180 +341,172 @@ N* MUL_NN_N(N* a, N* b)
 	}
 	return result;
 }
-
 // N-9
-
-N* SUB_NDN_N(N* a, int d, N* b)
+N* SUB_NDN_N(N* n1, int d, N* n2)
 {
-	N* first, *second;
-	N* result;
-	N* temp;
-	if (COM_NN_D(a, b) == 2) { // если первое число больше второго
-		first = assignmentN(a); // присваивание
-		second = assignmentN(b);
+	N *first, *second, *result, *temp;
+	if (COM_NN_D(n1, n2) == 2) //  Если первое число больше второго
+	{
+		first = assignmentN(n1); // Присваивание
+		second = assignmentN(n2);
 	}
-	else {
-		first = assignmentN(b); // присваивание
-		second = assignmentN(a);
+	else
+	{
+		first = assignmentN(n2); // Присваивание
+		second = assignmentN(n1);
 	}
-	temp = MUL_ND_N(second, d); // меньшее домножаем на цифру
-	result = SUB_NN_N(first, temp); // вычитаем из большего числа меньшее (домноженное на цифру)
-	free(temp);
+	temp = MUL_ND_N(second, d); // Меньшее домножаем на цифру
+	result = SUB_NN_N(first, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
+	freeN(temp);
 	freeN(first);
 	freeN(second);
 	return result;
 }
-
 // N-10
-
-int DIV_NN_Dk(N* a, N* b, int& k)
+int DIV_NN_Dk(N* n1, N* n2, int& k)
 {
-	int Result = 1, // Первая цифра деления
-		Flag; // Переменная для выхода из цикла
-	N* Temp; // Временная переменная для хранения произведения
+	int result = 1, flag;
+	N *temp, *first, *second;
 	k = 0;
-	N* First, *Second;
-	if (COM_NN_D(a, b) == 2) { // если делимое - первое число
-		First = assignmentN(a); // делимое 
-		Second = assignmentN(b); // делитель
+	if (COM_NN_D(n1, n2) == 2) // Если делимое - первое число
+	{
+		first = assignmentN(n1); // Делимое 
+		second = assignmentN(n2); // Делитель
 	}
-	else { // наоборот
-		First = assignmentN(b);
-		Second = assignmentN(a);
+	else // Наоборот
+	{
+		first = assignmentN(n2);
+		second = assignmentN(n1);
 	}
 	do
 	{
-		Temp = MUL_Nk_N(Second, k); // Умножаем делитель на 10^k
-		Flag = COM_NN_D(First, Temp); // Сравниваем делимое и произведение
-		freeN(Temp);
-		if (Flag != 1) // Если произведение меньше, то увеличиваем степень 10
+		temp = MUL_Nk_N(second, k); // Умножаем делитель на 10^k
+		flag = COM_NN_D(first, temp); // Сравниваем делимое и произведение
+		freeN(temp);
+		if (flag != 1) // Если произведение меньше, то увеличиваем степень 10
 			k++;
-	} while (Flag != 1); // Пока произведение не станет больше делителя
+	} while (flag != 1); // Пока произведение не станет больше делителя
 	k--; // Так как при последнем сравнении k стало больше на 1 от необходимого
-	Temp = MUL_Nk_N(Second, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+	temp = MUL_Nk_N(second, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
 	do
 	{
-		N* tmp = MUL_ND_N(Temp, Result); // Вычисляем произведение на цифру
-		Flag = COM_NN_D(First, tmp); // Сравниваем его с делимым
-		if (Flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
-			Result++;
+		N* tmp = MUL_ND_N(temp, result); // Вычисляем произведение на цифру
+		flag = COM_NN_D(first, tmp); // Сравниваем его с делимым
+		if (flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
+			result++;
 		freeN(tmp);
-	} while (Flag != 1);
-	Result--; // Аналогично значению степени
-	freeN(Temp);
-	freeN(First);
-	freeN(Second);
-	return Result;
+	} while (flag != 1);
+	result--; // Аналогично значению степени
+	freeN(temp);
+	freeN(first);
+	freeN(second);
+	return result;
 }
-
 // N-11
-
-N* DIV_NN_N(N* a, N* b)
+N* DIV_NN_N(N* n1, N* n2)
 {
-	N* First, *Second;
-	if (COM_NN_D(a, b) == 2) {
-		First = assignmentN(a);
-		Second = assignmentN(b);
+	N *first, *second, *tempRes, *temp;
+	if (COM_NN_D(n1, n2) == 2)
+	{
+		first = assignmentN(n1);
+		second = assignmentN(n2);
 	}
-	else {
-		First = assignmentN(b);
-		Second = assignmentN(a);
+	else
+	{
+		first = assignmentN(n2);
+		second = assignmentN(n1);
 	}
-	N* Result = zeroN(); // Частное от деления
-	N* Part = assignmentN(First); // Временный остаток от деления
-	N* TempRes, *Temp; // Временный делитель
-	int Numb, // Первая цифра от деления
-		Flag, // Переменная для выхода из цикла
-		k = 0; // Степень десятки
-	if (NZER_N_B(Second))
+	N* result = zeroN(); // Частное от деления
+	N* part = assignmentN(first); // Временный остаток от деления
+	int numb, flag, k = 0;
+	if (NZER_N_B(second))
 		do
 		{
-			Numb = DIV_NN_Dk(Part, Second, k); // Вычисляем первую цифру и степень десятки при делении
-			TempRes = zeroN(); // 16 - 20 строки - это создание ппроизведения первой цифры деления на 10^k
-			Temp = ADD_1N_N(TempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
-			freeN(TempRes);
-			TempRes = MUL_ND_N(Temp, Numb); // Умножаем 1 на первую цифру деления
-			freeN(Temp);
-			Temp = MUL_Nk_N(TempRes, k); // Умножаем на 10^k
-			freeN(TempRes);
-			TempRes = ADD_NN_N(Result, Temp); // Добавление временного результата к общему
-			freeN(Result);
-			Result = assignmentN(TempRes);
-			freeN(TempRes);
-			TempRes = MUL_NN_N(Temp, Second);
-			freeN(Temp);
-			Temp = SUB_NN_N(Part, TempRes); // Вычисление временного остатка
-			freeN(Part);
-			Part = assignmentN(Temp);
-			freeN(Temp);
-			Flag = COM_NN_D(Part, Second); // Сравниваем "делимое" и делитель
-			freeN(TempRes);
-		} while (Flag != 1);
-		freeN(Part);
-		freeN(First);
-		freeN(Second);
-		return Result;
+			numb = DIV_NN_Dk(part, second, k); // Вычисляем первую цифру и степень десятки при делении
+			tempRes = zeroN(); // Cоздание ппроизведения первой цифры деления на 10^k
+			temp = ADD_1N_N(tempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
+			freeN(tempRes);
+			tempRes = MUL_ND_N(temp, numb); // Умножаем 1 на первую цифру деления
+			freeN(temp);
+			temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
+			freeN(tempRes);
+			tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
+			freeN(result);
+			result = assignmentN(tempRes);
+			freeN(tempRes);
+			tempRes = MUL_NN_N(temp, second);
+			freeN(temp);
+			temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
+			freeN(part);
+			part = assignmentN(temp);
+			freeN(temp);
+			flag = COM_NN_D(part, second); // Сравниваем "делимое" и делитель
+			freeN(tempRes);
+		} while (flag != 1);
+		freeN(part);
+		freeN(first);
+		freeN(second);
+		return result;
 }
-
 // N-12
+N* MOD_NN_N(N* n1, N* n2)
+{
+	N *temp, *tmp, *result;
+	temp = DIV_NN_N(n1, n2); // Числитель от деления большего числа на меньшее
+	if (COM_NN_D(n1, n2) == 2)
+	{
 
-N* MOD_NN_N(N* num, N* mod) {
-	// num - (num div mod) * mod
-	N* temp, *tmp, *result;
-	temp = DIV_NN_N(num, mod); // числитель от деления большего числа на меньшее
-	if (COM_NN_D(num, mod) == 2) {
-
-		tmp = MUL_NN_N(temp, mod); // произведение числителя и меньшего числа
-		result = SUB_NN_N(num, tmp); // разность большего числа и произведения
+		tmp = MUL_NN_N(temp, n2); // Произведение числителя и меньшего числа
+		result = SUB_NN_N(n1, tmp); // Разность большего числа и произведения
 	}
-	else {
-		tmp = MUL_NN_N(temp, num); // произведение числителя и меньшего числа
-		result = SUB_NN_N(mod, tmp); // разность большего числа и произведения
+	else
+	{
+		tmp = MUL_NN_N(temp, n1); // Произведение числителя и меньшего числа
+		result = SUB_NN_N(n2, tmp); // Разность большего числа и произведения
 	}
 	freeN(temp);
 	freeN(tmp);
 	return result;
 }
-
 // N-13
-
-N* GCF_NN_N(N* a, N* b)
+N* GCF_NN_N(N* n1, N* n2)
 {
-	N* First = assignmentN(a);
-	N* Second = assignmentN(b);
+	N* first = assignmentN(n1);
+	N* second = assignmentN(n2);
 	N* temp;
-	while (NZER_N_B(First) && NZER_N_B(Second)) //пока оба числа - не нули
+	while (NZER_N_B(first) && NZER_N_B(second)) // Пока оба числа - не нули
 	{
-		if (COM_NN_D(First, Second) > 1) { // Если первое больше второго
-			temp = MOD_NN_N(First, Second); // Находим остаток от деления первого на второе
-			freeN(First);
-			First = assignmentN(temp);
+		if (COM_NN_D(first, second) > 1) // Если первое больше второго
+		{
+			temp = MOD_NN_N(first, second); // Находим остаток от деления первого на второе
+			freeN(first);
+			first = assignmentN(temp);
 			freeN(temp);
 		}
-		else {
-			temp = MOD_NN_N(Second, First); // Иначе - остаток от деления второго на первое
-			freeN(Second);
-			Second = assignmentN(temp);
+		else
+		{
+			temp = MOD_NN_N(second, first); // Иначе - остаток от деления второго на первое
+			freeN(second);
+			second = assignmentN(temp);
 			freeN(temp);
 		}
 
 	}
-	if (COM_NN_D(First, Second) != 2) { // если первое число - больше второго
-		freeN(First);
-		First = assignmentN(Second); // меняем их местами
+	if (COM_NN_D(first, second) != 2) // Если первое число - больше второго
+	{
+		freeN(first);
+		first = assignmentN(second); // Меняем их местами
 	}
-	freeN(Second);
-	return First;
+	freeN(second);
+	return first;
 }
-
 // N-14
-
-N* LCM_NN_N(N* First, N* Second)
+N* LCM_NN_N(N* n1, N* n2)
 {
-	N* NOD = GCF_NN_N(First, Second); // НОД двух чисел
-	N* Temp = MUL_NN_N(First, Second); // Произведение двух чисел
-	N* NOK = DIV_NN_N(Temp, NOD); // НОК двух чисел
-	freeN(NOD);
-	freeN(Temp);
-	return NOK;
+	N* nod = GCF_NN_N(n1, n2); // НОД двух чисел
+	N* temp = MUL_NN_N(n1, n2); // Произведение двух чисел
+	N* nok = DIV_NN_N(temp, nod); // НОК двух чисел
+	freeN(nod);
+	freeN(temp);
+	return nok;
 }
