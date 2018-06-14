@@ -34,7 +34,7 @@ Z* inputZ() {
 		}
 	} while (error);
 	free(s);
-	z->number = deNULL(z->number);
+	z->number = deNullN(z->number);
 	return z;
 }
 
@@ -202,7 +202,6 @@ Z* MOD_ZZ_Z(Z* First, N* Second)
 	freeZ(Rest);
 	tmp = SUB_ZZ_Z(First, Temp); // разность между исходным первым числом и произведением
 	freeZ(Temp);
-
 	if (First->sign) { // если знак реузльтата +
 		Rest = (Z*)malloc(sizeof(Z));
 		Rest->number = assignmentN(tmp->number);

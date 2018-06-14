@@ -7,6 +7,8 @@ struct P
 	int len;
 };
 
+P* deNull(P*);
+
 P* initP();
 P* inputP();
 P* zeroP();

@@ -1,5 +1,28 @@
 #include "P_modules.h"
 
+P* deNullP(P* p)
+{
+	int i;
+	bool flag = true;
+	for (i = p->len; i >= 0 && flag; i--) // цикл до последней степени или пока поднят флаг
+		if (p->k[i]->num->number->len != 1 || p->k[i]->num->number->n[0] != 0) // если исследуемый коэффициент - не ноль 
+			flag = false; // опускаем флаг
+	if (i == -1 && flag) {
+		freeP(p);
+		p = zeroP();
+	}
+	else {
+		int len = p->len;
+		p->len = i + 1; // увеличиваем степень многочлена на 1
+		P* temp = assignmentP(p);
+		p->len = len;
+		freeP(p);
+		p = assignmentP(temp);
+		freeP(temp);
+	}
+	return p;
+}
+
 P* initP() {
 	P* p = (P*)malloc(sizeof(P));
 	p->k = (Q**)malloc(sizeof(Q*));
@@ -58,16 +81,10 @@ P* zeroP() {
 
 P* assignmentP(P* p) {
 	P* a = (P*)malloc(sizeof(P));
-	a->k = (Q**)malloc(sizeof(Q*));
 	a->len = p->len;
-	a->k = (Q**)realloc(a->k, (a->len + 1) * sizeof(Q*));
-	for (int i = 0; i <= a->len; i++) {
-		a->k[i] = (Q*)malloc(sizeof(Q));
-		a->k[i]->num = (Z*)malloc(sizeof(Z));
-		a->k[i]->num->sign = p->k[i]->num->sign;
-		a->k[i]->num->number = assignmentN(p->k[i]->num->number);
-		a->k[i]->denom = assignmentN(p->k[i]->denom);
-	}
+	a->k = (Q**)malloc((a->len + 1) * sizeof(Q*));
+	for (int i = 0; i <= a->len; i++)
+		a->k[i] = assignmentQ(p->k[i]);
 	return a;
 }
 
@@ -97,7 +114,7 @@ void printP(P* p) {
 }
 
 P* freeP(P* p) {
-	for (int i = 0; i < p->len; i++)
+	for (int i = 0; i <= p->len; i++)
 		freeQ(p->k[i]);
 	free(p->k);
 	free(p);
@@ -128,22 +145,9 @@ P* ADD_PP_P(P* a, P* b)
 		else
 			Result->k[i] = ADD_QQ_Q(First->k[i], Second->k[i]); // Иначе производим сложение коэффициентов
 	}
-	bool flag = true; // инициализируем флаг как поднятый
-	int i;
-	for (i = First->len; i >= 0 && flag; i--) // цикл до последней степени или пока поднят флаг
-		if (Result->k[i]->num->number->len != 1 || Result->k[i]->num->number->n[0] != 0) // если исследуемый коэффициент - не ноль 
-			flag = false; // опускаем флаг
-	if (i == -1 && flag) {
-		freeP(Result);
-		Result = zeroP();
-	}
-	else {
-		Result->k = (Q**)realloc(Result->k, (i + 2) * sizeof(Q*));
-		Result->len = i + 1; // увеличиваем степень многочлена на 1
-	}
 	freeP(First);
 	freeP(Second);
-	return Result;
+	return deNullP(Result);
 }
 
 // P-2 Ханов Александр
@@ -151,7 +155,7 @@ P* ADD_PP_P(P* a, P* b)
 P* SUB_PP_P(P* First, P* Second)
 {
 	P* SecondCopy = assignmentP(Second); // копируем значение второго многочлена
-	for (int i = 0; i <= Second->len; ++i)
+	for (int i = 0; i <= Second->len; i++)
 		SecondCopy->k[i]->num->sign = !Second->k[i]->num->sign; // меняем знак коэффициентов 2го полинома (его копии) 
 	P* Result = ADD_PP_P(First, SecondCopy); // суммируем первый многочлен и (-1)*второй многочлен
 	freeP(SecondCopy);
@@ -165,9 +169,9 @@ P* MUL_PQ_P(P* Polyn, Q* Numb)
 	P* Result = (P*)malloc(sizeof(P));
 	Result->k = (Q**)malloc((Polyn->len + 1) * sizeof(Q*));
 	Result->len = Polyn->len;
-	for (int i = Polyn->len; i >= 0; i--) // цикл от старшего коэффициента до младшего
+	for (int i = 0; i <= Result->len; i++) // цикл от старшего коэффициента до младшего
 		Result->k[i] = MUL_QQ_Q(Polyn->k[i], Numb); // присваиваем текущему коэффициенту результат произведения текущего коэффициента исходного
-	return Result; // многочлена на рациональное число
+	return deNullP(Result); // многочлена на рациональное число
 }
 
 // P-4 Дяченко Виталий
@@ -190,8 +194,8 @@ P* MUL_Pxk_P(P* Polyn, int k) {
 Q* LED_P_Q(P* p) {
 	for (int i = p->len; i >= 0; i--) // цикл от старшей степени многочлена до младшей
 		if (!(p->k[i]->num->number->len == 1 && p->k[i]->num->number->n[0] == 0)) // если текущий коэффициент = 0
-			return RED_Q_Q(p->k[i]); // возвращаем сокращенное значение этого коэффициента
-	return RED_Q_Q(p->k[0]); // в крайнем случае возвращаем сокращенное значение младшего коэффициента
+			return assignmentQ(RED_Q_Q(p->k[i])); // возвращаем сокращенное значение этого коэффициента
+	return assignmentQ(RED_Q_Q(p->k[0])); // в крайнем случае возвращаем сокращенное значение младшего коэффициента
 }
 
 // P-6 Тюльников Виктор
@@ -247,7 +251,7 @@ Q* FAC_P_Q(P* Polyn)
 
 P* MUL_PP_P(P* First, P* Second)
 {
-	short i = First->len; // Для перебора коэффициентов многочлена
+	int i = First->len; // Для перебора коэффициентов многочлена
 	P* Result; // Результат умножения
 	P* Temp, *tmp; // Результат умножения первого многочлена на коэффициент второго
 	if (i > 0) {
@@ -275,13 +279,12 @@ P* MUL_PP_P(P* First, P* Second)
 P* DIV_PP_P(P* First, P* Second)
 {
 	P* Result = (P*)malloc(sizeof(P)); // Частное от деления многочленов
-	Result->k = (Q**)malloc(sizeof(Q*));
-	P* Temp, *tmp; // Временная переменная
+	P *Temp, *tmp; // Временная переменная
 	P* Part = assignmentP(First); // Остаток от деления
-	short i; // Для перебора коэффициентов
+	int i; // Для перебора коэффициентов
 	Q* Coef; // Коэффициент при исследуемой степени результата
 	Result->len = First->len - Second->len;
-	Result->k = (Q**)realloc(Result->k, (Result->len + 1) * sizeof(Q));
+	Result->k = (Q**)malloc((Result->len + 1) * sizeof(Q*));
 	if (Result->len < 0) {
 		freeP(Result);
 		Result = zeroP();
@@ -357,13 +360,15 @@ P* GCF_PP_P(P* a, P* b)
 P* DER_P_P(P* p) {
 	//Выделение память под многочлен
 	P* res = (P*)malloc(sizeof(P));
-	res->k = (Q**)malloc(p->len * sizeof(P));
+	res->k = (Q**)malloc(p->len * sizeof(Q*));
 	res->len = p->len - 1;
 	Z* temp;
 	Q* tmp;
 	//Расчет коэффициентов
 	for (int i = p->len - 1; i >= 0; i--) { // цикл до младшего коэффициента многочлена
-		temp = TRANS_N_Z(intToN(i + 1));
+		N* iton = intToN(i + 1);
+		temp = TRANS_N_Z(iton);
+		freeN(iton);
 		tmp = TRANS_Z_Q(temp);
 		res->k[i] = MUL_QQ_Q(p->k[i + 1], tmp); //присваиваем текущему коэффициенту значение 
 		freeZ(temp); //(произведения следующего коэффициента и (преобразованной в дробное число степени следующего коэффициента))

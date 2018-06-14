@@ -37,9 +37,7 @@ Q* zeroQ() {
 
 Q* assignmentQ(Q* q) {
 	Q* a = (Q*)malloc(sizeof(Q));
-	a->num = (Z*)malloc(sizeof(Z));
-	a->num->sign = q->num->sign;
-	a->num->number = assignmentN(q->num->number);
+	a->num = assignmentZ(q->num);
 	a->denom = assignmentN(q->denom);
 	return a;
 }
@@ -110,7 +108,7 @@ Q* TRANS_Z_Q(Z* First)
 
 Z* TRANS_Q_Z(Q* First)
 {
-	return RED_Q_Q(First)->num; // возвращаем значение числителя сокращенной дроби 
+	return assignmentZ(RED_Q_Q(First)->num); // возвращаем значение числителя сокращенной дроби 
 }
 
 // Q-5 Дяченко Виталий

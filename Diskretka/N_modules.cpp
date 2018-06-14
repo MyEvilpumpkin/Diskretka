@@ -34,7 +34,7 @@ int getNumber()
 	return toReturn;
 }
 // Удаление лишних нулей в начале числа
-N* deNULL(N* n)
+N* deNullN(N* n)
 {
 	if (n->len != 0)
 	{
@@ -117,7 +117,7 @@ N* inputN()
 		if (n->len == -1)
 			printf("Введены некорректные данные. Введите натуральное число: ");
 	} while (n->len < 1);
-	n = deNULL(n);
+	n = deNullN(n);
 	return n;
 }
 // Инициализация с обнулением
@@ -292,7 +292,7 @@ N* SUB_NN_N(N* n1, N* n2)
 					result->n[i] = n1->n[i]; // Иначе мы ничего с цифрами не делаем, а просто "переписываем" их в результат
 			}
 		}
-		deNULL(result); // Отбрасываем образовавшиеся незначащие нули
+		deNullN(result); // Отбрасываем образовавшиеся незначащие нули
 	}
 	return result;
 }
@@ -321,7 +321,7 @@ N* MUL_Nk_N(N* n, int k)
 		else
 			result->n[i] = n->n[i - k]; // Подставляем на новую позицию (на k больше) цифру исходного числа
 	result->len = len; // Присваиваем длине результата сумму len
-	result = deNULL(result);
+	result = deNullN(result);
 	return result;
 }
 // N-8
