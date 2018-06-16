@@ -109,13 +109,14 @@ N* initN()
 // ¬вод
 N* inputN()
 {
-	N* n = initN();
+	N* n;
 	do
 	{
-		freeN(n);
 		n = input();
-		if (n->len == -1)
+		if (n->len == -1) {
 			printf("¬ведены некорректные данные. ¬ведите натуральное число: ");
+			freeN(n);
+		}
 	} while (n->len < 1);
 	n = deNullN(n);
 	return n;
