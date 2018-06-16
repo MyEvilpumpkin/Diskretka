@@ -511,3 +511,4 @@ N* LCM_NN_N(N* n1, N* n2)
 	freeN(temp);
 	return nok;
 }
+//

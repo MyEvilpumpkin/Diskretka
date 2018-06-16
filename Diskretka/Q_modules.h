@@ -1,16 +1,17 @@
 #pragma once
 #include "Z_modules.h"
 
+// Описание рационального числа
 struct Q
 {
-	Z *num;
-	N *denom;
+	Z *num;   // Числитель (целое число)
+	N *denom; // Знаменатель (натуральное число)
 };
 
-Q* initQ();
-Q* inputQ();
-Q* zeroQ();
-Q* assignmentQ(Q*);
+Q* initQ();         // Инициализация
+Q* inputQ();        // Ввод
+Q* zeroQ();         // Инициализация с обнулением
+Q* assignmentQ(Q*); // Присваивание
 void printQ(Q*);
 Q* freeQ(Q*);
 

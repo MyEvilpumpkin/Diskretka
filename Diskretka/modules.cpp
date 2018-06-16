@@ -200,123 +200,123 @@ void Z_module(int option)
 	case 1:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
+		Z* z = inputZ();
 		printf("–езультат: ");
-		N* r = ABS_Z_N(a);
-		printN(r);
-		freeN(r);
-		freeZ(a);
+		N* result = ABS_Z_N(z);
+		printN(result);
+		freeN(result);
+		freeZ(z);
 	}
 	break;
 	case 2:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
-		printf("–езультат: %d", POZ_Z_D(a));
-		freeZ(a);
+		Z* z = inputZ();
+		printf("–езультат: %d", POZ_Z_D(z));
+		freeZ(z);
 	}
 	break;
 	case 3:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
+		Z* z = inputZ();
 		printf("–езультат: ");
-		Z* r = MUL_ZM_Z(a);
-		printZ(r);
-		freeZ(r);
-		freeZ(a);
+		Z* result = MUL_ZM_Z(z);
+		printZ(result);
+		freeZ(result);
+		freeZ(z);
 	}
 	break;
 	case 4:
 	{
 		printf("¬ведите натуральное число: ");
-		N* a = inputN();
+		N* n = inputN();
 		printf("–езультат: ");
-		Z* r = TRANS_N_Z(a);
-		printZ(r);
-		freeZ(r);
-		freeN(a);
+		Z* result = TRANS_N_Z(n);
+		printZ(result);
+		freeZ(result);
+		freeN(n);
 	}
 	break;
 	case 5:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
+		Z* z = inputZ();
 		printf("–езультат: ");
-		N* r = TRANS_Z_N(a);
-		printN(r);
-		freeN(r);
-		freeZ(a);
+		N* result = TRANS_Z_N(z);
+		printN(result);
+		freeN(result);
+		freeZ(z);
 	}
 	break;
 	case 6:
 	{
 		printf("¬ведите первое целое число: ");
-		Z* a = inputZ();
+		Z* z1 = inputZ();
 		printf("¬ведите второе целое число: ");
-		Z* b = inputZ();
+		Z* z2 = inputZ();
 		printf("–езультат: ");
-		Z* r = ADD_ZZ_Z(a, b);
-		printZ(r);
-		freeZ(r);
-		freeZ(a);
-		freeZ(b);
+		Z* result = ADD_ZZ_Z(z1, z2);
+		printZ(result);
+		freeZ(result);
+		freeZ(z1);
+		freeZ(z2);
 	}
 	break;
 	case 7:
 	{
 		printf("¬ведите первое целое число: ");
-		Z* a = inputZ();
+		Z* z1 = inputZ();
 		printf("¬ведите второе целое число: ");
-		Z* b = inputZ();
+		Z* z2 = inputZ();
 		printf("–езультат: ");
-		Z* r = SUB_ZZ_Z(a, b);
-		printZ(r);
-		freeZ(r);
-		freeZ(a);
-		freeZ(b);
+		Z* result = SUB_ZZ_Z(z1, z2);
+		printZ(result);
+		freeZ(result);
+		freeZ(z1);
+		freeZ(z2);
 	}
 	break;
 	case 8:
 	{
 		printf("¬ведите первое целое число: ");
-		Z* a = inputZ();
+		Z* z1 = inputZ();
 		printf("¬ведите второе целое число: ");
-		Z* b = inputZ();
+		Z* z2 = inputZ();
 		printf("–езультат: ");
-		Z* r = MUL_ZZ_Z(a, b);
-		printZ(r);
-		freeZ(r);
-		freeZ(a);
-		freeZ(b);
+		Z* result = MUL_ZZ_Z(z1, z2);
+		printZ(result);
+		freeZ(result);
+		freeZ(z1);
+		freeZ(z2);
 	}
 	break;
 	case 9:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
+		Z* z = inputZ();
 		printf("¬ведите натуральное число: ");
-		N* b = inputN();
+		N* n = inputN();
 		printf("–езультат: ");
-		Z* r = DIV_ZN_Z(a, b);
-		printZ(r);
-		freeZ(r);
-		freeZ(a);
-		freeN(b);
+		Z* result = DIV_ZN_Z(z, n);
+		printZ(result);
+		freeZ(result);
+		freeZ(z);
+		freeN(n);
 	}
 	break;
 	case 10:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
+		Z* z = inputZ();
 		printf("¬ведите натуральное число: ");
-		N* b = inputN();
+		N* n = inputN();
 		printf("–езультат: ");
-		Z* r = MOD_ZN_Z(a, b);
-		printZ(r);
-		freeZ(r);
-		freeZ(a);
-		freeN(b);
+		Z* result = MOD_ZN_Z(z, n);
+		printZ(result);
+		freeZ(result);
+		freeZ(z);
+		freeN(n);
 	}
 	break;
 	}
