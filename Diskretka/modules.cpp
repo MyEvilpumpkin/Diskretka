@@ -298,7 +298,7 @@ void Z_module(int option)
 		printf("Введите натуральное число: ");
 		N* b = inputN();
 		printf("Результат: ");
-		Z* r = DIV_ZZ_Z(a, b);
+		Z* r = DIV_ZN_Z(a, b);
 		printZ(r);
 		freeZ(r);
 		freeZ(a);
@@ -312,7 +312,7 @@ void Z_module(int option)
 		printf("Введите натуральное число: ");
 		N* b = inputN();
 		printf("Результат: ");
-		Z* r = MOD_ZZ_Z(a, b);
+		Z* r = MOD_ZN_Z(a, b);
 		printZ(r);
 		freeZ(r);
 		freeZ(a);
