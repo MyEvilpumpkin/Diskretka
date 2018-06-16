@@ -3,10 +3,8 @@
 // ¬вод неотрицательных чисел int
 int getNumber()
 {
-	char* number = NULL;
-	int toReturn;
-	char symbol;
-	int lenght = 0;
+	char* number = NULL, symbol;
+	int toReturn, lenght = 0;
 	bool error;
 	do
 	{
@@ -511,4 +509,3 @@ N* LCM_NN_N(N* n1, N* n2)
 	freeN(temp);
 	return nok;
 }
-//

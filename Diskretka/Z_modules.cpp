@@ -53,10 +53,10 @@ Z* zeroZ()
 // Присваивание
 Z* assignmentZ(Z* z)
 {
-	Z* a = (Z*)malloc(sizeof(Z));
-	a->number = assignmentN(z->number);
-	a->sign = z->sign;
-	return a;
+	Z* result = (Z*)malloc(sizeof(Z));
+	result->number = assignmentN(z->number);
+	result->sign = z->sign;
+	return result;
 }
 // Вывод
 void printZ(Z* z)
@@ -197,4 +197,3 @@ Z* MOD_ZN_Z(Z* z, N* n)
 	freeZ(temp);
 	return result;
 }
-//

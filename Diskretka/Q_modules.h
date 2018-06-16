@@ -12,14 +12,14 @@ Q* initQ();         // Инициализация
 Q* inputQ();        // Ввод
 Q* zeroQ();         // Инициализация с обнулением
 Q* assignmentQ(Q*); // Присваивание
-void printQ(Q*);
-Q* freeQ(Q*);
+void printQ(Q*);    // Вывод
+Q* freeQ(Q*);       // Освобождение памяти
 
-Q* RED_Q_Q(Q*);
-bool INT_Q_B(Q*);
-Q* TRANS_Z_Q(Z*);
-Z* TRANS_Q_Z(Q*);
-Q* ADD_QQ_Q(Q*, Q*);
-Q* SUB_QQ_Q(Q*, Q*);
-Q* MUL_QQ_Q(Q*, Q*);
-Q* DIV_QQ_Q(Q*, Q*);
+Q* RED_Q_Q(Q*);      // Q-1
+bool INT_Q_B(Q*);    // Q-2
+Q* TRANS_Z_Q(Z*);    // Q-3
+Z* TRANS_Q_Z(Q*);    // Q-4
+Q* ADD_QQ_Q(Q*, Q*); // Q-5
+Q* SUB_QQ_Q(Q*, Q*); // Q-6
+Q* MUL_QQ_Q(Q*, Q*); // Q-7
+Q* DIV_QQ_Q(Q*, Q*); // Q-8
