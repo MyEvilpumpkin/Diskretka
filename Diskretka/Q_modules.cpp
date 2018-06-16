@@ -1,22 +1,27 @@
 #include "Q_modules.h"
 
-Q* initQ() {
+// Инициализация
+Q* initQ()
+{
 	Q* q = (Q*)malloc(sizeof(Q));
 	q->num = initZ();
 	q->denom = initN();
 	return q;
 }
-
-Q* inputQ() {
+// Ввод
+Q* inputQ()
+{
 	Q* q = (Q*)malloc(sizeof(Q));
 	printf("Введите числитель: ");
 	q->num = inputZ();
 	printf("Введите знаменатель: ");
 	bool error;
-	do {
+	do
+	{
 		error = false;
 		q->denom = inputN();
-		if (q->denom->len == 1 && q->denom->n[0] == 0) {
+		if (q->denom->len == 1 && q->denom->n[0] == 0)
+		{
 			error = true;
 			freeN(q->denom);
 			printf("Введены некорректные данные. Введите знаменатель > 0: ");
@@ -24,144 +29,130 @@ Q* inputQ() {
 	} while (error);
 	return q;
 }
-
-Q* zeroQ() {
+// Инициализация с обнулением
+Q* zeroQ()
+{
 	Q* q = (Q*)malloc(sizeof(Q));
-	q->num = (Z*)malloc(sizeof(Z));
-	q->num->sign = true;
-	q->num->number = zeroN();
+	q->num = zeroZ();
 	q->denom = zeroN();
 	q->denom->n[0] = 1;
 	return q;
 }
-
-Q* assignmentQ(Q* q) {
-	Q* a = (Q*)malloc(sizeof(Q));
-	a->num = assignmentZ(q->num);
-	a->denom = assignmentN(q->denom);
-	return a;
+// Присваивание
+Q* assignmentQ(Q* q)
+{
+	Q* result = (Q*)malloc(sizeof(Q));
+	result->num = assignmentZ(q->num);
+	result->denom = assignmentN(q->denom);
+	return result;
 }
-
-void printQ(Q* q) {
+// Вывод
+void printQ(Q* q)
+{
 	if (!q->num->sign)
 		printf("- ");
 	printN(q->num->number);
-	if (q->denom->len != 1 || q->denom->n[0] != 1) {
+	if (q->denom->len != 1 || q->denom->n[0] != 1)
+	{
 		printf("/");
 		printN(q->denom);
 	}
 }
-
-Q* freeQ(Q* q) {
+// Освобождение памяти
+Q* freeQ(Q* q)
+{
 	freeN(q->denom);
 	freeZ(q->num);
 	free(q);
 	return q;
 }
 
-// Q-1 Мищенко Алина
-
-Q* RED_Q_Q(Q* fraction) {
+// Q-1
+Q* RED_Q_Q(Q* q)
+{
 	Q* temp;
-	N* d = GCF_NN_N(fraction->num->number, fraction->denom); // присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби 
-	while (d->len != 1 or d->n[0] != 1) { // до тех пор пока d не станет равным 1  
+	N* d = GCF_NN_N(q->num->number, q->denom); // Присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби 
+	while (d->len != 1 or d->n[0] != 1) // До тех пор пока d не станет равным 1  
+	{
 		temp = (Q*)malloc(sizeof(Q));
-		temp->num = DIV_ZN_Z(fraction->num, d); // сокращаем числитель на d
-		temp->denom = DIV_NN_N(fraction->denom, d); // сокращаем знаменатель на d
-		freeZ(fraction->num);
-		fraction->num = (Z*)malloc(sizeof(Z));
-		fraction->num->number = assignmentN(temp->num->number);
-		fraction->num->sign = temp->num->sign;
-		freeN(fraction->denom);
-		fraction->denom = assignmentN(temp->denom);
+		temp->num = DIV_ZN_Z(q->num, d); // Сокращаем числитель на d
+		temp->denom = DIV_NN_N(q->denom, d); // Сокращаем знаменатель на d
+		freeZ(q->num);
+		q->num = assignmentZ(temp->num);
+		freeN(q->denom);
+		q->denom = assignmentN(temp->denom);
 		freeQ(temp);
 		freeN(d);
-		d = GCF_NN_N(fraction->num->number, fraction->denom); // присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби  
+		d = GCF_NN_N(q->num->number, q->denom); // Присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби  
 	}
 	freeN(d);
-	return fraction;
+	return q;
 }
-
-// Q-2 Мищенко Алина
-
-bool INT_Q_B(Q* Numb)
+// Q-2
+bool INT_Q_B(Q* q)
 {
-	return (RED_Q_Q(Numb)->denom->len == 1 && RED_Q_Q(Numb)->denom->n[0] == 1); // возвращаем истинность высказывания о том, что знаменатель дроби = 1
+	return (RED_Q_Q(q)->denom->len == 1 && RED_Q_Q(q)->denom->n[0] == 1); // Возвращаем истинность высказывания о том, что знаменатель дроби = 1
 }
-
-// Q-3 Соцкова Ирина
-
-Q* TRANS_Z_Q(Z* First)
+// Q-3
+Q* TRANS_Z_Q(Z* z)
 {
-	Q* Rez = (Q*)malloc(sizeof(Q));
-	Rez->denom = zeroN();
-	Rez->denom->n[0] = 1;
-	Rez->num = (Z*)malloc(sizeof(Z));
-	Rez->num->number = assignmentN(First->number); // присваивание числителю результата значения целого числа
-	Rez->num->sign = First->sign; // копируем знак числа
-	if (First->number->len == 1 && First->number->n[0] == 0) // если число равно нулю
-		Rez->num->sign = true; // то число положительно
-	return Rez; // результат перевода
+	Q* result = (Q*)malloc(sizeof(Q));
+	result->denom = zeroN();
+	result->denom->n[0] = 1;
+	result->num = assignmentZ(z); // Присваивание числителю результата значения целого числа
+	return result;
 }
-
-// Q-4 Соцкова Ирина
-
-Z* TRANS_Q_Z(Q* First)
+// Q-4
+Z* TRANS_Q_Z(Q* q)
 {
-	return assignmentZ(RED_Q_Q(First)->num); // возвращаем значение числителя сокращенной дроби 
+	return assignmentZ(RED_Q_Q(q)->num); // Возвращаем значение числителя сокращенной дроби 
 }
-
-// Q-5 Дяченко Виталий
-
-Q* ADD_QQ_Q(Q* f1, Q* f2) {
-	Q* ans = (Q*)malloc(sizeof(Q));
-	//произведение находим, в знаменатель пишем
-	ans->denom = MUL_NN_N(f1->denom, f2->denom);
-	Z* q1 = (Z*)malloc(sizeof(Z));
-	q1->number = MUL_NN_N(f1->num->number, f2->denom); // присваиваем значению знаменателя f1 произведение числителя f1 и знаменателя f2 
-	q1->sign = f1->num->sign; // копируем знак числителя f1
-	Z* q2 = (Z*)malloc(sizeof(Z));
-	q2->number = MUL_NN_N(f2->num->number, f1->denom); // присваиваем значению знаменателя f2 произведение числителя f2 и знаменателя f1
-	q2->sign = f2->num->sign; // копируем знак числителя f2
-	ans->num = ADD_ZZ_Z(q1, q2);
-	freeZ(q1);
-	freeZ(q2);
-	return RED_Q_Q(ans); // cокращаем дробь
+// Q-5
+Q* ADD_QQ_Q(Q* q1, Q* q2)
+{
+	Q* result = (Q*)malloc(sizeof(Q));
+	result->denom = MUL_NN_N(q1->denom, q2->denom); // Находим произведение и записываем в знаменатель
+	Z* z1 = (Z*)malloc(sizeof(Z));
+	z1->number = MUL_NN_N(q1->num->number, q2->denom); // Присваиваем значению знаменателя q1 произведение числителя q1 и знаменателя q2 
+	z1->sign = q1->num->sign; // Копируем знак числителя q1
+	Z* z2 = (Z*)malloc(sizeof(Z));
+	z2->number = MUL_NN_N(q2->num->number, q1->denom); // Присваиваем значению знаменателя q2 произведение числителя q2 и знаменателя q1
+	z2->sign = q2->num->sign; // Копируем знак числителя q2
+	result->num = ADD_ZZ_Z(z1, z2);
+	freeZ(z1);
+	freeZ(z2);
+	return RED_Q_Q(result);
 }
-
-// Q-6 Зерцалов Владимир
-
-Q* SUB_QQ_Q(Q* f1, Q* f2) {
-	Q* q = assignmentQ(f2);
-	q->num->sign = !f2->num->sign;
-	Q* result = ADD_QQ_Q(f1, q); // складываем первую дробь со второй * (-1)
+// Q-6
+Q* SUB_QQ_Q(Q* q1, Q* q2)
+{
+	Q* q = assignmentQ(q2);
+	q->num->sign = !q2->num->sign;
+	Q* result = ADD_QQ_Q(q1, q); // Складываем первую дробь со второй * (-1)
 	freeQ(q);
 	return result;
 }
-
-// Q-7 Дяченко Виталий
-
-Q* MUL_QQ_Q(Q* First, Q* Second)
+// Q-7
+Q* MUL_QQ_Q(Q* q1, Q* q2)
 {
-	Q* Result = (Q*)malloc(sizeof(Q));
-	Result->denom = MUL_NN_N(First->denom, Second->denom); // перемножаем числители
-	Result->num = MUL_ZZ_Z(First->num, Second->num); // перемножаем знаменатели
-	return RED_Q_Q(Result); // результат умножения
+	Q* result = (Q*)malloc(sizeof(Q));
+	result->denom = MUL_NN_N(q1->denom, q2->denom); // Перемножаем числители
+	result->num = MUL_ZZ_Z(q1->num, q2->num); // Перемножаем знаменатели
+	return RED_Q_Q(result);
 }
-
-// Q-8 Кожанов Даниил
-
-Q* DIV_QQ_Q(Q* First, Q* Second)
+// Q-8
+Q* DIV_QQ_Q(Q* q1, Q* q2)
 {
-	Q* Result;
-	if (Second->num->number->len == 1 && Second->num->number->n[0] == 0) // если числитель = 0
-		Result = zeroQ();
-	else {
-		Result = (Q*)malloc(sizeof(Q));
-		Result->num = (Z*)malloc(sizeof(Z));
-		Result->num->sign = First->num->sign == Second->num->sign; // присвоить знаку результата эквиваленцию знаков двух числителей
-		Result->num->number = MUL_NN_N(First->num->number, Second->denom); // присвоить числителю результата произведение первого числителя и второго знаменателя
-		Result->denom = MUL_NN_N(First->denom, Second->num->number); // присвоить знаменателю результата произведение первого знаменателя и второго числителя
+	Q* result;
+	if (!POZ_Z_D(q1->num) || !POZ_Z_D(q2->num)) // Eсли числитель = 0
+		result = zeroQ();
+	else
+	{
+		result = (Q*)malloc(sizeof(Q));
+		result->num = (Z*)malloc(sizeof(Z));
+		result->num->sign = q1->num->sign == q2->num->sign; // Присвоить знаку результата эквиваленцию знаков двух числителей
+		result->num->number = MUL_NN_N(q1->num->number, q2->denom); // Присвоить числителю результата произведение первого числителя и второго знаменателя
+		result->denom = MUL_NN_N(q1->denom, q2->num->number); // Присвоить знаменателю результата произведение первого знаменателя и второго числителя
 	}
-	return RED_Q_Q(Result);
+	return RED_Q_Q(result);
 }

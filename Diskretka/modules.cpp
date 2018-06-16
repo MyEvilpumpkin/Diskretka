@@ -332,96 +332,96 @@ void Q_module(int option)
 	case 1:
 	{
 		puts("¬ведите рациональное число:");
-		Q* a = inputQ();
+		Q* q = inputQ();
 		printf("–езультат: ");
-		printQ(RED_Q_Q(a));
-		freeQ(a);
+		printQ(RED_Q_Q(q));
+		freeQ(q);
 	}
 	break;
 	case 2:
 	{
 		puts("¬ведите рациональное число:");
-		Q* a = inputQ();
-		printf("–езультат: %d", INT_Q_B(a));
-		freeQ(a);
+		Q* q = inputQ();
+		printf("–езультат: %d", INT_Q_B(q));
+		freeQ(q);
 	}
 	break;
 	case 3:
 	{
 		printf("¬ведите целое число: ");
-		Z* a = inputZ();
+		Z* z = inputZ();
 		printf("–езультат: ");
-		Q* r = TRANS_Z_Q(a);
-		printQ(r);
-		freeQ(r);
-		freeZ(a);
+		Q* result = TRANS_Z_Q(z);
+		printQ(result);
+		freeQ(result);
+		freeZ(z);
 	}
 	break;
 	case 4:
 	{
 		puts("¬ведите рациональное число:");
-		Q* a = inputQ();
+		Q* q = inputQ();
 		printf("–езультат: ");
-		Z* r = TRANS_Q_Z(a);
-		printZ(r);
-		freeZ(r);
-		freeQ(a);
+		Z* result = TRANS_Q_Z(q);
+		printZ(result);
+		freeZ(result);
+		freeQ(q);
 	}
 	break;
 	case 5:
 	{
 		puts("¬ведите первое рациональное число:");
-		Q* a = inputQ();
+		Q* q1 = inputQ();
 		puts("¬ведите второе рациональное число:");
-		Q* b = inputQ();
+		Q* q2 = inputQ();
 		printf("–езультат: ");
-		Q* r = ADD_QQ_Q(a, b);
-		printQ(r);
-		freeQ(r);
-		freeQ(a);
-		freeQ(b);
+		Q* result = ADD_QQ_Q(q1, q2);
+		printQ(result);
+		freeQ(result);
+		freeQ(q1);
+		freeQ(q2);
 	}
 	break;
 	case 6:
 	{
 		puts("¬ведите первое рациональное число:");
-		Q* a = inputQ();
+		Q* q1 = inputQ();
 		puts("¬ведите второе рациональное число:");
-		Q* b = inputQ();
+		Q* q2 = inputQ();
 		printf("–езультат: ");
-		Q* r = SUB_QQ_Q(a, b);
-		printQ(r);
-		freeQ(r);
-		freeQ(a);
-		freeQ(b);
+		Q* result = SUB_QQ_Q(q1, q2);
+		printQ(result);
+		freeQ(result);
+		freeQ(q1);
+		freeQ(q2);
 	}
 	break;
 	case 7:
 	{
 		puts("¬ведите первое рациональное число:");
-		Q* a = inputQ();
+		Q* q1 = inputQ();
 		puts("¬ведите второе рациональное число:");
-		Q* b = inputQ();
+		Q* q2 = inputQ();
 		printf("–езультат: ");
-		Q* r = MUL_QQ_Q(a, b);
-		printQ(r);
-		freeQ(r);
-		freeQ(a);
-		freeQ(b);
+		Q* result = MUL_QQ_Q(q1, q2);
+		printQ(result);
+		freeQ(result);
+		freeQ(q1);
+		freeQ(q2);
 	}
 	break;
 	case 8:
 	{
 		puts("¬ведите первое рациональное число:");
-		Q* a = inputQ();
+		Q* q1 = inputQ();
 		puts("¬ведите второе рациональное число:");
-		Q* b = inputQ();
+		Q* q2 = inputQ();
 		printf("–езультат: ");
-		Q* r = DIV_QQ_Q(a, b);
-		printQ(r);
-		freeQ(r);
-		freeQ(a);
-		freeQ(b);
+		Q* result = DIV_QQ_Q(q1, q2);
+		printQ(result);
+		freeQ(result);
+		freeQ(q1);
+		freeQ(q2);
 	}
 	break;
 	}
