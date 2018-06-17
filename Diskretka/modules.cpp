@@ -437,167 +437,167 @@ void P_module(int option)
 	case 1:
 	{
 		puts("¬ведите первый многочлен:");
-		P* a = inputP();
+		P* p1 = inputP();
 		puts("¬ведите второй многочлен:");
-		P* b = inputP();
+		P* p2 = inputP();
 		printf("–езультат: ");
-		P* r = ADD_PP_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeP(b);
+		P* result = ADD_PP_P(p1, p2);
+		printP(result);
+		freeP(result);
+		freeP(p1);
+		freeP(p2);
 	}
 	break;
 	case 2:
 	{
 		puts("¬ведите первый многочлен:");
-		P* a = inputP();
+		P* p1 = inputP();
 		puts("¬ведите второй многочлен:");
-		P* b = inputP();
+		P* p2 = inputP();
 		printf("–езультат: ");
-		P* r = SUB_PP_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeP(b);
+		P* result = SUB_PP_P(p1, p2);
+		printP(result);
+		freeP(result);
+		freeP(p1);
+		freeP(p2);
 	}
 	break;
 	case 3:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		puts("¬ведите рациональное число:");
-		Q* b = inputQ();
+		Q* q = inputQ();
 		printf("–езультат: ");
-		P* r = MUL_PQ_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeQ(b);
+		P* result = MUL_PQ_P(p, q);
+		printP(result);
+		freeP(result);
+		freeP(p);
+		freeQ(q);
 	}
 	break;
 	case 4:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		printf("¬ведите число: ");
-		int n = getNumber();
+		int k = getNumber();
 		printf("–езультат: ");
-		P* r = MUL_Pxk_P(a, n);
-		printP(r);
-		freeP(r);
-		freeP(a);
+		P* result = MUL_Pxk_P(p, k);
+		printP(result);
+		freeP(result);
+		freeP(p);
 	}
 	break;
 	case 5:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		printf("–езультат: ");
-		Q* r = LED_P_Q(a);
-		printQ(r);
-		freeQ(r);
-		freeP(a);
+		Q* result = LED_P_Q(p);
+		printQ(result);
+		freeQ(result);
+		freeP(p);
 	}
 	break;
 	case 6:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		printf("–езультат: ");
-		N* r = DEG_P_N(a);
-		printN(r);
-		freeN(r);
-		freeP(a);
+		N* result = DEG_P_N(p);
+		printN(result);
+		freeN(result);
+		freeP(p);
 	}
 	break;
 	case 7:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		printf("–езультат: ");
-		Q* r = FAC_P_Q(a);
-		printQ(r);
-		freeQ(r);
-		freeP(a);
+		Q* result = FAC_P_Q(p);
+		printQ(result);
+		freeQ(result);
+		freeP(p);
 	}
 	break;
 	case 8:
 	{
 		puts("¬ведите первый многочлен:");
-		P* a = inputP();
+		P* p1 = inputP();
 		puts("¬ведите второй многочлен:");
-		P* b = inputP();
+		P* p2 = inputP();
 		printf("–езультат: ");
-		P* r = MUL_PP_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeP(b);
+		P* result = MUL_PP_P(p1, p2);
+		printP(result);
+		freeP(result);
+		freeP(p1);
+		freeP(p2);
 	}
 	break;
 	case 9:
 	{
 		puts("¬ведите первый многочлен:");
-		P* a = inputP();
+		P* p1 = inputP();
 		puts("¬ведите второй многочлен:");
-		P* b = inputP();
+		P* p2 = inputP();
 		printf("–езультат: ");
-		P* r = DIV_PP_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeP(b);
+		P* result = DIV_PP_P(p1, p2);
+		printP(result);
+		freeP(result);
+		freeP(p1);
+		freeP(p2);
 	}
 	break;
 	case 10:
 	{
 		puts("¬ведите первый многочлен:");
-		P* a = inputP();
+		P* p1 = inputP();
 		puts("¬ведите второй многочлен:");
-		P* b = inputP();
+		P* p2 = inputP();
 		printf("–езультат: ");
-		P* r = MOD_PP_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeP(b);
+		P* result = MOD_PP_P(p1, p2);
+		printP(result);
+		freeP(result);
+		freeP(p1);
+		freeP(p2);
 	}
 	break;
 	case 11:
 	{
 		puts("¬ведите первый многочлен:");
-		P* a = inputP();
+		P* p1 = inputP();
 		puts("¬ведите второй многочлен:");
-		P* b = inputP();
+		P* p2 = inputP();
 		printf("–езультат: ");
-		P* r = GCF_PP_P(a, b);
-		printP(r);
-		freeP(r);
-		freeP(a);
-		freeP(b);
+		P* result = GCF_PP_P(p1, p2);
+		printP(result);
+		freeP(result);
+		freeP(p1);
+		freeP(p2);
 	}
 	break;
 	case 12:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		printf("–езультат: ");
-		P* r = DER_P_P(a);
-		printP(r);
-		freeP(r);
-		freeP(a);
+		P* result = DER_P_P(p);
+		printP(result);
+		freeP(result);
+		freeP(p);
 	}
 	break;
 	case 13:
 	{
 		puts("¬ведите многочлен:");
-		P* a = inputP();
+		P* p = inputP();
 		printf("–езультат: ");
-		P* r = NMR_P_P(a);
-		printP(r);
-		freeP(r);
-		freeP(a);
+		P* result = NMR_P_P(p);
+		printP(result);
+		freeP(result);
+		freeP(p);
 	}
 	break;
 	}

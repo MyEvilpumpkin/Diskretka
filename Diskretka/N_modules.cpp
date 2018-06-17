@@ -96,6 +96,7 @@ N* input()
 	free(symbol);
 	return n;
 }
+
 // Инициализация
 N* initN()
 {
