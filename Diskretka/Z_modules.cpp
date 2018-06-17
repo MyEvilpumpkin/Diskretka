@@ -1,17 +1,20 @@
 #include "Z_modules.h"
 
-Z* initZ() {
+// Инициализация
+Z* initZ()
+{
 	Z* z = (Z*)malloc(sizeof(Z));
 	z->number = initN();
 	z->sign = true;
 	return z;
 }
-
+// Ввод
 Z* inputZ() {
 	Z* z = (Z*)malloc(sizeof(Z));
 	char *s = (char*)malloc(sizeof(char));
 	bool error;
-	do {
+	do
+	{
 		error = false;
 		*s = getchar();
 		if (*s == '-')
@@ -23,21 +26,23 @@ Z* inputZ() {
 		z->number = input();
 		if (z->number->len == -1 || (z->number->len == 0 && *s == '-'))
 			error = true;
-		if (error) {
+		if (error)
+		{
 			printf("Введены некорректные данные. Введите целое число: ");
 			freeN(z->number);
 		}
-		else if (*s != '-' && (*s != '0' || z->number->len == 0)) {
+		else if (*s != '-' && (*s != '0' || z->number->len == 0))
+		{
 			z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
 			z->number->len++;
 			z->number->n[z->number->len - 1] = atoi(s);
 		}
 	} while (error);
 	free(s);
-	z->number = deNULL(z->number);
+	z->number = deNullN(z->number);
 	return z;
 }
-
+// Инициализация с обнулением
 Z* zeroZ()
 {
 	Z* z = (Z*)malloc(sizeof(Z));
@@ -45,174 +50,150 @@ Z* zeroZ()
 	z->sign = true;
 	return z;
 }
-
+// Присваивание
 Z* assignmentZ(Z* z)
 {
-	Z* a = (Z*)malloc(sizeof(Z));
-	a->number = assignmentN(z->number);
-	a->sign = z->sign;
-	return a;
+	Z* result = (Z*)malloc(sizeof(Z));
+	result->number = assignmentN(z->number);
+	result->sign = z->sign;
+	return result;
 }
-
-void printZ(Z* z) {
+// Вывод
+void printZ(Z* z)
+{
 	if (!z->sign)
 		printf("-");
 	printN(z->number);
 }
-
-Z* freeZ(Z* z) {
+// Освобождение памяти
+Z* freeZ(Z* z)
+{
 	freeN(z->number);
 	free(z);
 	return z;
 }
 
-// Z-1 Андрианова Вера
-
-N* ABS_Z_N(Z *a)
+// Z-1
+N* ABS_Z_N(Z* z)
 {
-	return assignmentN(a->number); // возвращаем число натуральную часть числа (целое = натуральное + знак)
+	return assignmentN(z->number); // Возвращаем число натуральную часть числа (целое = натуральное + знак)
 }
-
-// Z-2 Макаренко Данил
-
-int POZ_Z_D(Z *a)
+// Z-2
+int POZ_Z_D(Z* z)
 {
-	if (!a->sign) // если число отрицательное
+	if (!z->sign) // Если число отрицательное
 		return 1;
-	else if (a->number->len == 1 && a->number->n[0] == 0) //если число = 0
+	else if (!NZER_N_B(z->number)) // Если число = 0
 		return 0;
-	else // если число положительное
+	else // Если число положительное
 		return 2;
 }
-
-// Z-3 Андрианова Вера
-
-Z* MUL_ZM_Z(Z* a)
+// Z-3
+Z* MUL_ZM_Z(Z* z)
 {
-	Z* resPtr = (Z*)malloc(sizeof(Z));
-	resPtr->sign = true;
-	resPtr->number = assignmentN(a->number); // присваиваем результату исходное число
-	if (resPtr->number->len != 1 || resPtr->number->n[0] != 0) // если число не ноль
-		resPtr->sign = !a->sign; // меняем знак результата на противоположный
-	return resPtr;
+	Z* result = (Z*)malloc(sizeof(Z));
+	result->sign = true;
+	result->number = assignmentN(z->number); // Присваиваем результату исходное число
+	if (POZ_Z_D(result)) // Если число не ноль
+		result->sign = !z->sign; // Меняем знак результата на противоположный
+	return result;
 }
-
-// Z-4 Мищенко Алина
-
-Z *TRANS_N_Z(N *a)
+// Z-4
+Z* TRANS_N_Z(N* n)
 {
-	Z *z = (Z*)malloc(sizeof(Z));
-	z->number = assignmentN(a); // присваиваем целому результату натуральное число 
-	z->sign = true;
-	return z;
+	Z* result = (Z*)malloc(sizeof(Z));
+	result->number = assignmentN(n); // Присваиваем целому результату натуральное число 
+	result->sign = true;
+	return result;
 }
-
-// Z-5 Манжиков Леонид
-
-N *TRANS_Z_N(Z *a)
+// Z-5
+N* TRANS_Z_N(Z* z)
 {
-	return assignmentN(a->number); // возвращаем число натуральную часть числа
+	return assignmentN(z->number); // Возвращаем число натуральную часть числа
 }
-
-// Z-6 Стоянова Алина
-
-Z *ADD_ZZ_Z(Z *num1, Z *num2)
+// Z-6
+Z* ADD_ZZ_Z(Z* z1, Z* z2)
 {
-	Z* sum = (Z*)malloc(sizeof(Z));
-	if (num1->sign == num2->sign) { // если знаки двух чисел одинаковы
-		sum->number = ADD_NN_N(num1->number, num2->number); // результату по модулю присваиваем значение суммы двух чисел
-		sum->sign = num1->sign; // присваиваем результату общий знак двух чисел
+	Z* result = (Z*)malloc(sizeof(Z));
+	if (z1->sign == z2->sign) // Если знаки двух чисел одинаковы
+	{
+		result->number = ADD_NN_N(z1->number, z2->number); // Результату по модулю присваиваем значение суммы двух чисел
+		result->sign = z1->sign; // Присваиваем результату общий знак двух чисел
 	}
-	else {
-		if (COM_NN_D(num1->number, num2->number) == 2) { // если первое число больше второго по модулю
-			sum->number = SUB_NN_N(num1->number, num2->number); // вычитаем из большего числа меньшее
-			sum->sign = num1->sign; // присваиваем результату знак первого числа
-		}
-		else if (COM_NN_D(num1->number, num2->number) == 1) { // если второе число больше первого по модулю
-			sum->number = SUB_NN_N(num2->number, num1->number); // наоборот
-			sum->sign = num2->sign;
-		}
-		else if (COM_NN_D(num1->number, num2->number) == 0) { // если числа равны
-			sum->number = zeroN(); // результат присваиваем нулю
-			sum->sign = true; // со знаком плюс
-		}
-	}
-	return sum;
-}
-
-// Z-7 Стоянова Алина
-
-Z *SUB_ZZ_Z(Z *num1, Z *num2)
-{
-	Z *n2 = (Z*)malloc(sizeof(Z));
-	n2->number = assignmentN(num2->number); // присваиваем вычитаемому значение меньшего числа 
-	n2->sign = !num2->sign; // умножаем второе число на (-1)
-	Z* result = ADD_ZZ_Z(num1, n2); // суммируем числа
-	freeZ(n2);
-	return result; // возвращаем их сумму
-}
-
-// Z-8 Манжиков Леонид
-
-Z *MUL_ZZ_Z(Z *num1, Z *num2)
-{
-	Z *mul = (Z*)malloc(sizeof(Z));
-	mul->number = MUL_NN_N(num1->number, num2->number); // присваиваем результату по модулю значение произведения первого числа на второе по модулю
-	if (num1->sign == num2->sign) // если знаки двух чисел равны
-		mul->sign = true; // то знак результата +
 	else
-		mul->sign = false; // знак результата -
-	if (mul->number->len == 1 && mul->number->n[0] == 0) // если результа - 0
-		mul->sign = true; // то знак результата +
-	return mul;
+	{
+		if (COM_NN_D(z1->number, z2->number) == 2) // Если первое число больше второго по модулю
+		{
+			result->number = SUB_NN_N(z1->number, z2->number); // Вычитаем из большего числа меньшее
+			result->sign = z1->sign; // Присваиваем результату знак первого числа
+		}
+		else if (COM_NN_D(z1->number, z2->number) == 1) // Если второе число больше первого по модулю
+		{
+			result->number = SUB_NN_N(z2->number, z1->number); // Наоборот
+			result->sign = z2->sign;
+		}
+		else if (COM_NN_D(z1->number, z2->number) == 0) // Если числа равны
+		{
+			result->number = zeroN(); // Результат присваиваем нулю
+			result->sign = true; // Со знаком плюс
+		}
+	}
+	return result;
 }
-
-// Z-9 Мищенко Алина
-
-Z* DIV_ZZ_Z(Z* n1, N* n2)
+// Z-7
+Z* SUB_ZZ_Z(Z* z1, Z* z2)
 {
-	Z* res = (Z*)malloc(sizeof(Z));
-	res->number = DIV_NN_N(n1->number, n2); // делим как натуральные числа большее (преобразованное в целое) на меньшее
-	res->sign = n1->sign; // присваиваем знаку результата знак большего числа
-	if (res->number->len == 1 && res->number->n[0] == 0) // если результат равен нулю
-		res->sign = true; // то знак нуля +
-	N* mod = MOD_NN_N(n1->number, n2);
-	if (!res->sign && !(mod->len == 1 && mod->n[0] == 0))
+	Z* temp = (Z*)malloc(sizeof(Z));
+	temp->number = assignmentN(z2->number); // Присваиваем вычитаемому значение меньшего числа 
+	temp->sign = !z2->sign; // Умножаем второе число на (-1)
+	Z* result = ADD_ZZ_Z(z1, temp); // Суммируем числа
+	freeZ(temp);
+	return result; // Возвращаем их сумму
+}
+// Z-8
+Z* MUL_ZZ_Z(Z* z1, Z* z2)
+{
+	Z* result = (Z*)malloc(sizeof(Z));
+	result->number = MUL_NN_N(z1->number, z2->number); // Присваиваем результату по модулю значение произведения первого числа на второе по модулю
+	if (z1->sign == z2->sign) // Если знаки двух чисел равны
+		result->sign = true; // То знак результата +
+	else
+		result->sign = false; // Знак результата -
+	if (!POZ_Z_D(result)) // Если результа - 0
+		result->sign = true; // То знак результата +
+	return result;
+}
+// Z-9
+Z* DIV_ZN_Z(Z* z, N* n)
+{
+	Z* result = (Z*)malloc(sizeof(Z));
+	result->number = DIV_NN_N(z->number, n); // Делим как натуральные числа большее (преобразованное в целое) на меньшее
+	result->sign = z->sign; // Присваиваем знаку результата знак большего числа
+	if (!POZ_Z_D(result)) // Если результат равен нулю
+		result->sign = true; // То знак нуля +
+	N* mod = MOD_NN_N(z->number, n);
+	if (!result->sign && NZER_N_B(mod))
 	{
 		Z* one = zeroZ();
 		one->number->n[0] = 1;
-		Z* temp = assignmentZ(res);
-		freeZ(res);
-		res = SUB_ZZ_Z(temp, one);
+		Z* temp = assignmentZ(result);
+		freeZ(result);
+		result = SUB_ZZ_Z(temp, one);
 		freeZ(temp);
 		freeZ(one);
 	}
 	freeN(mod);
-	return res;
+	return result;
 }
-
-// Z-10 Кожанов Даниил
-
-Z* MOD_ZZ_Z(Z* First, N* Second)
+// Z-10
+Z* MOD_ZN_Z(Z* z, N* n)
 {
-	Z* tmp = TRANS_N_Z(Second); // преобразованное в целое второе число
-	Z *Rest = DIV_ZZ_Z(First, Second); // результат от деления без остатка первого числа на второе
-	Z *Temp = MUL_ZZ_Z(Rest, tmp);
+	Z* result = TRANS_N_Z(n); // Преобразованное в целое второе число
+	Z* tmp = DIV_ZN_Z(z, n); // Результат от деления без остатка первого числа на второе
+	Z* temp = MUL_ZZ_Z(tmp, result);
+	freeZ(result);
 	freeZ(tmp);
-	freeZ(Rest);
-	tmp = SUB_ZZ_Z(First, Temp); // разность между исходным первым числом и произведением
-	freeZ(Temp);
-
-	if (First->sign) { // если знак реузльтата +
-		Rest = (Z*)malloc(sizeof(Z));
-		Rest->number = assignmentN(tmp->number);
-		Rest->sign = true;
-	}
-	else {
-		Temp = TRANS_N_Z(Second);
-		Rest = ADD_ZZ_Z(tmp, Temp); // добавляем к остатку преобразованное второе число
-		freeZ(Temp);
-	}
-	freeZ(tmp);
-	return Rest;
+	result = SUB_ZZ_Z(z, temp); // Разность между исходным первым числом и произведением
+	freeZ(temp);
+	return result;
 }
