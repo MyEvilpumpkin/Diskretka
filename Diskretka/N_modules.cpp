@@ -437,18 +437,16 @@ N* DIV_NN_N(N* n1, N* n2)
 				freeN(tempRes);
 				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
 				freeN(result);
-				result = assignmentN(tempRes);
-				freeN(tempRes);
+				result = tempRes;
 				tempRes = MUL_NN_N(temp, n2);
 				freeN(temp);
 				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
 				freeN(part);
-				part = assignmentN(temp);
-				freeN(temp);
+				part = temp;
 				flag = COM_NN_D(part, n2); // Сравниваем "делимое" и делитель
 				freeN(tempRes);
 			} while (flag != 1);
-		freeN(part);
+			freeN(part);
 	}
 	else
 	{
@@ -467,18 +465,16 @@ N* DIV_NN_N(N* n1, N* n2)
 				freeN(tempRes);
 				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
 				freeN(result);
-				result = assignmentN(tempRes);
-				freeN(tempRes);
+				result = tempRes;
 				tempRes = MUL_NN_N(temp, n1);
 				freeN(temp);
 				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
 				freeN(part);
-				part = assignmentN(temp);
-				freeN(temp);
+				part = temp;
 				flag = COM_NN_D(part, n1); // Сравниваем "делимое" и делитель
 				freeN(tempRes);
 			} while (flag != 1);
-		freeN(part);
+			freeN(part);
 	}
 	return result;
 }
@@ -504,34 +500,36 @@ N* MOD_NN_N(N* n1, N* n2)
 // N-13
 N* GCF_NN_N(N* n1, N* n2)
 {
+	N *result, *temp;
 	N* first = assignmentN(n1);
 	N* second = assignmentN(n2);
-	N* temp;
 	while (NZER_N_B(first) && NZER_N_B(second)) // Пока оба числа - не нули
 	{
 		if (COM_NN_D(first, second) > 1) // Если первое больше второго
 		{
 			temp = MOD_NN_N(first, second); // Находим остаток от деления первого на второе
 			freeN(first);
-			first = assignmentN(temp);
-			freeN(temp);
+			first = temp;
 		}
 		else
 		{
 			temp = MOD_NN_N(second, first); // Иначе - остаток от деления второго на первое
 			freeN(second);
-			second = assignmentN(temp);
-			freeN(temp);
+			second = temp;
 		}
 
 	}
 	if (COM_NN_D(first, second) != 2) // Если первое число - больше второго
 	{
+		result = second;
 		freeN(first);
-		first = assignmentN(second); // Меняем их местами
 	}
-	freeN(second);
-	return first;
+	else
+	{
+		result = first;
+		freeN(second);
+	}
+	return result;
 }
 // N-14
 N* LCM_NN_N(N* n1, N* n2)

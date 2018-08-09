@@ -20,8 +20,7 @@ P* deNullP(P* p)
 		P* temp = assignmentP(p);
 		p->len = len;
 		freeP(p);
-		p = assignmentP(temp);
-		freeP(temp);
+		p = temp;
 	}
 	return p;
 }
@@ -261,8 +260,7 @@ Q* FAC_P_Q(P* p)
 	{
 		temp = LCM_NN_N(nok, p->k[i]->denom); // Находим поочередно НОК общего НОК и данного коэффициента	
 		freeN(nok);
-		nok = assignmentN(temp);
-		freeN(temp);
+		nok = temp;
 	}
 	for (i = (p->len) - 1; i >= 0; i--) // Перебираем все коэффициенты многочлена, начиная с "предстаршего" (т.к. старший занес в НОД изначально)
 	{
@@ -270,15 +268,12 @@ Q* FAC_P_Q(P* p)
 		if (flag) {
 			temp = GCF_NN_N(nod, p->k[i]->num->number); // Находим поочередно НОД общего НОД и данного коэффициента
 			freeN(nod);
-			nod = assignmentN(temp);
-			freeN(temp);
+			nod = temp;
 		}
 	}
-	result->num->number = assignmentN(nod); // Присваиваем result->num значение nod
+	result->num->number = nod; // Присваиваем result->num значение nod
 	result->num->sign = true;
-	result->denom = assignmentN(nok); // Присваиваем result->denom значение НОК
-	freeN(nod);
-	freeN(nok);
+	result->denom = nok; // Присваиваем result->denom значение НОК
 	return result;
 }
 // P-8
@@ -298,8 +293,7 @@ P* MUL_PP_P(P* p1, P* p2)
 			freeP(temp);
 			temp = ADD_PP_P(result, tmp); // Прибавление к результату произведения
 			freeP(result);
-			result = assignmentP(temp);
-			freeP(temp);
+			result = temp;
 			freeP(tmp);
 		}
 	}
@@ -329,7 +323,7 @@ P* DIV_PP_P(P* p1, P* p2)
 				coef = DIV_QQ_Q(part->k[i], p2->k[p2->len]); // Вычисления коэффициента перед степенью в результате
 			else
 				coef = zeroQ();
-			result->k[i - p2->len] = assignmentQ(coef); // Заносим найденный коэффициент в поле ответа
+			result->k[i - p2->len] = coef; // Заносим найденный коэффициент в поле ответа
 			temp = MUL_PQ_P(p2, coef); // Умножение делителя на "подходящий" коэффициент
 			tmp = MUL_Pxk_P(temp, (i - p2->len)); // Возведение в необходимую степень
 			freeP(temp);
@@ -337,7 +331,6 @@ P* DIV_PP_P(P* p1, P* p2)
 			freeP(tmp);
 			freeP(part);
 			part = temp;
-			freeQ(coef);
 		}
 	freeP(part);
 	return result;
@@ -364,23 +357,25 @@ P* GCF_PP_P(P* p1, P* p2)
 		{
 			temp = MOD_PP_P(first, second); // Присваиваем ему остаток от деления многочленов
 			freeP(first);
-			first = assignmentP(temp); // Наоборот
-			freeP(temp);
+			first = temp;
 		}
 		else
 		{
 			temp = MOD_PP_P(second, first);
 			freeP(second);
-			second = assignmentP(temp);
-			freeP(temp);
+			second = temp;
 		}
 	}
 	if (first->len > second->len) // Если степень первого многочлена оказалась больше второго
-		result = assignmentP(first); // Присваиваем результату (остатку) значение первого многочлена
+	{
+		result = first; // Присваиваем результату (остатку) значение первого многочлена
+		freeP(second);
+	}
 	else
-		result = assignmentP(second); //Наоборот
-	freeP(first);
-	freeP(second);
+	{
+		result = second; // Наоборот
+		freeP(first);
+	}
 	return result;
 }
 // P-12
@@ -415,8 +410,7 @@ P* NMR_P_P(P* p)
 	q->num->number->n[0] = 1;
 	Q* tmp = FAC_P_Q(result);
 	Q* tmpr = DIV_QQ_Q(q, tmp);
-	temp = assignmentP(result);
-	freeP(result);
+	temp = result;
 	result = MUL_PQ_P(temp, tmpr); // Присваиваем результату значение произведения
 	freeQ(tmp);
 	freeQ(tmpr);

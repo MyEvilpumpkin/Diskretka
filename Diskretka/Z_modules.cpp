@@ -195,8 +195,7 @@ Z* DIV_ZN_Z(Z* z, N* n)
 	{
 		Z* one = zeroZ();
 		one->number->n[0] = 1;
-		Z* temp = assignmentZ(result);
-		freeZ(result);
+		Z* temp = result;
 		result = SUB_ZZ_Z(temp, one);
 		freeZ(temp);
 		freeZ(one);
