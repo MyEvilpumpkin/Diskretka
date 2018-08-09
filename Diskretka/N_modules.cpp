@@ -299,13 +299,19 @@ N* SUB_NN_N(N* n1, N* n2)
 // N-6
 N* MUL_ND_N(N* n, int d)
 {
-	N* result = zeroN();
-	for (int i = 0; i < d; i++)
+	N* result = assignmentN(n);
+	int temp = 0;
+	for (int i = 0; i < n->len; i++)
 	{
-		N* temp = ADD_NN_N(result, n); // d раз прибавлем к результату n
-		freeN(result);
-		result = assignmentN(temp);
-		freeN(temp);
+		int tmp = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
+		result->n[i] = tmp % 10; // Определяем разряд
+		temp = tmp / 10; // Определяем остаток
+	}
+	if (temp) // Создаём ещё один разряд, если остаток не 0
+	{
+		result->len++;
+		result->n = (int*)realloc(result->n, result->len * sizeof(int));
+		result->n[result->len - 1] = temp;
 	}
 	return result;
 }
@@ -335,9 +341,8 @@ N* MUL_NN_N(N* n1, N* n2)
 		freeN(tmp);
 		tmp = ADD_NN_N(result, temp);
 		freeN(result);
-		result = assignmentN(tmp);
-		freeN(tmp);
 		freeN(temp);
+		result = tmp;
 	}
 	return result;
 }

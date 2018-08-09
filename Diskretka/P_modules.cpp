@@ -315,8 +315,7 @@ P* DIV_PP_P(P* p1, P* p2)
 			temp = SUB_PP_P(part, tmp); // Вычитаем из остатка часть частного, умноженную на делитель
 			freeP(tmp);
 			freeP(part);
-			part = assignmentP(temp);
-			freeP(temp);
+			part = temp;
 			freeQ(coef);
 		}
 	freeP(part);
