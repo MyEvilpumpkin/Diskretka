@@ -143,12 +143,31 @@ Z* ADD_ZZ_Z(Z* z1, Z* z2)
 // Z-7
 Z* SUB_ZZ_Z(Z* z1, Z* z2)
 {
-	Z* temp = (Z*)malloc(sizeof(Z));
-	temp->number = assignmentN(z2->number); // Присваиваем вычитаемому значение меньшего числа 
-	temp->sign = !z2->sign; // Умножаем второе число на (-1)
-	Z* result = ADD_ZZ_Z(z1, temp); // Суммируем числа
-	freeZ(temp);
-	return result; // Возвращаем их сумму
+	Z* result = (Z*)malloc(sizeof(Z));
+	if (z1->sign != z2->sign) // Если знаки двух чисел разные
+	{
+		result->number = ADD_NN_N(z1->number, z2->number); // Результату по модулю присваиваем значение суммы двух чисел
+		result->sign = z1->sign; // Присваиваем результату общий знак двух чисел
+	}
+	else
+	{
+		if (COM_NN_D(z1->number, z2->number) == 2) // Если первое число больше второго по модулю
+		{
+			result->number = SUB_NN_N(z1->number, z2->number); // Вычитаем из большего числа меньшее
+			result->sign = z1->sign; // Присваиваем результату знак первого числа
+		}
+		else if (COM_NN_D(z1->number, z2->number) == 1) // Если второе число больше первого по модулю
+		{
+			result->number = SUB_NN_N(z2->number, z1->number); // Наоборот
+			result->sign = !z2->sign;
+		}
+		else if (COM_NN_D(z1->number, z2->number) == 0) // Если числа равны
+		{
+			result->number = zeroN(); // Результат присваиваем нулю
+			result->sign = true; // Со знаком плюс
+		}
+	}
+	return result;
 }
 // Z-8
 Z* MUL_ZZ_Z(Z* z1, Z* z2)

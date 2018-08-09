@@ -177,12 +177,32 @@ P* ADD_PP_P(P* p1, P* p2)
 // P-2
 P* SUB_PP_P(P* p1, P* p2)
 {
-	P* secondCopy = assignmentP(p2); // Копируем значение второго многочлена
-	for (int i = 0; i <= p2->len; i++)
-		secondCopy->k[i]->num->sign = !p2->k[i]->num->sign; // Меняем знак коэффициентов 2го полинома (его копии) 
-	P* result = ADD_PP_P(p1, secondCopy); // Суммируем первый многочлен и (-1)*второй многочлен
-	freeP(secondCopy);
-	return result;
+	P* result = (P*)malloc(sizeof(P));
+	if (p1->len > p2->len) // Определить, у какого многочлена степень больше и, если надо, поменять их местами
+	{
+		result->k = (Q**)malloc((p1->len + 1) * sizeof(Q*)); // Сумма многочленов
+		result->len = p1->len; // Степень суммы равна степени большего из многочленов
+		for (int i = p1->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+		{
+			if (i > p2->len) // Если исследуемая степень первого многочлена больше степени второго
+				result->k[i] = assignmentQ(p1->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
+			else
+				result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
+		}
+	}
+	else
+	{
+		result->k = (Q**)malloc((p2->len + 1) * sizeof(Q*)); // Сумма многочленов
+		result->len = p2->len; // Степень суммы равна степени большего из многочленов
+		for (int i = p2->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+		{
+			if (i > p1->len) // Если исследуемая степень первого многочлена больше степени второго
+				result->k[i] = assignmentQ(p2->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
+			else
+				result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
+		}
+	}
+	return deNullP(result);
 }
 // P-3
 P* MUL_PQ_P(P* p, Q* q)
@@ -253,7 +273,6 @@ Q* FAC_P_Q(P* p)
 			nod = assignmentN(temp);
 			freeN(temp);
 		}
-
 	}
 	result->num->number = assignmentN(nod); // Присваиваем result->num значение nod
 	result->num->sign = true;

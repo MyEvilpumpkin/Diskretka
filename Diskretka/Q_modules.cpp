@@ -126,11 +126,18 @@ Q* ADD_QQ_Q(Q* q1, Q* q2)
 // Q-6
 Q* SUB_QQ_Q(Q* q1, Q* q2)
 {
-	Q* q = assignmentQ(q2);
-	q->num->sign = !q2->num->sign;
-	Q* result = ADD_QQ_Q(q1, q); // —кладываем первую дробь со второй * (-1)
-	freeQ(q);
-	return result;
+	Q* result = (Q*)malloc(sizeof(Q));
+	result->denom = MUL_NN_N(q1->denom, q2->denom); // Ќаходим произведение и записываем в знаменатель
+	Z* z1 = (Z*)malloc(sizeof(Z));
+	z1->number = MUL_NN_N(q1->num->number, q2->denom); // ѕрисваиваем значению знаменател€ q1 произведение числител€ q1 и знаменател€ q2 
+	z1->sign = q1->num->sign; //  опируем знак числител€ q1
+	Z* z2 = (Z*)malloc(sizeof(Z));
+	z2->number = MUL_NN_N(q2->num->number, q1->denom); // ѕрисваиваем значению знаменател€ q2 произведение числител€ q2 и знаменател€ q1
+	z2->sign = q2->num->sign; //  опируем знак числител€ q2
+	result->num = SUB_ZZ_Z(z1, z2);
+	freeZ(z1);
+	freeZ(z2);
+	return RED_Q_Q(result);
 }
 // Q-7
 Q* MUL_QQ_Q(Q* q1, Q* q2)
