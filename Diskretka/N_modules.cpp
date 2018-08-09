@@ -349,109 +349,138 @@ N* MUL_NN_N(N* n1, N* n2)
 // N-9
 N* SUB_NDN_N(N* n1, int d, N* n2)
 {
-	N *first, *second, *result, *temp;
+	N *result, *temp;
 	if (COM_NN_D(n1, n2) == 2) //  Если первое число больше второго
 	{
-		first = assignmentN(n1); // Присваивание
-		second = assignmentN(n2);
+		temp = MUL_ND_N(n2, d); // Меньшее домножаем на цифру
+		result = SUB_NN_N(n1, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
 	}
 	else
 	{
-		first = assignmentN(n2); // Присваивание
-		second = assignmentN(n1);
+		temp = MUL_ND_N(n1, d); // Меньшее домножаем на цифру
+		result = SUB_NN_N(n2, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
 	}
-	temp = MUL_ND_N(second, d); // Меньшее домножаем на цифру
-	result = SUB_NN_N(first, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
 	freeN(temp);
-	freeN(first);
-	freeN(second);
 	return result;
 }
 // N-10
 int DIV_NN_Dk(N* n1, N* n2, int& k)
 {
 	int result = 1, flag;
-	N *temp, *first, *second;
+	N* temp;
 	k = 0;
 	if (COM_NN_D(n1, n2) == 2) // Если делимое - первое число
 	{
-		first = assignmentN(n1); // Делимое 
-		second = assignmentN(n2); // Делитель
+		do
+		{
+			temp = MUL_Nk_N(n2, k); // Умножаем делитель на 10^k
+			flag = COM_NN_D(n1, temp); // Сравниваем делимое и произведение
+			freeN(temp);
+			if (flag != 1) // Если произведение меньше, то увеличиваем степень 10
+				k++;
+		} while (flag != 1); // Пока произведение не станет больше делителя
+		k--; // Так как при последнем сравнении k стало больше на 1 от необходимого
+		temp = MUL_Nk_N(n2, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+		do
+		{
+			N* tmp = MUL_ND_N(temp, result); // Вычисляем произведение на цифру
+			flag = COM_NN_D(n1, tmp); // Сравниваем его с делимым
+			if (flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
+				result++;
+			freeN(tmp);
+		} while (flag != 1);
 	}
 	else // Наоборот
 	{
-		first = assignmentN(n2);
-		second = assignmentN(n1);
+		do
+		{
+			temp = MUL_Nk_N(n1, k); // Умножаем делитель на 10^k
+			flag = COM_NN_D(n2, temp); // Сравниваем делимое и произведение
+			freeN(temp);
+			if (flag != 1) // Если произведение меньше, то увеличиваем степень 10
+				k++;
+		} while (flag != 1); // Пока произведение не станет больше делителя
+		k--; // Так как при последнем сравнении k стало больше на 1 от необходимого
+		temp = MUL_Nk_N(n1, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+		do
+		{
+			N* tmp = MUL_ND_N(temp, result); // Вычисляем произведение на цифру
+			flag = COM_NN_D(n2, tmp); // Сравниваем его с делимым
+			if (flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
+				result++;
+			freeN(tmp);
+		} while (flag != 1);
 	}
-	do
-	{
-		temp = MUL_Nk_N(second, k); // Умножаем делитель на 10^k
-		flag = COM_NN_D(first, temp); // Сравниваем делимое и произведение
-		freeN(temp);
-		if (flag != 1) // Если произведение меньше, то увеличиваем степень 10
-			k++;
-	} while (flag != 1); // Пока произведение не станет больше делителя
-	k--; // Так как при последнем сравнении k стало больше на 1 от необходимого
-	temp = MUL_Nk_N(second, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
-	do
-	{
-		N* tmp = MUL_ND_N(temp, result); // Вычисляем произведение на цифру
-		flag = COM_NN_D(first, tmp); // Сравниваем его с делимым
-		if (flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
-			result++;
-		freeN(tmp);
-	} while (flag != 1);
 	result--; // Аналогично значению степени
 	freeN(temp);
-	freeN(first);
-	freeN(second);
 	return result;
 }
 // N-11
 N* DIV_NN_N(N* n1, N* n2)
 {
-	N *first, *second, *tempRes, *temp;
+	N* result = zeroN(); // Частное от деления
+	N *tempRes, *temp;
 	if (COM_NN_D(n1, n2) == 2)
 	{
-		first = assignmentN(n1);
-		second = assignmentN(n2);
+		N* part = assignmentN(n1); // Временный остаток от деления
+		int numb, flag, k = 0;
+		if (NZER_N_B(n2))
+			do
+			{
+				numb = DIV_NN_Dk(part, n2, k); // Вычисляем первую цифру и степень десятки при делении
+				tempRes = zeroN(); // Cоздание ппроизведения первой цифры деления на 10^k
+				temp = ADD_1N_N(tempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
+				freeN(tempRes);
+				tempRes = MUL_ND_N(temp, numb); // Умножаем 1 на первую цифру деления
+				freeN(temp);
+				temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
+				freeN(tempRes);
+				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
+				freeN(result);
+				result = assignmentN(tempRes);
+				freeN(tempRes);
+				tempRes = MUL_NN_N(temp, n2);
+				freeN(temp);
+				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
+				freeN(part);
+				part = assignmentN(temp);
+				freeN(temp);
+				flag = COM_NN_D(part, n2); // Сравниваем "делимое" и делитель
+				freeN(tempRes);
+			} while (flag != 1);
+		freeN(part);
 	}
 	else
 	{
-		first = assignmentN(n2);
-		second = assignmentN(n1);
-	}
-	N* result = zeroN(); // Частное от деления
-	N* part = assignmentN(first); // Временный остаток от деления
-	int numb, flag, k = 0;
-	if (NZER_N_B(second))
-		do
-		{
-			numb = DIV_NN_Dk(part, second, k); // Вычисляем первую цифру и степень десятки при делении
-			tempRes = zeroN(); // Cоздание ппроизведения первой цифры деления на 10^k
-			temp = ADD_1N_N(tempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
-			freeN(tempRes);
-			tempRes = MUL_ND_N(temp, numb); // Умножаем 1 на первую цифру деления
-			freeN(temp);
-			temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
-			freeN(tempRes);
-			tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
-			freeN(result);
-			result = assignmentN(tempRes);
-			freeN(tempRes);
-			tempRes = MUL_NN_N(temp, second);
-			freeN(temp);
-			temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
-			freeN(part);
-			part = assignmentN(temp);
-			freeN(temp);
-			flag = COM_NN_D(part, second); // Сравниваем "делимое" и делитель
-			freeN(tempRes);
-		} while (flag != 1);
+		N* part = assignmentN(n2); // Временный остаток от деления
+		int numb, flag, k = 0;
+		if (NZER_N_B(n1))
+			do
+			{
+				numb = DIV_NN_Dk(part, n1, k); // Вычисляем первую цифру и степень десятки при делении
+				tempRes = zeroN(); // Cоздание ппроизведения первой цифры деления на 10^k
+				temp = ADD_1N_N(tempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
+				freeN(tempRes);
+				tempRes = MUL_ND_N(temp, numb); // Умножаем 1 на первую цифру деления
+				freeN(temp);
+				temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
+				freeN(tempRes);
+				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
+				freeN(result);
+				result = assignmentN(tempRes);
+				freeN(tempRes);
+				tempRes = MUL_NN_N(temp, n1);
+				freeN(temp);
+				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
+				freeN(part);
+				part = assignmentN(temp);
+				freeN(temp);
+				flag = COM_NN_D(part, n1); // Сравниваем "делимое" и делитель
+				freeN(tempRes);
+			} while (flag != 1);
 		freeN(part);
-		freeN(first);
-		freeN(second);
-		return result;
+	}
+	return result;
 }
 // N-12
 N* MOD_NN_N(N* n1, N* n2)
@@ -460,7 +489,6 @@ N* MOD_NN_N(N* n1, N* n2)
 	temp = DIV_NN_N(n1, n2); // Числитель от деления большего числа на меньшее
 	if (COM_NN_D(n1, n2) == 2)
 	{
-
 		tmp = MUL_NN_N(temp, n2); // Произведение числителя и меньшего числа
 		result = SUB_NN_N(n1, tmp); // Разность большего числа и произведения
 	}
