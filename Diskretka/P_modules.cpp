@@ -20,8 +20,7 @@ P* deNullP(P* p)
 		P* temp = assignmentP(p);
 		p->len = len;
 		freeP(p);
-		p = assignmentP(temp);
-		freeP(temp);
+		p = temp;
 	}
 	return p;
 }
@@ -147,40 +146,62 @@ P* freeP(P* p)
 // P-1
 P* ADD_PP_P(P* p1, P* p2)
 {
-	P *first, *second;
+	P* result = (P*)malloc(sizeof(P));
 	if (p1->len > p2->len) // Определить, у какого многочлена степень больше и, если надо, поменять их местами
 	{
-		first = assignmentP(p1);
-		second = assignmentP(p2);
+		result->k = (Q**)malloc((p1->len + 1) * sizeof(Q*)); // Сумма многочленов
+		result->len = p1->len; // Степень суммы равна степени большего из многочленов
+		for (int i = p1->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+		{
+			if (i > p2->len) // Если исследуемая степень первого многочлена больше степени второго
+				result->k[i] = assignmentQ(p1->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
+			else
+				result->k[i] = ADD_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим сложение коэффициентов
+		}
 	}
 	else
 	{
-		first = assignmentP(p2);
-		second = assignmentP(p1);
+		result->k = (Q**)malloc((p2->len + 1) * sizeof(Q*)); // Сумма многочленов
+		result->len = p2->len; // Степень суммы равна степени большего из многочленов
+		for (int i = p2->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+		{
+			if (i > p1->len) // Если исследуемая степень первого многочлена больше степени второго
+				result->k[i] = assignmentQ(p2->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
+			else
+				result->k[i] = ADD_QQ_Q(p2->k[i], p1->k[i]); // Иначе производим сложение коэффициентов
+		}
 	}
-	P* result = (P*)malloc(sizeof(P));
-	result->k = (Q**)malloc((first->len + 1) * sizeof(Q*)); // Сумма многочленов
-	result->len = first->len; // Степень суммы равна степени большего из многочленов
-	for (int i = first->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
-	{
-		if (i > second->len) // Если исследуемая степень первого многочлена больше степени второго
-			result->k[i] = assignmentQ(first->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
-		else
-			result->k[i] = ADD_QQ_Q(first->k[i], second->k[i]); // Иначе производим сложение коэффициентов
-	}
-	freeP(first);
-	freeP(second);
 	return deNullP(result);
 }
 // P-2
 P* SUB_PP_P(P* p1, P* p2)
 {
-	P* secondCopy = assignmentP(p2); // Копируем значение второго многочлена
-	for (int i = 0; i <= p2->len; i++)
-		secondCopy->k[i]->num->sign = !p2->k[i]->num->sign; // Меняем знак коэффициентов 2го полинома (его копии) 
-	P* result = ADD_PP_P(p1, secondCopy); // Суммируем первый многочлен и (-1)*второй многочлен
-	freeP(secondCopy);
-	return result;
+	P* result = (P*)malloc(sizeof(P));
+	if (p1->len > p2->len) // Определить, у какого многочлена степень больше и, если надо, поменять их местами
+	{
+		result->k = (Q**)malloc((p1->len + 1) * sizeof(Q*)); // Сумма многочленов
+		result->len = p1->len; // Степень суммы равна степени большего из многочленов
+		for (int i = p1->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+		{
+			if (i > p2->len) // Если исследуемая степень первого многочлена больше степени второго
+				result->k[i] = assignmentQ(p1->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
+			else
+				result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
+		}
+	}
+	else
+	{
+		result->k = (Q**)malloc((p2->len + 1) * sizeof(Q*)); // Сумма многочленов
+		result->len = p2->len; // Степень суммы равна степени большего из многочленов
+		for (int i = p2->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+		{
+			if (i > p1->len) // Если исследуемая степень первого многочлена больше степени второго
+				result->k[i] = assignmentQ(p2->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
+			else
+				result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
+		}
+	}
+	return deNullP(result);
 }
 // P-3
 P* MUL_PQ_P(P* p, Q* q)
@@ -239,8 +260,7 @@ Q* FAC_P_Q(P* p)
 	{
 		temp = LCM_NN_N(nok, p->k[i]->denom); // Находим поочередно НОК общего НОК и данного коэффициента	
 		freeN(nok);
-		nok = assignmentN(temp);
-		freeN(temp);
+		nok = temp;
 	}
 	for (i = (p->len) - 1; i >= 0; i--) // Перебираем все коэффициенты многочлена, начиная с "предстаршего" (т.к. старший занес в НОД изначально)
 	{
@@ -248,16 +268,12 @@ Q* FAC_P_Q(P* p)
 		if (flag) {
 			temp = GCF_NN_N(nod, p->k[i]->num->number); // Находим поочередно НОД общего НОД и данного коэффициента
 			freeN(nod);
-			nod = assignmentN(temp);
-			freeN(temp);
+			nod = temp;
 		}
-
 	}
-	result->num->number = assignmentN(nod); // Присваиваем result->num значение nod
+	result->num->number = nod; // Присваиваем result->num значение nod
 	result->num->sign = true;
-	result->denom = assignmentN(nok); // Присваиваем result->denom значение НОК
-	freeN(nod);
-	freeN(nok);
+	result->denom = nok; // Присваиваем result->denom значение НОК
 	return result;
 }
 // P-8
@@ -277,8 +293,7 @@ P* MUL_PP_P(P* p1, P* p2)
 			freeP(temp);
 			temp = ADD_PP_P(result, tmp); // Прибавление к результату произведения
 			freeP(result);
-			result = assignmentP(temp);
-			freeP(temp);
+			result = temp;
 			freeP(tmp);
 		}
 	}
@@ -308,7 +323,7 @@ P* DIV_PP_P(P* p1, P* p2)
 				coef = DIV_QQ_Q(part->k[i], p2->k[p2->len]); // Вычисления коэффициента перед степенью в результате
 			else
 				coef = zeroQ();
-			result->k[i - p2->len] = assignmentQ(coef); // Заносим найденный коэффициент в поле ответа
+			result->k[i - p2->len] = coef; // Заносим найденный коэффициент в поле ответа
 			temp = MUL_PQ_P(p2, coef); // Умножение делителя на "подходящий" коэффициент
 			tmp = MUL_Pxk_P(temp, (i - p2->len)); // Возведение в необходимую степень
 			freeP(temp);
@@ -316,7 +331,6 @@ P* DIV_PP_P(P* p1, P* p2)
 			freeP(tmp);
 			freeP(part);
 			part = temp;
-			freeQ(coef);
 		}
 	freeP(part);
 	return result;
@@ -343,23 +357,25 @@ P* GCF_PP_P(P* p1, P* p2)
 		{
 			temp = MOD_PP_P(first, second); // Присваиваем ему остаток от деления многочленов
 			freeP(first);
-			first = assignmentP(temp); // Наоборот
-			freeP(temp);
+			first = temp;
 		}
 		else
 		{
 			temp = MOD_PP_P(second, first);
 			freeP(second);
-			second = assignmentP(temp);
-			freeP(temp);
+			second = temp;
 		}
 	}
 	if (first->len > second->len) // Если степень первого многочлена оказалась больше второго
-		result = assignmentP(first); // Присваиваем результату (остатку) значение первого многочлена
+	{
+		result = first; // Присваиваем результату (остатку) значение первого многочлена
+		freeP(second);
+	}
 	else
-		result = assignmentP(second); //Наоборот
-	freeP(first);
-	freeP(second);
+	{
+		result = second; // Наоборот
+		freeP(first);
+	}
 	return result;
 }
 // P-12
@@ -394,8 +410,7 @@ P* NMR_P_P(P* p)
 	q->num->number->n[0] = 1;
 	Q* tmp = FAC_P_Q(result);
 	Q* tmpr = DIV_QQ_Q(q, tmp);
-	temp = assignmentP(result);
-	freeP(result);
+	temp = result;
 	result = MUL_PQ_P(temp, tmpr); // Присваиваем результату значение произведения
 	freeQ(tmp);
 	freeQ(tmpr);

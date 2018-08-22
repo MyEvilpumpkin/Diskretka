@@ -16,8 +16,7 @@ int getNumber()
 			if (symbol >= '0' && symbol <= '9')
 			{
 				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-				*(number + lenght) = symbol;
-				lenght++;
+				number[lenght++] = symbol;
 			}
 			else if (symbol != '\n')
 				error = true;
@@ -26,7 +25,7 @@ int getNumber()
 			printf("Введены некорректные данные. Введите неотрицательное число: ");
 	} while (error || lenght == 0);
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-	*(number + lenght) = '\0';
+	number[lenght] = '\0';
 	toReturn = atoi(number);
 	free(number);
 	return toReturn;
@@ -77,8 +76,7 @@ N* input()
 		if ('0' <= *symbol && *symbol <= '9')
 		{
 			k = (int*)realloc(k, (len + 1) * sizeof(int));
-			k[len] = atoi(symbol);
-			len++;
+			k[len++] = atoi(symbol);
 		}
 		else if (*symbol != '\n')
 			error = true;
@@ -187,8 +185,7 @@ N* ADD_1N_N(N* n)
 			result->n[count++] = 0;
 		if (count == result->len) // Если в числе все цифры девятки, то необходимо создать новый разряд
 		{
-			result->len++; // Увеличиваем длину числа на 1
-			result->n = (int*)realloc(result->n, result->len * sizeof(int));  // Создаём новый разряд
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));  // Создаём новый разряд
 			result->n[count] = 1; // Значение нового разряда равно единице
 		}
 		else
@@ -203,8 +200,7 @@ N* ADD_NN_N(N* n1, N* n2)
 	if (COM_NN_D(n1, n2) == 2) // Если n1>n2
 	{
 		result = assignmentN(n1); // Будем прибавлять к n1
-		int size = n2->len; // Если у n2 меньше разрядов чем у n1, то нет нужды изменять разряды, начиная с n2->len+2
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < n2->len; i++)
 		{
 			result->n[i] += n2->n[i]; // Складываем соответствующие разряды
 			if (result->n[i]>9)	// Если результат больше 9, то берём остаток от деления на 10 и добавляем единицу в следующий разряд
@@ -216,12 +212,11 @@ N* ADD_NN_N(N* n1, N* n2)
 					if (g == result->len - 1) // Если следующего разряда нет, то он создаётся
 					{
 						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
-						result->n[g + 1] = 1; // Следующему "пустому" разряду присваивается единица
+						result->n[++g] = 1; // Следующему "пустому" разряду присваивается единица
 					}
 					else
-						result->n[g + 1]++; // В случае если следующий разряд существует, он увеличивается на единицу
-					result->n[g + 1] %= 10;
-					g++;
+						result->n[++g]++; // В случае если следующий разряд существует, он увеличивается на единицу
+					result->n[g] %= 10;
 				} while (result->n[g] % 10 == 0);
 			}
 		}
@@ -229,8 +224,7 @@ N* ADD_NN_N(N* n1, N* n2)
 	else // Если n1<n2
 	{
 		result = assignmentN(n2); // Будем прибавлять к n2
-		int size = n1->len; // Если у n1 меньше разрядов чем у n2, то нет нужды изменять разряды, начиная с n1->len+2
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < n1->len; i++)
 		{
 			result->n[i] += n1->n[i]; // Складываем соответствующие разряды
 			if (result->n[i]>9)	// Если результат больше 9, то берём остаток от деления на 10 и добавляем единицу в следующий разряд
@@ -242,12 +236,11 @@ N* ADD_NN_N(N* n1, N* n2)
 					if (g == result->len - 1) // Если следующего разряда нет, то он создаётся
 					{
 						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
-						result->n[g + 1] = 1; // Следующему "пустому" разряду присваивается единица
+						result->n[++g] = 1; // Следующему "пустому" разряду присваивается единица
 					}
 					else
-						result->n[g + 1]++; // В случае если следующий разряд существует, он увеличивается на единицу
-					result->n[g + 1] %= 10;
-					g++;
+						result->n[++g]++; // В случае если следующий разряд существует, он увеличивается на единицу
+					result->n[g] %= 10;
 				} while (result->n[g] % 10 == 0); // В случае если следующий разряд существует, он увеличивается на единицу
 			}
 		}
@@ -257,11 +250,12 @@ N* ADD_NN_N(N* n1, N* n2)
 // N-5
 N* SUB_NN_N(N* n1, N* n2)
 {
-	N* result = zeroN();
+	N* result;
 	bool temp = false;
 	if (COM_NN_D(n1, n2) == 2) // Проверка на правильность введенных данных
 	{
-		result->n = (int*)realloc(result->n, n1->len * sizeof(int)); // Выделение памяти под очередную цифру результата
+		result = (N*)malloc(sizeof(N));
+		result->n = (int*)malloc(n1->len * sizeof(int)); // Выделение памяти под очередную цифру результата
 		result->len = n1->len;
 		for (int i = 0; i < n1->len; i++) // Цикл до конца числа
 		{
@@ -294,39 +288,48 @@ N* SUB_NN_N(N* n1, N* n2)
 		}
 		deNullN(result); // Отбрасываем образовавшиеся незначащие нули
 	}
+	else
+		result = zeroN();
 	return result;
 }
 // N-6
 N* MUL_ND_N(N* n, int d)
 {
-	N* result = assignmentN(n);
-	int temp = 0;
-	for (int i = 0; i < n->len; i++)
+	N* result;
+	if (!d)
+		result = zeroN();
+	else
 	{
-		int tmp = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
-		result->n[i] = tmp % 10; // Определяем разряд
-		temp = tmp / 10; // Определяем остаток
-	}
-	if (temp) // Создаём ещё один разряд, если остаток не 0
-	{
-		result->len++;
-		result->n = (int*)realloc(result->n, result->len * sizeof(int));
-		result->n[result->len - 1] = temp;
+		result = (N*)malloc(sizeof(N));
+		result->len = n->len;
+		result->n = (int*)malloc(result->len * sizeof(int));
+		int temp = 0;
+		for (int i = 0; i < n->len; i++)
+		{
+			int tmp = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
+			result->n[i] = tmp % 10; // Определяем разряд
+			temp = tmp / 10; // Определяем остаток
+		}
+		if (temp) // Создаём ещё один разряд, если остаток не 0
+		{
+			result->len++;
+			result->n = (int*)realloc(result->n, result->len * sizeof(int));
+			result->n[result->len - 1] = temp;
+		}
 	}
 	return result;
 }
 // N-7
 N* MUL_Nk_N(N* n, int k)
 {
-	N* result = zeroN();
-	int len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
-	result->n = (int*)realloc(result->n, len * sizeof(int)); // Выделяем память для нашего числа
-	for (int i = 0; i < len; i++) // Цикл до конца числа
+	N* result = (N*)malloc(sizeof(N));
+	result->len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
+	result->n = (int*)malloc(result->len * sizeof(int)); // Выделяем память для нашего числа
+	for (int i = 0; i < result->len; i++) // Цикл до конца числа
 		if (i < k) // Tсли счётчик меньше степни k
 			result->n[i] = 0; // "Домножаем" наше число на 10
 		else
 			result->n[i] = n->n[i - k]; // Подставляем на новую позицию (на k больше) цифру исходного числа
-	result->len = len; // Присваиваем длине результата сумму len
 	result = deNullN(result);
 	return result;
 }
@@ -349,109 +352,116 @@ N* MUL_NN_N(N* n1, N* n2)
 // N-9
 N* SUB_NDN_N(N* n1, int d, N* n2)
 {
-	N *first, *second, *result, *temp;
-	if (COM_NN_D(n1, n2) == 2) //  Если первое число больше второго
+	N *result, *temp;
+	if (COM_NN_D(n1, n2) == 2) // Если первое число больше второго
 	{
-		first = assignmentN(n1); // Присваивание
-		second = assignmentN(n2);
+		temp = MUL_ND_N(n2, d); // Меньшее домножаем на цифру
+		result = SUB_NN_N(n1, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
 	}
 	else
 	{
-		first = assignmentN(n2); // Присваивание
-		second = assignmentN(n1);
+		temp = MUL_ND_N(n1, d); // Меньшее домножаем на цифру
+		result = SUB_NN_N(n2, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
 	}
-	temp = MUL_ND_N(second, d); // Меньшее домножаем на цифру
-	result = SUB_NN_N(first, temp); // Вычитаем из большего числа меньшее (домноженное на цифру)
 	freeN(temp);
-	freeN(first);
-	freeN(second);
 	return result;
 }
 // N-10
 int DIV_NN_Dk(N* n1, N* n2, int& k)
 {
 	int result = 1, flag;
-	N *temp, *first, *second;
+	N* temp;
 	k = 0;
 	if (COM_NN_D(n1, n2) == 2) // Если делимое - первое число
 	{
-		first = assignmentN(n1); // Делимое 
-		second = assignmentN(n2); // Делитель
-	}
-	else // Наоборот
-	{
-		first = assignmentN(n2);
-		second = assignmentN(n1);
-	}
-	do
-	{
-		temp = MUL_Nk_N(second, k); // Умножаем делитель на 10^k
-		flag = COM_NN_D(first, temp); // Сравниваем делимое и произведение
+		k = n1->len - n2->len;
+		temp = MUL_Nk_N(n2, k);
+		if (COM_NN_D(n1, temp) == 1)
+		{
+			freeN(temp);
+			temp = MUL_Nk_N(n2, --k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+		}
+		do
+		{
+			N* tmp = MUL_ND_N(temp, ++result); // Вычисляем произведение на цифру
+			flag = COM_NN_D(n1, tmp); // Сравниваем его с делимым
+			freeN(tmp);
+		} while (flag != 1);
+		result--; // Аналогично значению степени
 		freeN(temp);
-		if (flag != 1) // Если произведение меньше, то увеличиваем степень 10
-			k++;
-	} while (flag != 1); // Пока произведение не станет больше делителя
-	k--; // Так как при последнем сравнении k стало больше на 1 от необходимого
-	temp = MUL_Nk_N(second, k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
-	do
+	}
+	else if (COM_NN_D(n1, n2) == 1) // Если делимое - второе число
 	{
-		N* tmp = MUL_ND_N(temp, result); // Вычисляем произведение на цифру
-		flag = COM_NN_D(first, tmp); // Сравниваем его с делимым
-		if (flag != 1) // Если произведение меньше делимого, проверяем следующую цифру
-			result++;
-		freeN(tmp);
-	} while (flag != 1);
-	result--; // Аналогично значению степени
-	freeN(temp);
-	freeN(first);
-	freeN(second);
+		k = n2->len - n1->len;
+		temp = MUL_Nk_N(n1, k);
+		if (COM_NN_D(n2, temp) == 1)
+		{
+			freeN(temp);
+			temp = MUL_Nk_N(n1, --k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+		}
+		do
+		{
+			N* tmp = MUL_ND_N(temp, ++result); // Вычисляем произведение на цифру
+			flag = COM_NN_D(n2, tmp); // Сравниваем его с делимым
+			freeN(tmp);
+		} while (flag != 1);
+		result--; // Аналогично значению степени
+		freeN(temp);
+	}
 	return result;
 }
 // N-11
 N* DIV_NN_N(N* n1, N* n2)
 {
-	N *first, *second, *tempRes, *temp;
+	N* result = zeroN(); // Частное от деления
+	N *tempRes, *temp;
 	if (COM_NN_D(n1, n2) == 2)
 	{
-		first = assignmentN(n1);
-		second = assignmentN(n2);
+		N* part = assignmentN(n1); // Временный остаток от деления
+		int k = 0;
+		if (NZER_N_B(n2))
+			do
+			{
+				tempRes = zeroN(); // Cоздание произведения первой цифры деления на 10^k
+				tempRes->n[0] = DIV_NN_Dk(part, n2, k); // Вычисляем первую цифру и степень десятки при делении
+				temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
+				freeN(tempRes);
+				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
+				freeN(result);
+				result = tempRes;
+				tempRes = MUL_NN_N(temp, n2);
+				freeN(temp);
+				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
+				freeN(part);
+				part = temp;
+				freeN(tempRes);
+			} while (COM_NN_D(part, n2) != 1);
+			freeN(part);
 	}
 	else
 	{
-		first = assignmentN(n2);
-		second = assignmentN(n1);
-	}
-	N* result = zeroN(); // Частное от деления
-	N* part = assignmentN(first); // Временный остаток от деления
-	int numb, flag, k = 0;
-	if (NZER_N_B(second))
-		do
-		{
-			numb = DIV_NN_Dk(part, second, k); // Вычисляем первую цифру и степень десятки при делении
-			tempRes = zeroN(); // Cоздание ппроизведения первой цифры деления на 10^k
-			temp = ADD_1N_N(tempRes); // Прибавим 1 - так как при умножении она никак не будет влиять на результат
-			freeN(tempRes);
-			tempRes = MUL_ND_N(temp, numb); // Умножаем 1 на первую цифру деления
-			freeN(temp);
-			temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
-			freeN(tempRes);
-			tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
-			freeN(result);
-			result = assignmentN(tempRes);
-			freeN(tempRes);
-			tempRes = MUL_NN_N(temp, second);
-			freeN(temp);
-			temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
+		N* part = assignmentN(n2); // Временный остаток от деления
+		int k = 0;
+		if (NZER_N_B(n1))
+			do
+			{
+				tempRes = zeroN(); // Cоздание произведения первой цифры деления на 10^k
+				tempRes->n[0] = DIV_NN_Dk(part, n1, k); // Вычисляем первую цифру и степень десятки при делении
+				temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
+				freeN(tempRes);
+				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
+				freeN(result);
+				result = tempRes;
+				tempRes = MUL_NN_N(temp, n1);
+				freeN(temp);
+				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
+				freeN(part);
+				part = temp;
+				freeN(tempRes);
+			} while (COM_NN_D(part, n1) != 1);
 			freeN(part);
-			part = assignmentN(temp);
-			freeN(temp);
-			flag = COM_NN_D(part, second); // Сравниваем "делимое" и делитель
-			freeN(tempRes);
-		} while (flag != 1);
-		freeN(part);
-		freeN(first);
-		freeN(second);
-		return result;
+	}
+	return result;
 }
 // N-12
 N* MOD_NN_N(N* n1, N* n2)
@@ -460,7 +470,6 @@ N* MOD_NN_N(N* n1, N* n2)
 	temp = DIV_NN_N(n1, n2); // Числитель от деления большего числа на меньшее
 	if (COM_NN_D(n1, n2) == 2)
 	{
-
 		tmp = MUL_NN_N(temp, n2); // Произведение числителя и меньшего числа
 		result = SUB_NN_N(n1, tmp); // Разность большего числа и произведения
 	}
@@ -476,34 +485,35 @@ N* MOD_NN_N(N* n1, N* n2)
 // N-13
 N* GCF_NN_N(N* n1, N* n2)
 {
+	N *result, *temp;
 	N* first = assignmentN(n1);
 	N* second = assignmentN(n2);
-	N* temp;
 	while (NZER_N_B(first) && NZER_N_B(second)) // Пока оба числа - не нули
 	{
 		if (COM_NN_D(first, second) > 1) // Если первое больше второго
 		{
 			temp = MOD_NN_N(first, second); // Находим остаток от деления первого на второе
 			freeN(first);
-			first = assignmentN(temp);
-			freeN(temp);
+			first = temp;
 		}
 		else
 		{
 			temp = MOD_NN_N(second, first); // Иначе - остаток от деления второго на первое
 			freeN(second);
-			second = assignmentN(temp);
-			freeN(temp);
+			second = temp;
 		}
-
 	}
 	if (COM_NN_D(first, second) != 2) // Если первое число - больше второго
 	{
+		result = second;
 		freeN(first);
-		first = assignmentN(second); // Меняем их местами
 	}
-	freeN(second);
-	return first;
+	else
+	{
+		result = first;
+		freeN(second);
+	}
+	return result;
 }
 // N-14
 N* LCM_NN_N(N* n1, N* n2)
