@@ -16,8 +16,7 @@ int getNumber()
 			if (symbol >= '0' && symbol <= '9')
 			{
 				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-				*(number + lenght) = symbol;
-				lenght++;
+				number[lenght++] = symbol;
 			}
 			else if (symbol != '\n')
 				error = true;
@@ -26,7 +25,7 @@ int getNumber()
 			printf("¬ведены некорректные данные. ¬ведите неотрицательное число: ");
 	} while (error || lenght == 0);
 	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-	*(number + lenght) = '\0';
+	number[lenght] = '\0';
 	toReturn = atoi(number);
 	free(number);
 	return toReturn;
@@ -77,8 +76,7 @@ N* input()
 		if ('0' <= *symbol && *symbol <= '9')
 		{
 			k = (int*)realloc(k, (len + 1) * sizeof(int));
-			k[len] = atoi(symbol);
-			len++;
+			k[len++] = atoi(symbol);
 		}
 		else if (*symbol != '\n')
 			error = true;
@@ -214,12 +212,11 @@ N* ADD_NN_N(N* n1, N* n2)
 					if (g == result->len - 1) // ≈сли следующего разр€да нет, то он создаЄтс€
 					{
 						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
-						result->n[g + 1] = 1; // —ледующему "пустому" разр€ду присваиваетс€ единица
+						result->n[++g] = 1; // —ледующему "пустому" разр€ду присваиваетс€ единица
 					}
 					else
-						result->n[g + 1]++; // ¬ случае если следующий разр€д существует, он увеличиваетс€ на единицу
-					result->n[g + 1] %= 10;
-					g++;
+						result->n[++g]++; // ¬ случае если следующий разр€д существует, он увеличиваетс€ на единицу
+					result->n[g] %= 10;
 				} while (result->n[g] % 10 == 0);
 			}
 		}
@@ -239,12 +236,11 @@ N* ADD_NN_N(N* n1, N* n2)
 					if (g == result->len - 1) // ≈сли следующего разр€да нет, то он создаЄтс€
 					{
 						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
-						result->n[g + 1] = 1; // —ледующему "пустому" разр€ду присваиваетс€ единица
+						result->n[++g] = 1; // —ледующему "пустому" разр€ду присваиваетс€ единица
 					}
 					else
-						result->n[g + 1]++; // ¬ случае если следующий разр€д существует, он увеличиваетс€ на единицу
-					result->n[g + 1] %= 10;
-					g++;
+						result->n[++g]++; // ¬ случае если следующий разр€д существует, он увеличиваетс€ на единицу
+					result->n[g] %= 10;
 				} while (result->n[g] % 10 == 0); // ¬ случае если следующий разр€д существует, он увеличиваетс€ на единицу
 			}
 		}
@@ -422,7 +418,7 @@ N* DIV_NN_N(N* n1, N* n2)
 	if (COM_NN_D(n1, n2) == 2)
 	{
 		N* part = assignmentN(n1); // ¬ременный остаток от делени€
-		int flag, k = 0;
+		int k = 0;
 		if (NZER_N_B(n2))
 			do
 			{
@@ -438,15 +434,14 @@ N* DIV_NN_N(N* n1, N* n2)
 				temp = SUB_NN_N(part, tempRes); // ¬ычисление временного остатка
 				freeN(part);
 				part = temp;
-				flag = COM_NN_D(part, n2); // —равниваем "делимое" и делитель
 				freeN(tempRes);
-			} while (flag != 1);
+			} while (COM_NN_D(part, n2) != 1);
 			freeN(part);
 	}
 	else
 	{
 		N* part = assignmentN(n2); // ¬ременный остаток от делени€
-		int flag, k = 0;
+		int k = 0;
 		if (NZER_N_B(n1))
 			do
 			{
@@ -462,9 +457,8 @@ N* DIV_NN_N(N* n1, N* n2)
 				temp = SUB_NN_N(part, tempRes); // ¬ычисление временного остатка
 				freeN(part);
 				part = temp;
-				flag = COM_NN_D(part, n1); // —равниваем "делимое" и делитель
 				freeN(tempRes);
-			} while (flag != 1);
+			} while (COM_NN_D(part, n1) != 1);
 			freeN(part);
 	}
 	return result;
@@ -508,7 +502,6 @@ N* GCF_NN_N(N* n1, N* n2)
 			freeN(second);
 			second = temp;
 		}
-
 	}
 	if (COM_NN_D(first, second) != 2) // ≈сли первое число - больше второго
 	{
