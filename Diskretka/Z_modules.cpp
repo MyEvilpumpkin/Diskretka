@@ -81,10 +81,10 @@ N* ABS_Z_N(Z* z)
 // Z-2
 int POZ_Z_D(Z* z)
 {
-	if (!z->sign) // Если число отрицательное
-		return 1;
-	else if (!NZER_N_B(z->number)) // Если число = 0
+	if (!NZER_N_B(z->number)) // Если число = 0
 		return 0;
+	else if (!z->sign) // Если число отрицательное
+		return 1;
 	else // Если число положительное
 		return 2;
 }
