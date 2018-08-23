@@ -33,14 +33,14 @@ int getNumber()
 // Удаление лишних нулей в начале числа
 N* deNullN(N* n)
 {
-	if (n->len != 0)
+	if (n->len > 1)
 	{
-		int i = 1,
-			l = n->len;
-		for (int j = 0; j < l; j++)
-			i = n->n[j] == 0 ? i : j + 1;
-		n->n = (int*)realloc(n->n, i * sizeof(int));
-		n->len = i;
+		int i;
+		bool flag = false;
+		for (i = n->len - 1; i >= 0 && !flag; i--)
+			flag = n->n[i];
+		n->n = (int*)realloc(n->n, (i + 2) * sizeof(int));
+		n->len = i + 2;
 	}
 	return n;
 }
@@ -115,7 +115,7 @@ N* inputN()
 			freeN(n);
 		}
 	} while (n->len < 1);
-	n = deNullN(n);
+	deNullN(n);
 	return n;
 }
 // Инициализация с обнулением
@@ -306,9 +306,9 @@ N* MUL_ND_N(N* n, int d)
 		int temp = 0;
 		for (int i = 0; i < n->len; i++)
 		{
-			int tmp = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
-			result->n[i] = tmp % 10; // Определяем разряд
-			temp = tmp / 10; // Определяем остаток
+			result->n[i] = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
+			temp = result->n[i] / 10; // Определяем остаток
+			result->n[i] = result->n[i] % 10; // Определяем разряд
 		}
 		if (temp) // Создаём ещё один разряд, если остаток не 0
 		{
