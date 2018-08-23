@@ -237,7 +237,7 @@ Q* LED_P_Q(P* p)
 N* DEG_P_N(P* p)
 {
 	int power = 0; // Счётчик степени
-	bool flag = true; // Инициализируем флаг каак поднятый
+	bool flag = true; // Инициализируем флаг как поднятый
 	for (int i = p->len; i >= 0 && flag; i--) // Цикл до младшего коэффициента многочлена или пока поднят флаг
 		if (POZ_Z_D(p->k[i]->num)) // Если исследуемый коэффициент != 0
 		{
@@ -308,7 +308,6 @@ P* DIV_PP_P(P* p1, P* p2)
 	P *temp, *tmp; // Временная переменная
 	P* part = assignmentP(p1); // Остаток от деления
 	int i; // Для перебора коэффициентов
-	Q* coef; // Коэффициент при исследуемой степени результата
 	result->len = p1->len - p2->len;
 	result->k = (Q**)malloc((result->len + 1) * sizeof(Q*));
 	if (result->len < 0)
@@ -320,11 +319,10 @@ P* DIV_PP_P(P* p1, P* p2)
 		for (i = p1->len; i >= p2->len; i--)
 		{
 			if (i <= part->len)
-				coef = DIV_QQ_Q(part->k[i], p2->k[p2->len]); // Вычисления коэффициента перед степенью в результате
+				result->k[i - p2->len] = DIV_QQ_Q(part->k[i], p2->k[p2->len]); // Вычисления коэффициента перед степенью в результате
 			else
-				coef = zeroQ();
-			result->k[i - p2->len] = coef; // Заносим найденный коэффициент в поле ответа
-			temp = MUL_PQ_P(p2, coef); // Умножение делителя на "подходящий" коэффициент
+				result->k[i - p2->len] = zeroQ();
+			temp = MUL_PQ_P(p2, result->k[i - p2->len]); // Умножение делителя на "подходящий" коэффициент
 			tmp = MUL_Pxk_P(temp, (i - p2->len)); // Возведение в необходимую степень
 			freeP(temp);
 			temp = SUB_PP_P(part, tmp); // Вычитаем из остатка часть частного, умноженную на делитель
