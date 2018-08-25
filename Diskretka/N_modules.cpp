@@ -121,7 +121,8 @@ N* inputN()
 // Инициализация с обнулением
 N* zeroN()
 {
-	N* n = initN();
+	N* n = (N*)malloc(sizeof(N));
+	n->n = (int*)malloc(sizeof(int));
 	n->n[0] = 0;
 	n->len = 1;
 	return n;
@@ -129,8 +130,8 @@ N* zeroN()
 // Присваивание
 N* assignmentN(N* n)
 {
-	N* result = initN();
-	result->n = (int*)realloc(result->n, n->len * sizeof(int));
+	N* result = (N*)malloc(sizeof(N));
+	result->n = (int*)malloc(n->len * sizeof(int));
 	for (int i = 0; i < n->len; i++)
 		result->n[i] = n->n[i];
 	result->len = n->len;
@@ -305,6 +306,8 @@ N* MUL_ND_N(N* n, int d)
 	N* result;
 	if (!d)
 		result = zeroN();
+	else if (d == 1)
+		result = assignmentN(n);
 	else
 	{
 		result = (N*)malloc(sizeof(N));
@@ -319,8 +322,7 @@ N* MUL_ND_N(N* n, int d)
 		}
 		if (temp) // Создаём ещё один разряд, если остаток не 0
 		{
-			result->len++;
-			result->n = (int*)realloc(result->n, result->len * sizeof(int));
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
 			result->n[result->len - 1] = temp;
 		}
 	}
