@@ -122,12 +122,13 @@ Z* ADD_ZZ_Z(Z* z1, Z* z2)
 	}
 	else
 	{
-		if (COM_NN_D(z1->number, z2->number) == 2) // Если первое число больше второго по модулю
+		int com = COM_NN_D(z1->number, z2->number);
+		if (com == 2) // Если первое число больше второго по модулю
 		{
 			result->number = SUB_NN_N(z1->number, z2->number); // Вычитаем из большего числа меньшее
 			result->sign = z1->sign; // Присваиваем результату знак первого числа
 		}
-		else if (COM_NN_D(z1->number, z2->number) == 1) // Если второе число больше первого по модулю
+		else if (com == 1) // Если второе число больше первого по модулю
 		{
 			result->number = SUB_NN_N(z2->number, z1->number); // Наоборот
 			result->sign = z2->sign;
@@ -151,12 +152,13 @@ Z* SUB_ZZ_Z(Z* z1, Z* z2)
 	}
 	else
 	{
-		if (COM_NN_D(z1->number, z2->number) == 2) // Если первое число больше второго по модулю
+		int com = COM_NN_D(z1->number, z2->number);
+		if (com == 2) // Если первое число больше второго по модулю
 		{
 			result->number = SUB_NN_N(z1->number, z2->number); // Вычитаем из большего числа меньшее
 			result->sign = z1->sign; // Присваиваем результату знак первого числа
 		}
-		else if (COM_NN_D(z1->number, z2->number) == 1) // Если второе число больше первого по модулю
+		else if (com == 1) // Если второе число больше первого по модулю
 		{
 			result->number = SUB_NN_N(z2->number, z1->number); // Наоборот
 			result->sign = !z2->sign;

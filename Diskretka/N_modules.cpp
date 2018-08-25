@@ -381,7 +381,8 @@ int DIV_NN_Dk(N* n1, N* n2, int& k)
 	int result = 1, flag;
 	N* temp;
 	k = 0;
-	if (COM_NN_D(n1, n2) == 2) // Если делимое - первое число
+	int com = COM_NN_D(n1, n2);
+	if (com == 2) // Если делимое - первое число
 	{
 		k = n1->len - n2->len;
 		temp = MUL_Nk_N(n2, k);
@@ -399,7 +400,7 @@ int DIV_NN_Dk(N* n1, N* n2, int& k)
 		result--; // Аналогично значению степени
 		freeN(temp);
 	}
-	else if (COM_NN_D(n1, n2) == 1) // Если делимое - второе число
+	else if (com == 1) // Если делимое - второе число
 	{
 		k = n2->len - n1->len;
 		temp = MUL_Nk_N(n1, k);
@@ -424,7 +425,8 @@ N* DIV_NN_N(N* n1, N* n2)
 {
 	N* result = zeroN(); // Частное от деления
 	N *tempRes, *temp;
-	if (COM_NN_D(n1, n2) == 2)
+	int com = COM_NN_D(n1, n2);
+	if (com == 2)
 	{
 		N* part = assignmentN(n1); // Временный остаток от деления
 		int k = 0;
@@ -447,7 +449,7 @@ N* DIV_NN_N(N* n1, N* n2)
 			} while (COM_NN_D(part, n2) != 1);
 			freeN(part);
 	}
-	else
+	else if (com == 1)
 	{
 		N* part = assignmentN(n2); // Временный остаток от деления
 		int k = 0;
@@ -470,6 +472,8 @@ N* DIV_NN_N(N* n1, N* n2)
 			} while (COM_NN_D(part, n1) != 1);
 			freeN(part);
 	}
+	else
+		result->n[0] = 1;
 	return result;
 }
 // N-12
