@@ -198,7 +198,7 @@ N* ADD_1N_N(N* n)
 N* ADD_NN_N(N* n1, N* n2)
 {
 	N* result = (N*)malloc(sizeof(N));
-	int temp = 0;
+	bool temp = false;
 	if (COM_NN_D(n1, n2) == 2) // Если n1>n2
 	{
 		result->n = (int*)malloc(n1->len * sizeof(int));
@@ -208,13 +208,13 @@ N* ADD_NN_N(N* n1, N* n2)
 			if (i < n2->len)
 			{
 				result->n[i] = n1->n[i] + n2->n[i] + temp; // Складываем соответствующие разряды
-				temp = result->n[i] / 10;
+				temp = result->n[i] > 9;
 				result->n[i] %= 10; // Определяем разряд
 			}
 			else if(temp)
 			{
 				result->n[i] = n1->n[i] + temp; // Присваиваем соответствующие разряды
-				temp = result->n[i] / 10;
+				temp = result->n[i] > 9;
 				result->n[i] %= 10; // Определяем разряд
 			}
 			else
@@ -235,13 +235,13 @@ N* ADD_NN_N(N* n1, N* n2)
 			if (i < n1->len)
 			{
 				result->n[i] = n1->n[i] + n2->n[i] + temp; // Складываем соответствующие разряды
-				temp = result->n[i] / 10;
+				temp = result->n[i] > 9;
 				result->n[i] %= 10; // Определяем разряд
 			}
 			else if (temp)
 			{
 				result->n[i] = n2->n[i] + temp; // Присваиваем соответствующие разряды
-				temp = result->n[i] / 10;
+				temp = result->n[i] > 9;
 				result->n[i] %= 10; // Определяем разряд
 			}
 			else
@@ -269,16 +269,10 @@ N* SUB_NN_N(N* n1, N* n2)
 		{
 			if (i < n2->len) // Если счётчик меньше длины меньшего числа (числа "накладываются" друг на друга)
 			{
-				if (n1->n[i] >= n2->n[i] + temp) // Если цифра большего числа больше или равна цифре меньшего числа
-				{
-					result->n[i] = n1->n[i] - n2->n[i] - temp; // Проводим обыкновенное вычитание
-					temp = false;
-				}
-				else // Если цифра большего числа меньше цифры меньшего числа
-				{
-					result->n[i] = n1->n[i] + 10 - n2->n[i] - temp;
-					temp = true;
-				}
+				result->n[i] = n1->n[i] - n2->n[i] - temp; // Проводим обыкновенное вычитание
+				temp = result->n[i] < 0;
+				if (temp)
+					result->n[i] += 10;
 			}
 			else
 			{
@@ -318,7 +312,7 @@ N* MUL_ND_N(N* n, int d)
 		{
 			result->n[i] = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
 			temp = result->n[i] / 10; // Определяем остаток
-			result->n[i] = result->n[i] % 10; // Определяем разряд
+			result->n[i] %= 10; // Определяем разряд
 		}
 		if (temp) // Создаём ещё один разряд, если остаток не 0
 		{
@@ -331,15 +325,20 @@ N* MUL_ND_N(N* n, int d)
 // N-7
 N* MUL_Nk_N(N* n, int k)
 {
-	N* result = (N*)malloc(sizeof(N));
-	result->len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
-	result->n = (int*)malloc(result->len * sizeof(int)); // Выделяем память для нашего числа
-	for (int i = 0; i < result->len; i++) // Цикл до конца числа
-		if (i < k) // Tсли счётчик меньше степни k
-			result->n[i] = 0; // "Домножаем" наше число на 10
-		else
-			result->n[i] = n->n[i - k]; // Подставляем на новую позицию (на k больше) цифру исходного числа
-	result = deNullN(result);
+	N* result;
+	if (!NZER_N_B(n))
+		result = zeroN();
+	else
+	{
+		result = (N*)malloc(sizeof(N));
+		result->len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
+		result->n = (int*)malloc(result->len * sizeof(int)); // Выделяем память для нашего числа
+		for (int i = 0; i < result->len; i++) // Цикл до конца числа
+			if (i < k) // Если счётчик меньше степни k
+				result->n[i] = 0; // "Домножаем" наше число на 10
+			else
+				result->n[i] = n->n[i - k]; // Подставляем на новую позицию (на k больше) цифру исходного числа
+	}
 	return result;
 }
 // N-8
