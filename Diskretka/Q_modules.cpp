@@ -70,18 +70,17 @@ Q* freeQ(Q* q)
 // Q-1
 Q* RED_Q_Q(Q* q)
 {
-	Q* temp;
+	Z* tempZ;
+	N* tempN;
 	N* d = GCF_NN_N(q->num->number, q->denom); // Присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби 
 	while (d->len != 1 or d->n[0] != 1) // До тех пор пока d не станет равным 1  
 	{
-		temp = (Q*)malloc(sizeof(Q));
-		temp->num = DIV_ZN_Z(q->num, d); // Сокращаем числитель на d
-		temp->denom = DIV_NN_N(q->denom, d); // Сокращаем знаменатель на d
+		tempZ = DIV_ZN_Z(q->num, d); // Сокращаем числитель на d
+		tempN = DIV_NN_N(q->denom, d); // Сокращаем знаменатель на d
 		freeZ(q->num);
-		q->num = assignmentZ(temp->num);
+		q->num = tempZ;
 		freeN(q->denom);
-		q->denom = assignmentN(temp->denom);
-		freeQ(temp);
+		q->denom = tempN;
 		freeN(d);
 		d = GCF_NN_N(q->num->number, q->denom); // Присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби  
 	}

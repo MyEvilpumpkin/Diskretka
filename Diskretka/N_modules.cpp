@@ -155,7 +155,7 @@ int COM_NN_D(N* n1, N* n2)
 {
 	if (n1->len > n2->len) // Если первое число больше второго
 		return 2;
-	if (n1->len < n2->len) // Если второе число больше первого
+	else if (n1->len < n2->len) // Если второе число больше первого
 		return 1;
 	else
 	{
@@ -196,53 +196,60 @@ N* ADD_1N_N(N* n)
 // N-4
 N* ADD_NN_N(N* n1, N* n2)
 {
-	N* result;
+	N* result = (N*)malloc(sizeof(N));
+	int temp = 0;
 	if (COM_NN_D(n1, n2) == 2) // Если n1>n2
 	{
-		result = assignmentN(n1); // Будем прибавлять к n1
-		for (int i = 0; i < n2->len; i++)
+		result->n = (int*)malloc(n1->len * sizeof(int));
+		result->len = n1->len;
+		for (int i = 0; i < n1->len; i++)
 		{
-			result->n[i] += n2->n[i]; // Складываем соответствующие разряды
-			if (result->n[i]>9)	// Если результат больше 9, то берём остаток от деления на 10 и добавляем единицу в следующий разряд
+			if (i < n2->len)
 			{
-				result->n[i] %= 10;
-				int g = i;
-				do
-				{
-					if (g == result->len - 1) // Если следующего разряда нет, то он создаётся
-					{
-						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
-						result->n[++g] = 1; // Следующему "пустому" разряду присваивается единица
-					}
-					else
-						result->n[++g]++; // В случае если следующий разряд существует, он увеличивается на единицу
-					result->n[g] %= 10;
-				} while (result->n[g] % 10 == 0);
+				result->n[i] = n1->n[i] + n2->n[i] + temp; // Складываем соответствующие разряды
+				temp = result->n[i] / 10;
+				result->n[i] %= 10; // Определяем разряд
 			}
+			else if(temp)
+			{
+				result->n[i] = n1->n[i] + temp; // Присваиваем соответствующие разряды
+				temp = result->n[i] / 10;
+				result->n[i] %= 10; // Определяем разряд
+			}
+			else
+				result->n[i] = n1->n[i];
+		}
+		if (temp) // Создаем разряд, если нужно
+		{
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
+			result->n[result->len - 1] = temp;
 		}
 	}
 	else // Если n1<n2
 	{
-		result = assignmentN(n2); // Будем прибавлять к n2
-		for (int i = 0; i < n1->len; i++)
+		result->n = (int*)malloc(n2->len * sizeof(int));
+		result->len = n2->len;
+		for (int i = 0; i < n2->len; i++)
 		{
-			result->n[i] += n1->n[i]; // Складываем соответствующие разряды
-			if (result->n[i]>9)	// Если результат больше 9, то берём остаток от деления на 10 и добавляем единицу в следующий разряд
+			if (i < n1->len)
 			{
-				result->n[i] %= 10;
-				int g = i;
-				do
-				{
-					if (g == result->len - 1) // Если следующего разряда нет, то он создаётся
-					{
-						result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
-						result->n[++g] = 1; // Следующему "пустому" разряду присваивается единица
-					}
-					else
-						result->n[++g]++; // В случае если следующий разряд существует, он увеличивается на единицу
-					result->n[g] %= 10;
-				} while (result->n[g] % 10 == 0); // В случае если следующий разряд существует, он увеличивается на единицу
+				result->n[i] = n1->n[i] + n2->n[i] + temp; // Складываем соответствующие разряды
+				temp = result->n[i] / 10;
+				result->n[i] %= 10; // Определяем разряд
 			}
+			else if (temp)
+			{
+				result->n[i] = n2->n[i] + temp; // Присваиваем соответствующие разряды
+				temp = result->n[i] / 10;
+				result->n[i] %= 10; // Определяем разряд
+			}
+			else
+				result->n[i] = n2->n[i];
+		}
+		if (temp) // Создаем разряд, если нужно
+		{
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
+			result->n[result->len - 1] = temp;
 		}
 	}
 	return result;

@@ -306,7 +306,6 @@ P* DIV_PP_P(P* p1, P* p2)
 {
 	P* result = (P*)malloc(sizeof(P)); // Частное от деления многочленов
 	P *temp, *tmp; // Временная переменная
-	P* part = assignmentP(p1); // Остаток от деления
 	int i; // Для перебора коэффициентов
 	result->len = p1->len - p2->len;
 	result->k = (Q**)malloc((result->len + 1) * sizeof(Q*));
@@ -316,6 +315,8 @@ P* DIV_PP_P(P* p1, P* p2)
 		result = zeroP();
 	}
 	else
+	{
+		P* part = assignmentP(p1); // Остаток от деления
 		for (i = p1->len; i >= p2->len; i--)
 		{
 			if (i <= part->len)
@@ -330,7 +331,8 @@ P* DIV_PP_P(P* p1, P* p2)
 			freeP(part);
 			part = temp;
 		}
-	freeP(part);
+		freeP(part);
+	}	
 	return result;
 }
 // P-10
