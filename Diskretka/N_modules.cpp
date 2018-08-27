@@ -345,16 +345,17 @@ N* MUL_Nk_N(N* n, int k)
 N* MUL_NN_N(N* n1, N* n2)
 {
 	N *result = zeroN(), *temp, *tmp;
-	for (int i = 0; i < n2->len; i++) // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
-	{
-		tmp = MUL_ND_N(n1, n2->n[i]);
-		temp = MUL_Nk_N(tmp, i); // Умноженная на второй сомножитель и на 10^i
-		freeN(tmp);
-		tmp = ADD_NN_N(result, temp);
-		freeN(result);
-		freeN(temp);
-		result = tmp;
-	}
+	if (NZER_N_B(n1) && NZER_N_B(n2))
+		for (int i = 0; i < n2->len; i++) // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
+		{
+			tmp = MUL_ND_N(n1, n2->n[i]);
+			temp = MUL_Nk_N(tmp, i); // Умноженная на второй сомножитель и на 10^i
+			freeN(tmp);
+			tmp = ADD_NN_N(result, temp);
+			freeN(result);
+			freeN(temp);
+			result = tmp;
+		}
 	return result;
 }
 // N-9
@@ -498,32 +499,42 @@ N* MOD_NN_N(N* n1, N* n2)
 N* GCF_NN_N(N* n1, N* n2)
 {
 	N *result, *temp;
-	N* first = assignmentN(n1);
-	N* second = assignmentN(n2);
+	N* first = n1;
+	N* second = n2;
 	while (NZER_N_B(first) && NZER_N_B(second)) // Пока оба числа - не нули
 	{
 		if (COM_NN_D(first, second) > 1) // Если первое больше второго
 		{
 			temp = MOD_NN_N(first, second); // Находим остаток от деления первого на второе
-			freeN(first);
+			if (first != n1)
+				freeN(first);
 			first = temp;
 		}
 		else
 		{
 			temp = MOD_NN_N(second, first); // Иначе - остаток от деления второго на первое
-			freeN(second);
+			if (second != n2)
+				freeN(second);
 			second = temp;
 		}
 	}
 	if (COM_NN_D(first, second) != 2) // Если первое число - больше второго
 	{
-		result = second;
-		freeN(first);
+		if (second != n2)
+			result = second;
+		else
+			result = assignmentN(second);
+		if (first != n1)
+			freeN(first);
 	}
 	else
 	{
-		result = first;
-		freeN(second);
+		if (first != n1)
+			result = first;
+		else
+			result = assignmentN(first);
+		if (second != n2)
+			freeN(second);
 	}
 	return result;
 }
