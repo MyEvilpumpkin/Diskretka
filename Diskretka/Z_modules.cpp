@@ -122,17 +122,18 @@ Z* ADD_ZZ_Z(Z* z1, Z* z2)
 	}
 	else
 	{
-		if (COM_NN_D(z1->number, z2->number) == 2) // Если первое число больше второго по модулю
+		int com = COM_NN_D(z1->number, z2->number);
+		if (com == 2) // Если первое число больше второго по модулю
 		{
 			result->number = SUB_NN_N(z1->number, z2->number); // Вычитаем из большего числа меньшее
 			result->sign = z1->sign; // Присваиваем результату знак первого числа
 		}
-		else if (COM_NN_D(z1->number, z2->number) == 1) // Если второе число больше первого по модулю
+		else if (com == 1) // Если второе число больше первого по модулю
 		{
 			result->number = SUB_NN_N(z2->number, z1->number); // Наоборот
 			result->sign = z2->sign;
 		}
-		else if (COM_NN_D(z1->number, z2->number) == 0) // Если числа равны
+		else // Если числа равны
 		{
 			result->number = zeroN(); // Результат присваиваем нулю
 			result->sign = true; // Со знаком плюс
@@ -151,17 +152,18 @@ Z* SUB_ZZ_Z(Z* z1, Z* z2)
 	}
 	else
 	{
-		if (COM_NN_D(z1->number, z2->number) == 2) // Если первое число больше второго по модулю
+		int com = COM_NN_D(z1->number, z2->number);
+		if (com == 2) // Если первое число больше второго по модулю
 		{
 			result->number = SUB_NN_N(z1->number, z2->number); // Вычитаем из большего числа меньшее
 			result->sign = z1->sign; // Присваиваем результату знак первого числа
 		}
-		else if (COM_NN_D(z1->number, z2->number) == 1) // Если второе число больше первого по модулю
+		else if (com == 1) // Если второе число больше первого по модулю
 		{
 			result->number = SUB_NN_N(z2->number, z1->number); // Наоборот
 			result->sign = !z2->sign;
 		}
-		else if (COM_NN_D(z1->number, z2->number) == 0) // Если числа равны
+		else // Если числа равны
 		{
 			result->number = zeroN(); // Результат присваиваем нулю
 			result->sign = true; // Со знаком плюс
@@ -174,12 +176,12 @@ Z* MUL_ZZ_Z(Z* z1, Z* z2)
 {
 	Z* result = (Z*)malloc(sizeof(Z));
 	result->number = MUL_NN_N(z1->number, z2->number); // Присваиваем результату по модулю значение произведения первого числа на второе по модулю
-	if (z1->sign == z2->sign) // Если знаки двух чисел равны
+	if (!POZ_Z_D(result)) // Если результа - 0
+		result->sign = true; // То знак результата +
+	else if (z1->sign == z2->sign) // Если знаки двух чисел равны
 		result->sign = true; // То знак результата +
 	else
 		result->sign = false; // Знак результата -
-	if (!POZ_Z_D(result)) // Если результа - 0
-		result->sign = true; // То знак результата +
 	return result;
 }
 // Z-9
