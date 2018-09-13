@@ -1,5 +1,5 @@
 #include "modules.h"
-#include <ctime>
+
 // Функция вызова N-модулей
 void N_module(int option)
 {
@@ -543,10 +543,7 @@ void P_module(int option)
 		puts("Введите второй многочлен:");
 		P* p2 = inputP();
 		printf("Результат: ");
-		int t = clock();
 		P* result = DIV_PP_P(p1, p2);
-		t = clock() - t;
-		printf("%d\n", t);
 		printP(result);
 		freeP(result);
 		freeP(p1);

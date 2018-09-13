@@ -2,12 +2,10 @@
 #include <iostream>
 #include "malloc.h"
 
-typedef char byte;
-
 // Описание натурального числа
 struct N
 {
-	byte *n;  // Указатель на младший разряд числа
+	int *n;  // Указатель на младший разряд числа
 	int len; // Количество разрядов в числе
 };
 

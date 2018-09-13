@@ -39,7 +39,7 @@ N* deNullN(N* n)
 		bool flag = false;
 		for (i = n->len - 1; i >= 0 && !flag; i--)
 			flag = n->n[i];
-		n->n = (byte*)realloc(n->n, (i + 2) * sizeof(byte));
+		n->n = (int*)realloc(n->n, (i + 2) * sizeof(int));
 		n->len = i + 2;
 	}
 	return n;
@@ -55,7 +55,7 @@ N* intToN(int d)
 		len++;
 	}
 	n->len = len;
-	n->n = (byte*)realloc(n->n, len * sizeof(byte));
+	n->n = (int*)realloc(n->n, len * sizeof(int));
 	for (int i = len - 1; i >= 0; i--)
 	{
 		n->n[len - 1 - i] = d % 10;
@@ -85,7 +85,7 @@ N* input()
 	} while (*symbol != '\n');
 	if (!error && len > 0)
 	{
-		n->n = (byte*)realloc(n->n, len * sizeof(byte));
+		n->n = (int*)realloc(n->n, len * sizeof(int));
 		n->len = len;
 		for (int i = 0; i < len; i++)
 			n->n[i] = k[len - i - 1];
@@ -99,7 +99,7 @@ N* input()
 N* initN()
 {
 	N* n = (N*)malloc(sizeof(N));
-	n->n = (byte*)malloc(sizeof(byte));
+	n->n = (int*)malloc(sizeof(int));
 	n->len = -1;
 	return n;
 }
@@ -122,7 +122,7 @@ N* inputN()
 N* zeroN()
 {
 	N* n = (N*)malloc(sizeof(N));
-	n->n = (byte*)malloc(sizeof(byte));
+	n->n = (int*)malloc(sizeof(int));
 	n->n[0] = 0;
 	n->len = 1;
 	return n;
@@ -131,7 +131,7 @@ N* zeroN()
 N* assignmentN(N* n)
 {
 	N* result = (N*)malloc(sizeof(N));
-	result->n = (byte*)malloc(n->len * sizeof(byte));
+	result->n = (int*)malloc(n->len * sizeof(int));
 	for (int i = 0; i < n->len; i++)
 		result->n[i] = n->n[i];
 	result->len = n->len;
@@ -186,7 +186,7 @@ N* ADD_1N_N(N* n)
 			result->n[count++] = 0;
 		if (count == result->len) // Если в числе все цифры девятки, то необходимо создать новый разряд
 		{
-			result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));  // Создаём новый разряд
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));  // Создаём новый разряд
 			result->n[count] = 1; // Значение нового разряда равно единице
 		}
 		else
@@ -201,7 +201,7 @@ N* ADD_NN_N(N* n1, N* n2)
 	bool temp = false;
 	if (COM_NN_D(n1, n2) == 2) // Если n1>n2
 	{
-		result->n = (byte*)malloc(n1->len * sizeof(byte));
+		result->n = (int*)malloc(n1->len * sizeof(int));
 		result->len = n1->len;
 		for (int i = 0; i < n1->len; i++)
 		{
@@ -222,13 +222,13 @@ N* ADD_NN_N(N* n1, N* n2)
 		}
 		if (temp) // Создаем разряд, если нужно
 		{
-			result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
 			result->n[result->len - 1] = temp;
 		}
 	}
 	else // Если n1<n2
 	{
-		result->n = (byte*)malloc(n2->len * sizeof(byte));
+		result->n = (int*)malloc(n2->len * sizeof(int));
 		result->len = n2->len;
 		for (int i = 0; i < n2->len; i++)
 		{
@@ -249,7 +249,7 @@ N* ADD_NN_N(N* n1, N* n2)
 		}
 		if (temp) // Создаем разряд, если нужно
 		{
-			result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
 			result->n[result->len - 1] = temp;
 		}
 	}
@@ -263,7 +263,7 @@ N* SUB_NN_N(N* n1, N* n2)
 	if (COM_NN_D(n1, n2) == 2) // Проверка на правильность введенных данных
 	{
 		result = (N*)malloc(sizeof(N));
-		result->n = (byte*)malloc(n1->len * sizeof(byte)); // Выделение памяти под очередную цифру результата
+		result->n = (int*)malloc(n1->len * sizeof(int)); // Выделение памяти под очередную цифру результата
 		result->len = n1->len;
 		for (int i = 0; i < n1->len; i++) // Цикл до конца числа
 		{
@@ -306,7 +306,7 @@ N* MUL_ND_N(N* n, int d)
 	{
 		result = (N*)malloc(sizeof(N));
 		result->len = n->len;
-		result->n = (byte*)malloc(result->len * sizeof(byte));
+		result->n = (int*)malloc(result->len * sizeof(int));
 		int temp = 0;
 		for (int i = 0; i < n->len; i++)
 		{
@@ -316,7 +316,7 @@ N* MUL_ND_N(N* n, int d)
 		}
 		if (temp) // Создаём ещё один разряд, если остаток не 0
 		{
-			result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));
+			result->n = (int*)realloc(result->n, ++result->len * sizeof(int));
 			result->n[result->len - 1] = temp;
 		}
 	}
@@ -332,7 +332,7 @@ N* MUL_Nk_N(N* n, int k)
 	{
 		result = (N*)malloc(sizeof(N));
 		result->len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
-		result->n = (byte*)malloc(result->len * sizeof(byte)); // Выделяем память для нашего числа
+		result->n = (int*)malloc(result->len * sizeof(int)); // Выделяем память для нашего числа
 		for (int i = 0; i < result->len; i++) // Цикл до конца числа
 			if (i < k) // Если счётчик меньше степни k
 				result->n[i] = 0; // "Домножаем" наше число на 10
