@@ -33,7 +33,7 @@ Z* inputZ() {
 		}
 		else if (*s != '-' && (*s != '0' || z->number->len == 0))
 		{
-			z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
+			z->number->n = (byte*)realloc(z->number->n, (z->number->len + 1) * sizeof(byte));
 			z->number->len++;
 			z->number->n[z->number->len - 1] = atoi(s);
 		}
