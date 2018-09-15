@@ -1,13 +1,5 @@
 #include "Q_modules.h"
 
-// Инициализация
-Q* initQ()
-{
-	Q* q = (Q*)malloc(sizeof(Q));
-	q->num = initZ();
-	q->denom = initN();
-	return q;
-}
 // Ввод
 Q* inputQ()
 {

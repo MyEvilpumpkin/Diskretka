@@ -2,21 +2,20 @@
 #include <iostream>
 #include "malloc.h"
 
+// Определение типа byte
 typedef char byte;
 
 // Описание натурального числа
 struct N
 {
-	byte *n;  // Указатель на младший разряд числа
-	int len; // Количество разрядов в числе
+	byte *n;           // Указатель на младший разряд числа
+	unsigned int len;  // Количество разрядов в числе
 };
 
 int getNumber(); // Ввод неотрицательных чисел int
 N* deNullN(N*);  // Удаление лишних нулей в начале числа
 N* intToN(int);  // Перевод из int в N
-N* input();      // Ввод чисел N
 
-N* initN();         // Инициализация
 N* inputN();        // Ввод
 N* zeroN();         // Инициализация с обнулением
 N* assignmentN(N*); // Присваивание

@@ -1,45 +1,42 @@
 #include "Z_modules.h"
 
-// »нициализаци€
-Z* initZ()
-{
-	Z* z = (Z*)malloc(sizeof(Z));
-	z->number = initN();
-	z->sign = true;
-	return z;
-}
 // ¬вод
 Z* inputZ() {
 	Z* z = (Z*)malloc(sizeof(Z));
-	char *s = (char*)malloc(sizeof(char));
 	bool error;
 	do
 	{
 		error = false;
-		*s = getchar();
-		if (*s == '-')
-			z->sign = false;
-		else if ('0' <= *s && *s <= '9')
-			z->sign = true;
+		z->sign = true;
+		char symb;
+		int len = 0;
+		byte* k = NULL;
+		do
+		{
+			symb = getchar();
+			if ((symb >= '0' && symb <= '9') && !error) {
+				k = (byte*)realloc(k, (len + 1) * sizeof(byte));
+				k[len++] = symb - 48;
+			}
+			else if (symb == '-' && !len && z->sign)
+				z->sign = false;
+			else if (symb != '\n' || !len)
+				error = true;
+		} while (symb != '\n');
+		if (!error) {
+			z->number = (N*)malloc(sizeof(N));
+			z->number->n = (byte*)malloc(len * sizeof(byte));
+			z->number->len = len;
+			for (int i = 0; i < len; i++)
+				z->number->n[i] = k[len - i - 1];
+			if (len == 1 && !z->number->n[0])
+				z->sign = true;
+			deNullN(z->number);
+		}
 		else
-			error = true;
-		z->number = input();
-		if (z->number->len == -1 || (z->number->len == 0 && *s == '-'))
-			error = true;
-		if (error)
-		{
 			printf("¬ведены некорректные данные. ¬ведите целое число: ");
-			freeN(z->number);
-		}
-		else if (*s != '-' && (*s != '0' || z->number->len == 0))
-		{
-			z->number->n = (byte*)realloc(z->number->n, (z->number->len + 1) * sizeof(byte));
-			z->number->len++;
-			z->number->n[z->number->len - 1] = atoi(s);
-		}
+		free(k);
 	} while (error);
-	free(s);
-	z->number = deNullN(z->number);
 	return z;
 }
 // »нициализаци€ с обнулением

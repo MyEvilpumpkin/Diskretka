@@ -47,7 +47,7 @@ N* deNullN(N* n)
 // Перевод из int в N
 N* intToN(int d)
 {
-	N* n = initN();
+	N* n = (N*)malloc(sizeof(N));
 	int len = 0, buffer = d;
 	while (buffer > 0)
 	{
@@ -55,7 +55,7 @@ N* intToN(int d)
 		len++;
 	}
 	n->len = len;
-	n->n = (byte*)realloc(n->n, len * sizeof(byte));
+	n->n = (byte*)malloc(len * sizeof(byte));
 	for (int i = len - 1; i >= 0; i--)
 	{
 		n->n[len - 1 - i] = d % 10;
@@ -63,58 +63,38 @@ N* intToN(int d)
 	}
 	return n;
 }
-// Ввод чисел N
-N* input()
-{
-	char *symbol = (char*)malloc(sizeof(char));
-	int *k = NULL, len = 0;
-	N *n = initN();
-	bool error = false;
-	do
-	{
-		*symbol = getchar();
-		if ('0' <= *symbol && *symbol <= '9')
-		{
-			k = (int*)realloc(k, (len + 1) * sizeof(int));
-			k[len++] = atoi(symbol);
-		}
-		else if (*symbol != '\n')
-			error = true;
-		else if (!error && len == 0)
-			n->len = 0;
-	} while (*symbol != '\n');
-	if (!error && len > 0)
-	{
-		n->n = (byte*)realloc(n->n, len * sizeof(byte));
-		n->len = len;
-		for (int i = 0; i < len; i++)
-			n->n[i] = k[len - i - 1];
-	}
-	free(k);
-	free(symbol);
-	return n;
-}
 
-// Инициализация
-N* initN()
-{
-	N* n = (N*)malloc(sizeof(N));
-	n->n = (byte*)malloc(sizeof(byte));
-	n->len = -1;
-	return n;
-}
 // Ввод
 N* inputN()
 {
-	N* n;
+	N* n = (N*)malloc(sizeof(N));
+	bool error;
 	do
 	{
-		n = input();
-		if (n->len == -1) {
-			printf("Введены некорректные данные. Введите натуральное число: ");
-			freeN(n);
+		error = false;
+		char symb;
+		int len = 0;
+		byte* k = NULL;
+		do
+		{
+			symb = getchar();
+			if ((symb >= '0' && symb <= '9') && !error) {
+				k = (byte*)realloc(k, (len + 1) * sizeof(byte));
+				k[len++] = symb - 48;
+			}
+			else if (symb != '\n' || !len)
+				error = true;
+		} while (symb != '\n');
+		if (!error) {
+			n->n = (byte*)malloc(len * sizeof(byte));
+			n->len = len;
+			for (int i = 0; i < len; i++)
+				n->n[i] = k[len - i - 1];
 		}
-	} while (n->len < 1);
+		free(k);
+		if (error)
+			printf("Введены некорректные данные. Введите натуральное число: ");
+	} while (error);
 	deNullN(n);
 	return n;
 }
@@ -132,7 +112,7 @@ N* assignmentN(N* n)
 {
 	N* result = (N*)malloc(sizeof(N));
 	result->n = (byte*)malloc(n->len * sizeof(byte));
-	for (int i = 0; i < n->len; i++)
+	for (unsigned int i = 0; i < n->len; i++)
 		result->n[i] = n->n[i];
 	result->len = n->len;
 	return result;
@@ -203,7 +183,7 @@ N* ADD_NN_N(N* n1, N* n2)
 	{
 		result->n = (byte*)malloc(n1->len * sizeof(byte));
 		result->len = n1->len;
-		for (int i = 0; i < n1->len; i++)
+		for (unsigned int i = 0; i < n1->len; i++)
 		{
 			if (i < n2->len)
 			{
@@ -230,7 +210,7 @@ N* ADD_NN_N(N* n1, N* n2)
 	{
 		result->n = (byte*)malloc(n2->len * sizeof(byte));
 		result->len = n2->len;
-		for (int i = 0; i < n2->len; i++)
+		for (unsigned int i = 0; i < n2->len; i++)
 		{
 			if (i < n1->len)
 			{
@@ -265,7 +245,7 @@ N* SUB_NN_N(N* n1, N* n2)
 		result = (N*)malloc(sizeof(N));
 		result->n = (byte*)malloc(n1->len * sizeof(byte)); // Выделение памяти под очередную цифру результата
 		result->len = n1->len;
-		for (int i = 0; i < n1->len; i++) // Цикл до конца числа
+		for (unsigned int i = 0; i < n1->len; i++) // Цикл до конца числа
 		{
 			if (i < n2->len) // Если счётчик меньше длины меньшего числа (числа "накладываются" друг на друга)
 			{
@@ -308,7 +288,7 @@ N* MUL_ND_N(N* n, int d)
 		result->len = n->len;
 		result->n = (byte*)malloc(result->len * sizeof(byte));
 		int temp = 0;
-		for (int i = 0; i < n->len; i++)
+		for (unsigned int i = 0; i < n->len; i++)
 		{
 			result->n[i] = n->n[i] * d + temp; // Промежуточный результат = разряд * цифру + остаток
 			temp = result->n[i] / 10; // Определяем остаток
@@ -333,7 +313,7 @@ N* MUL_Nk_N(N* n, int k)
 		result = (N*)malloc(sizeof(N));
 		result->len = n->len + k; // Инициализируем размер суммой длины исходного числа и заданной степени k
 		result->n = (byte*)malloc(result->len * sizeof(byte)); // Выделяем память для нашего числа
-		for (int i = 0; i < result->len; i++) // Цикл до конца числа
+		for (unsigned int i = 0; i < result->len; i++) // Цикл до конца числа
 			if (i < k) // Если счётчик меньше степни k
 				result->n[i] = 0; // "Домножаем" наше число на 10
 			else
@@ -346,7 +326,7 @@ N* MUL_NN_N(N* n1, N* n2)
 {
 	N *result = zeroN(), *temp, *tmp;
 	if (NZER_N_B(n1) && NZER_N_B(n2))
-		for (int i = 0; i < n2->len; i++) // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
+		for (unsigned int i = 0; i < n2->len; i++) // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
 		{
 			tmp = MUL_ND_N(n1, n2->n[i]);
 			temp = MUL_Nk_N(tmp, i); // Умноженная на второй сомножитель и на 10^i
