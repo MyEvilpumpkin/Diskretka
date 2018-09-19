@@ -8,21 +8,21 @@ Z* inputZ() {
 	{
 		error = false;
 		z->sign = true;
-		char symb;
+		char symbol;
 		int len = 0;
-		byte* k = NULL;
+		byte* k = nullptr;
 		do
 		{
-			symb = getchar();
-			if ((symb >= '0' && symb <= '9') && !error) {
+			symbol = getchar();
+			if ((symbol >= '0' && symbol <= '9') && !error) {
 				k = (byte*)realloc(k, (len + 1) * sizeof(byte));
-				k[len++] = symb - 48;
+				k[len++] = symbol - 48;
 			}
-			else if (symb == '-' && !len && z->sign)
+			else if (symbol == '-' && !len && z->sign)
 				z->sign = false;
-			else if (symb != '\n' || !len)
+			else if (symbol != '\n' || !len)
 				error = true;
-		} while (symb != '\n');
+		} while (symbol != '\n');
 		if (!error) {
 			z->number = (N*)malloc(sizeof(N));
 			z->number->n = (byte*)malloc(len * sizeof(byte));
@@ -88,9 +88,7 @@ int POZ_Z_D(Z* z)
 // Z-3
 Z* MUL_ZM_Z(Z* z)
 {
-	Z* result = (Z*)malloc(sizeof(Z));
-	result->sign = true;
-	result->number = assignmentN(z->number); // Присваиваем результату исходное число
+	Z* result = assignmentZ(z); // Присваиваем результату исходное число
 	if (POZ_Z_D(result)) // Если число не ноль
 		result->sign = !z->sign; // Меняем знак результата на противоположный
 	return result;

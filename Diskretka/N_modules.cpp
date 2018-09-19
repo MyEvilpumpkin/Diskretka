@@ -3,30 +3,30 @@
 // Ввод неотрицательных чисел int
 int getNumber()
 {
-	char* number = NULL, symbol;
-	int toReturn, lenght = 0;
+	char* number = nullptr, symbol;
+	int length;
 	bool error;
 	do
 	{
-		lenght = 0;
+		length = 0;
 		error = false;
 		do
 		{
 			symbol = getchar();
 			if (symbol >= '0' && symbol <= '9')
 			{
-				number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-				number[lenght++] = symbol;
+				number = (char*)realloc(number, (length + 1) * sizeof(char));
+				number[length++] = symbol;
 			}
 			else if (symbol != '\n')
 				error = true;
 		} while (symbol != '\n');
 		if (error)
 			printf("Введены некорректные данные. Введите неотрицательное число: ");
-	} while (error || lenght == 0);
-	number = (char*)realloc(number, (lenght + 1) * sizeof(char));
-	number[lenght] = '\0';
-	toReturn = atoi(number);
+	} while (error || length == 0);
+	number = (char*)realloc(number, (length + 1) * sizeof(char));
+	number[length] = '\0';
+	int toReturn = atoi(number);
 	free(number);
 	return toReturn;
 }
@@ -72,19 +72,19 @@ N* inputN()
 	do
 	{
 		error = false;
-		char symb;
+		char symbol;
 		int len = 0;
-		byte* k = NULL;
+		byte* k = nullptr;
 		do
 		{
-			symb = getchar();
-			if ((symb >= '0' && symb <= '9') && !error) {
+			symbol = getchar();
+			if ((symbol >= '0' && symbol <= '9') && !error) {
 				k = (byte*)realloc(k, (len + 1) * sizeof(byte));
-				k[len++] = symb - 48;
+				k[len++] = symbol - 48;
 			}
-			else if (symb != '\n' || !len)
+			else if (symbol != '\n' || !len)
 				error = true;
-		} while (symb != '\n');
+		} while (symbol != '\n');
 		if (!error) {
 			n->n = (byte*)malloc(len * sizeof(byte));
 			n->len = len;
@@ -161,7 +161,7 @@ N* ADD_1N_N(N* n)
 		result->n[0]++;
 	else // Если последний разряд равен 9, то заменяем его и все последующие девятки на нули и прибавляем единицу к первой не девятке 
 	{
-		int count = 0;
+		unsigned int count = 0;
 		while (result->n[count] == 9)
 			result->n[count++] = 0;
 		if (count == result->len) // Если в числе все цифры девятки, то необходимо создать новый разряд
@@ -179,59 +179,40 @@ N* ADD_NN_N(N* n1, N* n2)
 {
 	N* result = (N*)malloc(sizeof(N));
 	bool temp = false;
+	N *first, *second;
 	if (COM_NN_D(n1, n2) == 2) // Если n1>n2
 	{
-		result->n = (byte*)malloc(n1->len * sizeof(byte));
-		result->len = n1->len;
-		for (unsigned int i = 0; i < n1->len; i++)
-		{
-			if (i < n2->len)
-			{
-				result->n[i] = n1->n[i] + n2->n[i] + temp; // Складываем соответствующие разряды
-				temp = result->n[i] > 9;
-				result->n[i] %= 10; // Определяем разряд
-			}
-			else if(temp)
-			{
-				result->n[i] = n1->n[i] + temp; // Присваиваем соответствующие разряды
-				temp = result->n[i] > 9;
-				result->n[i] %= 10; // Определяем разряд
-			}
-			else
-				result->n[i] = n1->n[i];
-		}
-		if (temp) // Создаем разряд, если нужно
-		{
-			result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));
-			result->n[result->len - 1] = temp;
-		}
+		first = n1;
+		second = n2;
 	}
 	else // Если n1<n2
 	{
-		result->n = (byte*)malloc(n2->len * sizeof(byte));
-		result->len = n2->len;
-		for (unsigned int i = 0; i < n2->len; i++)
+		first = n2;
+		second = n1;
+	}
+	result->n = (byte*)malloc(first->len * sizeof(byte));
+	result->len = first->len;
+	for (unsigned int i = 0; i < first->len; i++)
+	{
+		if (i < second->len)
 		{
-			if (i < n1->len)
-			{
-				result->n[i] = n1->n[i] + n2->n[i] + temp; // Складываем соответствующие разряды
-				temp = result->n[i] > 9;
-				result->n[i] %= 10; // Определяем разряд
-			}
-			else if (temp)
-			{
-				result->n[i] = n2->n[i] + temp; // Присваиваем соответствующие разряды
-				temp = result->n[i] > 9;
-				result->n[i] %= 10; // Определяем разряд
-			}
-			else
-				result->n[i] = n2->n[i];
+			result->n[i] = first->n[i] + second->n[i] + temp; // Складываем соответствующие разряды
+			temp = result->n[i] > 9;
+			result->n[i] %= 10; // Определяем разряд
 		}
-		if (temp) // Создаем разряд, если нужно
+		else if (temp)
 		{
-			result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));
-			result->n[result->len - 1] = temp;
+			result->n[i] = first->n[i] + temp; // Присваиваем соответствующие разряды
+			temp = result->n[i] > 9;
+			result->n[i] %= 10; // Определяем разряд
 		}
+		else
+			result->n[i] = first->n[i];
+	}
+	if (temp) // Создаем разряд, если нужно
+	{
+		result->n = (byte*)realloc(result->n, ++result->len * sizeof(byte));
+		result->n[result->len - 1] = temp;
 	}
 	return result;
 }
@@ -303,7 +284,7 @@ N* MUL_ND_N(N* n, int d)
 	return result;
 }
 // N-7
-N* MUL_Nk_N(N* n, int k)
+N* MUL_Nk_N(N* n, unsigned int k)
 {
 	N* result;
 	if (!NZER_N_B(n))
@@ -324,12 +305,12 @@ N* MUL_Nk_N(N* n, int k)
 // N-8
 N* MUL_NN_N(N* n1, N* n2)
 {
-	N *result = zeroN(), *temp, *tmp;
+	N *result = zeroN();
 	if (NZER_N_B(n1) && NZER_N_B(n2))
 		for (unsigned int i = 0; i < n2->len; i++) // К результату, изначально равному 0, в каждом шаге цикла прибавляется i-ая цифра первого сомножителя
 		{
-			tmp = MUL_ND_N(n1, n2->n[i]);
-			temp = MUL_Nk_N(tmp, i); // Умноженная на второй сомножитель и на 10^i
+			N* tmp = MUL_ND_N(n1, n2->n[i]);
+			N* temp = MUL_Nk_N(tmp, i); // Умноженная на второй сомножитель и на 10^i
 			freeN(tmp);
 			tmp = ADD_NN_N(result, temp);
 			freeN(result);
@@ -359,40 +340,32 @@ N* SUB_NDN_N(N* n1, int d, N* n2)
 int DIV_NN_Dk(N* n1, N* n2, int& k)
 {
 	int result = 1, flag;
-	N* temp;
 	k = 0;
+	N *first, *second;
 	int com = COM_NN_D(n1, n2);
 	if (com == 2) // Если делимое - первое число
 	{
-		k = n1->len - n2->len;
-		temp = MUL_Nk_N(n2, k);
-		if (COM_NN_D(n1, temp) == 1)
-		{
-			freeN(temp);
-			temp = MUL_Nk_N(n2, --k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
-		}
-		do
-		{
-			N* tmp = MUL_ND_N(temp, ++result); // Вычисляем произведение на цифру
-			flag = COM_NN_D(n1, tmp); // Сравниваем его с делимым
-			freeN(tmp);
-		} while (flag != 1);
-		result--; // Аналогично значению степени
-		freeN(temp);
+		first = n1;
+		second = n2;
 	}
-	else if (com == 1) // Если делимое - второе число
+	else // Если делимое - второе число
 	{
-		k = n2->len - n1->len;
-		temp = MUL_Nk_N(n1, k);
-		if (COM_NN_D(n2, temp) == 1)
+		first = n2;
+		second = n1;
+	}
+	if (com)
+	{
+		k = first->len - second->len;
+		N* temp = MUL_Nk_N(second, k);
+		if (COM_NN_D(first, temp) == 1)
 		{
 			freeN(temp);
-			temp = MUL_Nk_N(n1, --k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
+			temp = MUL_Nk_N(second, --k); // Вычисляем наибольшее произведение делителя и 10^k, меньшее делимого
 		}
 		do
 		{
 			N* tmp = MUL_ND_N(temp, ++result); // Вычисляем произведение на цифру
-			flag = COM_NN_D(n2, tmp); // Сравниваем его с делимым
+			flag = COM_NN_D(first, tmp); // Сравниваем его с делимым
 			freeN(tmp);
 		} while (flag != 1);
 		result--; // Аналогично значению степени
@@ -404,53 +377,40 @@ int DIV_NN_Dk(N* n1, N* n2, int& k)
 N* DIV_NN_N(N* n1, N* n2)
 {
 	N* result = zeroN(); // Частное от деления
-	N *tempRes, *temp;
+	N *first, *second;
 	int com = COM_NN_D(n1, n2);
 	if (com == 2)
 	{
-		N* part = assignmentN(n1); // Временный остаток от деления
-		int k = 0;
-		if (NZER_N_B(n2))
-			do
-			{
-				tempRes = zeroN(); // Cоздание произведения первой цифры деления на 10^k
-				tempRes->n[0] = DIV_NN_Dk(part, n2, k); // Вычисляем первую цифру и степень десятки при делении
-				temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
-				freeN(tempRes);
-				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
-				freeN(result);
-				result = tempRes;
-				tempRes = MUL_NN_N(temp, n2);
-				freeN(temp);
-				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
-				freeN(part);
-				part = temp;
-				freeN(tempRes);
-			} while (COM_NN_D(part, n2) != 1);
-			freeN(part);
+		first = n1;
+		second = n2;
 	}
-	else if (com == 1)
+	else
 	{
-		N* part = assignmentN(n2); // Временный остаток от деления
+		first = n2;
+		second = n1;
+	}
+	if (com)
+	{
+		N* part = assignmentN(first); // Временный остаток от деления
 		int k = 0;
-		if (NZER_N_B(n1))
+		if (NZER_N_B(second))
 			do
 			{
-				tempRes = zeroN(); // Cоздание произведения первой цифры деления на 10^k
-				tempRes->n[0] = DIV_NN_Dk(part, n1, k); // Вычисляем первую цифру и степень десятки при делении
-				temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
+				N* tempRes = zeroN(); // Cоздание произведения первой цифры деления на 10^k
+				tempRes->n[0] = DIV_NN_Dk(part, second, k); // Вычисляем первую цифру и степень десятки при делении
+				N* temp = MUL_Nk_N(tempRes, k); // Умножаем на 10^k
 				freeN(tempRes);
 				tempRes = ADD_NN_N(result, temp); // Добавление временного результата к общему
 				freeN(result);
 				result = tempRes;
-				tempRes = MUL_NN_N(temp, n1);
+				tempRes = MUL_NN_N(temp, second);
 				freeN(temp);
 				temp = SUB_NN_N(part, tempRes); // Вычисление временного остатка
 				freeN(part);
 				part = temp;
 				freeN(tempRes);
-			} while (COM_NN_D(part, n1) != 1);
-			freeN(part);
+			} while (COM_NN_D(part, second) != 1);
+		freeN(part);
 	}
 	else
 		result->n[0] = 1;
@@ -459,8 +419,8 @@ N* DIV_NN_N(N* n1, N* n2)
 // N-12
 N* MOD_NN_N(N* n1, N* n2)
 {
-	N *temp, *tmp, *result;
-	temp = DIV_NN_N(n1, n2); // Числитель от деления большего числа на меньшее
+	N *tmp, *result;
+	N* temp = DIV_NN_N(n1, n2); // Числитель от деления большего числа на меньшее
 	if (COM_NN_D(n1, n2) == 2)
 	{
 		tmp = MUL_NN_N(temp, n2); // Произведение числителя и меньшего числа
