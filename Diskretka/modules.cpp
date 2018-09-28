@@ -187,6 +187,8 @@ void N_module(int option)
 		freeN(n2);
 	}
 	break;
+	default:
+		break;
 	}
 	puts("");
 	system("pause");
@@ -319,6 +321,8 @@ void Z_module(int option)
 		freeN(n);
 	}
 	break;
+	default:
+		break;
 	}
 	puts("");
 	system("pause");
@@ -424,6 +428,8 @@ void Q_module(int option)
 		freeQ(q2);
 	}
 	break;
+	default:
+		break;
 	}
 	puts("");
 	system("pause");
@@ -600,6 +606,8 @@ void P_module(int option)
 		freeP(p);
 	}
 	break;
+	default:
+		break;
 	}
 	puts("");
 	system("pause");

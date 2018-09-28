@@ -1,45 +1,42 @@
 #include "Z_modules.h"
 
-// Инициализация
-Z* initZ()
-{
-	Z* z = (Z*)malloc(sizeof(Z));
-	z->number = initN();
-	z->sign = true;
-	return z;
-}
 // Ввод
 Z* inputZ() {
 	Z* z = (Z*)malloc(sizeof(Z));
-	char *s = (char*)malloc(sizeof(char));
 	bool error;
 	do
 	{
 		error = false;
-		*s = getchar();
-		if (*s == '-')
-			z->sign = false;
-		else if ('0' <= *s && *s <= '9')
-			z->sign = true;
+		z->sign = true;
+		char symbol;
+		int len = 0;
+		byte* k = nullptr;
+		do
+		{
+			symbol = getchar();
+			if ((symbol >= '0' && symbol <= '9') && !error) {
+				k = (byte*)realloc(k, (len + 1) * sizeof(byte));
+				k[len++] = symbol - 48;
+			}
+			else if (symbol == '-' && !len && z->sign)
+				z->sign = false;
+			else if (symbol != '\n' || !len)
+				error = true;
+		} while (symbol != '\n');
+		if (!error) {
+			z->number = (N*)malloc(sizeof(N));
+			z->number->n = (byte*)malloc(len * sizeof(byte));
+			z->number->len = len;
+			for (int i = 0; i < len; i++)
+				z->number->n[i] = k[len - i - 1];
+			if (len == 1 && !z->number->n[0])
+				z->sign = true;
+			deNullN(z->number);
+		}
 		else
-			error = true;
-		z->number = input();
-		if (z->number->len == -1 || (z->number->len == 0 && *s == '-'))
-			error = true;
-		if (error)
-		{
 			printf("Введены некорректные данные. Введите целое число: ");
-			freeN(z->number);
-		}
-		else if (*s != '-' && (*s != '0' || z->number->len == 0))
-		{
-			z->number->n = (int*)realloc(z->number->n, (z->number->len + 1) * sizeof(int));
-			z->number->len++;
-			z->number->n[z->number->len - 1] = atoi(s);
-		}
+		free(k);
 	} while (error);
-	free(s);
-	z->number = deNullN(z->number);
 	return z;
 }
 // Инициализация с обнулением
@@ -91,9 +88,7 @@ int POZ_Z_D(Z* z)
 // Z-3
 Z* MUL_ZM_Z(Z* z)
 {
-	Z* result = (Z*)malloc(sizeof(Z));
-	result->sign = true;
-	result->number = assignmentN(z->number); // Присваиваем результату исходное число
+	Z* result = assignmentZ(z); // Присваиваем результату исходное число
 	if (POZ_Z_D(result)) // Если число не ноль
 		result->sign = !z->sign; // Меняем знак результата на противоположный
 	return result;

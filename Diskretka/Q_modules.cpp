@@ -1,13 +1,5 @@
 #include "Q_modules.h"
 
-// Инициализация
-Q* initQ()
-{
-	Q* q = (Q*)malloc(sizeof(Q));
-	q->num = initZ();
-	q->denom = initN();
-	return q;
-}
 // Ввод
 Q* inputQ()
 {
@@ -70,11 +62,10 @@ Q* freeQ(Q* q)
 // Q-1
 Q* RED_Q_Q(Q* q)
 {
-	N* temp;
 	N* d = GCF_NN_N(q->num->number, q->denom); // Присваиваем d значение НОДа (модуля числителя дроби) и знаменателя дроби 
-	while (d->len != 1 or d->n[0] != 1) // До тех пор пока d не станет равным 1  
+	while (d->len != 1 || d->n[0] != 1) // До тех пор пока d не станет равным 1  
 	{
-		temp = DIV_NN_N(q->num->number, d); // Сокращаем числитель на d
+		N* temp = DIV_NN_N(q->num->number, d); // Сокращаем числитель на d
 		freeN(q->num->number);
 		q->num->number = temp;
 		temp = DIV_NN_N(q->denom, d); // Сокращаем знаменатель на d

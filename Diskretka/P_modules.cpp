@@ -21,21 +21,10 @@ P* deNullP(P* p)
 	return p;
 }
 
-// Инициализация
-P* initP()
-{
-	P* p = (P*)malloc(sizeof(P));
-	p->k = (Q**)malloc(sizeof(Q*));
-	p->k[0] = initQ();
-	p->len = -1;
-	return p;
-}
 // Ввод
 P* inputP()
 {
-	int *powerBuffer;
 	int amount;
-	int power;
 	int maxPower = -1;
 	P* p = (P*)malloc(sizeof(P));
 	p->k = (Q**)malloc(sizeof(Q*));
@@ -46,13 +35,13 @@ P* inputP()
 		if (amount == 0)
 			printf("Введены некорректные данные. Введите число > 0: ");
 	} while (amount == 0);
-	powerBuffer = (int*)malloc(amount * sizeof(int));
+	int* powerBuffer = (int*)malloc(amount * sizeof(int));
 	for (int i = 0; i < amount; i++)
 	{
 		printf("***\nКоэффициент %d\n", i + 1);
 		Q* temp = inputQ();
 		printf("Введите степень x: ");
-		power = getNumber();
+		int power = getNumber();
 		if (power > maxPower)
 		{
 			maxPower = power;
@@ -95,7 +84,7 @@ P* assignmentP(P* p)
 	P* result = (P*)malloc(sizeof(P));
 	result->len = p->len;
 	result->k = (Q**)malloc((result->len + 1) * sizeof(Q*));
-	for (int i = 0; i <= result->len; i++)
+	for (unsigned int i = 0; i <= result->len; i++)
 		result->k[i] = assignmentQ(p->k[i]);
 	return result;
 }
@@ -132,7 +121,7 @@ void printP(P* p)
 // Освобождение памяти
 P* freeP(P* p)
 {
-	for (int i = 0; i <= p->len; i++)
+	for (unsigned int i = 0; i <= p->len; i++)
 		freeQ(p->k[i]);
 	free(p->k);
 	free(p);
@@ -143,61 +132,56 @@ P* freeP(P* p)
 P* ADD_PP_P(P* p1, P* p2)
 {
 	P* result = (P*)malloc(sizeof(P));
+	P *first, *second;
 	if (p1->len > p2->len) // Определить, у какого многочлена степень больше и, если надо, поменять их местами
 	{
-		result->k = (Q**)malloc((p1->len + 1) * sizeof(Q*)); // Сумма многочленов
-		result->len = p1->len; // Степень суммы равна степени большего из многочленов
-		for (int i = p1->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
-		{
-			if (i > p2->len) // Если исследуемая степень первого многочлена больше степени второго
-				result->k[i] = assignmentQ(p1->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
-			else
-				result->k[i] = ADD_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим сложение коэффициентов
-		}
+		first = p1;
+		second = p2;
 	}
 	else
 	{
-		result->k = (Q**)malloc((p2->len + 1) * sizeof(Q*)); // Сумма многочленов
-		result->len = p2->len; // Степень суммы равна степени большего из многочленов
-		for (int i = p2->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
-		{
-			if (i > p1->len) // Если исследуемая степень первого многочлена больше степени второго
-				result->k[i] = assignmentQ(p2->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
-			else
-				result->k[i] = ADD_QQ_Q(p2->k[i], p1->k[i]); // Иначе производим сложение коэффициентов
-		}
+		first = p2;
+		second = p1;
+	}
+	result->k = (Q**)malloc((first->len + 1) * sizeof(Q*)); // Выделяем память для суммы многочленов
+	result->len = first->len; // Степень суммы равна степени большего из многочленов
+	for (unsigned int i = 0; i <= first->len; i++) // Цикл от младшей степени большего числа до последней 
+	{
+		if (i > second->len) // Если исследуемая степень первого многочлена больше степени второго
+			result->k[i] = assignmentQ(first->k[i]); // Присваиваем сумме коэффициент первого многочлена (т.к. у второго их в памяти нет)
+		else
+			result->k[i] = ADD_QQ_Q(first->k[i], second->k[i]); // Иначе производим сложение коэффициентов
 	}
 	return deNullP(result);
 }
 // P-2
 P* SUB_PP_P(P* p1, P* p2)
 {
-	P* result = (P*)malloc(sizeof(P));
-	if (p1->len > p2->len) // Определить, у какого многочлена степень больше и, если надо, поменять их местами
-	{
-		result->k = (Q**)malloc((p1->len + 1) * sizeof(Q*)); // Сумма многочленов
-		result->len = p1->len; // Степень суммы равна степени большего из многочленов
-		for (int i = p1->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
+    P* result = (P*)malloc(sizeof(P));
+    P *first, *second;
+    if (p1->len > p2->len) // Определить, у какого многочлена степень больше и, если надо, поменять их местами
+    {
+        first = p1;
+        second = p2;
+    }
+    else
+    {
+        first = p2;
+        second = p1;
+    }
+    result->k = (Q**)malloc((first->len + 1) * sizeof(Q*)); // Выделяем память для разности многочленов
+    result->len = first->len; // Степень разности равна степени большего из многочленов
+    for (unsigned int i = 0; i <= first->len; i++) // Цикл от младшей степени большего числа до последней
+    {
+        if (i > second->len) // Если исследуемая степень первого многочлена больше степени второго
 		{
-			if (i > p2->len) // Если исследуемая степень первого многочлена больше степени второго
-				result->k[i] = assignmentQ(p1->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
-			else
-				result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
-		}
-	}
-	else
-	{
-		result->k = (Q**)malloc((p2->len + 1) * sizeof(Q*)); // Сумма многочленов
-		result->len = p2->len; // Степень суммы равна степени большего из многочленов
-		for (int i = p2->len; i >= 0; i--) // Цикл от старшей степени большего числа до последней 
-		{
-			if (i > p1->len) // Если исследуемая степень первого многочлена больше степени второго
-				result->k[i] = assignmentQ(p2->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
-			else
-				result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
-		}
-	}
-	return deNullP(result);
+            result->k[i] = assignmentQ(first->k[i]); // Присваиваем разности коэффициент первого многочлена (т.к. у второго их в памяти нет)
+            result->k[i]->num->sign = !result->k[i]->num->sign; // Меняем знак
+        }
+        else
+            result->k[i] = SUB_QQ_Q(p1->k[i], p2->k[i]); // Иначе производим вычитание коэффициентов
+    }
+    return deNullP(result);
 }
 // P-3
 P* MUL_PQ_P(P* p, Q* q)
@@ -205,7 +189,7 @@ P* MUL_PQ_P(P* p, Q* q)
 	P* result = (P*)malloc(sizeof(P));
 	result->k = (Q**)malloc((p->len + 1) * sizeof(Q*));
 	result->len = p->len;
-	for (int i = 0; i <= result->len; i++) // Цикл от старшего коэффициента до младшего
+	for (unsigned int i = 0; i <= result->len; i++) // Цикл от старшего коэффициента до младшего
 		result->k[i] = MUL_QQ_Q(p->k[i], q); // Присваиваем текущему коэффициенту результат произведения текущего коэффициента исходного
 	return deNullP(result); // Многочлена на рациональное число
 }
@@ -250,8 +234,7 @@ Q* FAC_P_Q(P* p)
 	Q* result = (Q*)malloc(sizeof(Q)); // Числитель дроби - НОД числителей, знаменатель - НОК знаменателей
 	result->num = (Z*)malloc(sizeof(Z));
 	N* temp;
-	int i, // Для перебора коэффициентов многочлена
-		flag; // Для корректной работы цикла 
+	int i; // Для перебора коэффициентов многочлена
 	for (i = (p->len) - 1; i >= 0; i--) // Перебираем все коэффициенты многочлена, начиная с "предстаршего" (т.к. старший занес в НОК изначально)
 	{
 		temp = LCM_NN_N(nok, p->k[i]->denom); // Находим поочередно НОК общего НОК и данного коэффициента	
@@ -260,7 +243,7 @@ Q* FAC_P_Q(P* p)
 	}
 	for (i = (p->len) - 1; i >= 0; i--) // Перебираем все коэффициенты многочлена, начиная с "предстаршего" (т.к. старший занес в НОД изначально)
 	{
-		flag = POZ_Z_D(p->k[i]->num); // Проверка коэффициента на нуль
+		int flag = POZ_Z_D(p->k[i]->num); // Проверка коэффициента на нуль
 		if (flag) {
 			temp = GCF_NN_N(nod, p->k[i]->num->number); // Находим поочередно НОД общего НОД и данного коэффициента
 			freeN(nod);
@@ -275,11 +258,11 @@ Q* FAC_P_Q(P* p)
 // P-8
 P* MUL_PP_P(P* p1, P* p2)
 {
-	P *result = zeroP(), *temp, *tmp;
-	for (int i = 0; i <= p1->len; i++)
+	P *result = zeroP();
+	for (unsigned int i = 0; i <= p1->len; i++)
 	{
-		temp = MUL_PQ_P(p2, p1->k[i]); // Умножаем второй многочлен поочередно на все коэффициенты первого
-		tmp = MUL_Pxk_P(temp, i); // Умножаем произведение на текущую исследуемую степень первого многочлена
+		P* temp = MUL_PQ_P(p2, p1->k[i]); // Умножаем второй многочлен поочередно на все коэффициенты первого
+		P* tmp = MUL_Pxk_P(temp, i); // Умножаем произведение на текущую исследуемую степень первого многочлена
 		freeP(temp);
 		temp = ADD_PP_P(result, tmp); // Прибавление к результату произведения
 		freeP(result);
@@ -292,7 +275,6 @@ P* MUL_PP_P(P* p1, P* p2)
 P* DIV_PP_P(P* p1, P* p2)
 {
 	P* result; // Частное от деления многочленов
-	P *temp, *tmp; // Временная переменная
 	if (p1->len < p2->len)
 		result = zeroP();
 	else
@@ -301,14 +283,14 @@ P* DIV_PP_P(P* p1, P* p2)
 		result->len = p1->len - p2->len;
 		result->k = (Q**)malloc((result->len + 1) * sizeof(Q*));
 		P* part = assignmentP(p1); // Остаток от деления
-		for (int i = p1->len; i >= p2->len; i--)
+		for (unsigned int i = p1->len; i >= p2->len; i--)
 		{
 			if (i <= part->len)
 				result->k[i - p2->len] = DIV_QQ_Q(part->k[i], p2->k[p2->len]); // Вычисления коэффициента перед степенью в результате
 			else
 				result->k[i - p2->len] = zeroQ();
-			temp = MUL_PQ_P(p2, result->k[i - p2->len]); // Умножение делителя на "подходящий" коэффициент
-			tmp = MUL_Pxk_P(temp, (i - p2->len)); // Возведение в необходимую степень
+			P* temp = MUL_PQ_P(p2, result->k[i - p2->len]); // Умножение делителя на "подходящий" коэффициент
+			P* tmp = MUL_Pxk_P(temp, (i - p2->len)); // Возведение в необходимую степень
 			freeP(temp);
 			temp = SUB_PP_P(part, tmp); // Вычитаем из остатка часть частного, умноженную на делитель
 			freeP(tmp);
@@ -368,14 +350,12 @@ P* DER_P_P(P* p)
 	P* result = (P*)malloc(sizeof(P));
 	result->k = (Q**)malloc(p->len * sizeof(Q*));
 	result->len = p->len - 1;
-	Z* temp;
-	Q* tmp;
 	for (int i = p->len - 1; i >= 0; i--) // Цикл до младшего коэффициента многочлена
 	{
 		N* iton = intToN(i + 1);
-		temp = TRANS_N_Z(iton);
+		Z* temp = TRANS_N_Z(iton);
 		freeN(iton);
-		tmp = TRANS_Z_Q(temp);
+		Q* tmp = TRANS_Z_Q(temp);
 		result->k[i] = MUL_QQ_Q(p->k[i + 1], tmp); // Присваиваем текущему коэффициенту значение 
 		freeZ(temp);
 		freeQ(tmp);
